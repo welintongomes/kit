@@ -1010,11 +1010,12 @@
     <div class="view active" id="viewHome">
       <header class="home-header">
         <div class="home-top">
-          <span class="logo">Hub<span class="logo-dot"></span></span>
-          <div class="home-top-right">
-            <button id="btnInstall" onclick="PWA.install()" title="Instalar app">
+          <button id="btnInstall" onclick="PWA.install()" title="Instalar app">
               ⬇️ Instalar
             </button>
+          <span class="logo">Hub<span class="logo-dot"></span></span>
+          <div class="home-top-right">
+            
             <span id="homeDate"></span>
           </div>
         </div>
@@ -1694,8 +1695,7 @@
 
   </script>
 
-  <!--
-  ════════════════════════════════════════════════
+  <!-- ════════════════════════════════════════════════
     PLUGINS — cole cada <script> de plugin aqui,
     ANTES do bloco BOOT abaixo.
 
@@ -1717,11 +1717,9 @@
       mount(container, rec)  { container.innerHTML = '...'; },
       unmount()              { },
     });
-  ════════════════════════════════════════════════
-  -->
-  <!-- ════════════════════════════════════════════
-     PLUGIN: NOTAS DE ÁUDIO
-════════════════════════════════════════════ -->
+  ════════════════════════════════════════════════ -->
+  <!-- ══════════════ PLUGIN: NOTAS DE ÁUDIO ════════════════ -->
+
   <script>
     registerPlugin({
 
@@ -2641,6 +2639,1717 @@
       },
     });
   </script>
+
+  <!-- ═════════ PLUGIN: FLUXOGRAMA + ORÇAMENTO ═════════ -->
+
+  <!-- ▼SCRIPT -->
+  <script>
+    registerPlugin({
+
+      id: 'fluxo',
+      name: 'Fluxograma',
+      icon: '🔀',
+      color: '#22d3ee',
+css:`.fl-wrap {
+      padding: 14px 16px 0;
+    }
+
+    .fl-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .fl-tab {
+      flex: 1;
+      padding: 9px 0;
+      border-radius: 11px;
+      border: 1px solid var(--border2);
+      background: var(--surf);
+      color: var(--text2);
+      font-family: var(--fd);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+      text-align: center;
+    }
+
+    .fl-tab.on {
+      background: var(--acc);
+      border-color: var(--acc);
+      color: #fff;
+      box-shadow: 0 4px 14px var(--acc-glow);
+    }
+
+    .fl-chain {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .fl-node.done {
+      opacity: .55;
+    }
+
+    .fl-node.active {
+      opacity: 1;
+    }
+
+    .fl-qcard {
+      background: var(--surf);
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 4px;
+      animation: up .25s ease both;
+    }
+
+    .fl-qcard.active {
+      border-color: var(--acc);
+      box-shadow: 0 0 0 2px var(--acc-glow);
+    }
+
+    .fl-qnum {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 8px;
+    }
+
+    .fl-question {
+      font-family: var(--fd);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 5px;
+    }
+
+    .fl-hint {
+      font-size: 12.5px;
+      color: var(--text3);
+      line-height: 1.5;
+    }
+
+    .fl-answer-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    .fl-answer-badge.yes {
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    .fl-answer-badge.no {
+      background: var(--red-bg);
+      color: var(--red);
+    }
+
+    .fl-conn-line {
+      width: 2px;
+      height: 22px;
+      background: var(--border2);
+      margin-left: 18px;
+      border-radius: 2px;
+    }
+
+    .fl-btns {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .fl-ans-btn {
+      flex: 1;
+      padding: 13px;
+      border-radius: 13px;
+      border: 1.5px solid var(--border2);
+      background: var(--surf);
+      color: var(--text);
+      font-family: var(--fd);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .16s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .fl-ans-btn.yes:hover,
+    .fl-ans-btn.yes.sel {
+      border-color: var(--green);
+      background: var(--green-bg);
+      color: var(--green);
+      box-shadow: 0 4px 14px rgba(62, 207, 122, .25);
+    }
+
+    .fl-ans-btn.no:hover,
+    .fl-ans-btn.no.sel {
+      border-color: var(--red);
+      background: var(--red-bg);
+      color: var(--red);
+      box-shadow: 0 4px 14px rgba(240, 95, 95, .25);
+    }
+
+    .fl-result {
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 10px;
+      animation: up .3s ease both;
+    }
+
+    .fl-result.ok {
+      background: var(--green-bg);
+      border: 1.5px solid rgba(62, 207, 122, .3);
+    }
+
+    .fl-result.warn {
+      background: var(--amber-bg);
+      border: 1.5px solid rgba(245, 187, 69, .3);
+    }
+
+    .fl-result.err {
+      background: var(--red-bg);
+      border: 1.5px solid rgba(240, 95, 95, .3);
+    }
+
+    .fl-result.info {
+      background: rgba(110, 92, 245, .1);
+      border: 1.5px solid var(--acc-glow);
+    }
+
+    .fl-result-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .fl-result-ico {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .fl-result-title {
+      font-family: var(--fd);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .fl-result-desc {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .fl-cost-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, .25);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-top: 6px;
+    }
+
+    .fl-cost-check {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 1.5px solid var(--border2);
+      background: var(--surf);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all .15s;
+      font-size: 13px;
+    }
+
+    .fl-cost-check.on {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+
+    .fl-cost-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .fl-cost-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .fl-cost-type {
+      font-size: 10.5px;
+      color: var(--text3);
+      margin-top: 1px;
+    }
+
+    .fl-cost-value {
+      font-family: var(--fd);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--amber);
+      white-space: nowrap;
+    }
+
+    .fl-cost-qty {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 6px;
+    }
+
+    .fl-cost-qty-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      border: 1px solid var(--border2);
+      background: var(--surf2);
+      color: var(--text2);
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .fl-cost-qty-val {
+      font-family: var(--fd);
+      font-size: 14px;
+      font-weight: 700;
+      min-width: 24px;
+      text-align: center;
+      color: var(--text);
+    }
+
+    /* fotos */
+    .fl-photos {
+      margin-top: 10px;
+    }
+
+    .fl-photos-lbl {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 7px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .fl-photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .fl-photo-thumb {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      object-fit: cover;
+      cursor: pointer;
+      border: 1.5px solid var(--border2);
+      transition: transform .13s;
+      width: 100%;
+    }
+
+    .fl-photo-thumb:active {
+      transform: scale(.96);
+    }
+
+    .fl-photo-add {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      border: 2px dashed var(--border2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      background: var(--surf);
+      transition: border-color .13s;
+      color: var(--text3);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .fl-photo-add:hover {
+      border-color: var(--acc);
+      color: var(--acc2);
+    }
+
+    .fl-photo-add-icon {
+      font-size: 22px;
+    }
+
+    /* menu de origem da foto */
+    .fl-photo-menu {
+      position: fixed;
+      inset: 0;
+      z-index: 8000;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .fl-photo-menu-bg {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, .5);
+    }
+
+    .fl-photo-menu-sheet {
+      position: relative;
+      width: 100%;
+      background: var(--surf);
+      border-radius: 20px 20px 0 0;
+      padding: 16px 16px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      animation: slideUp .22s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%)
+      }
+
+      to {
+        transform: translateY(0)
+      }
+    }
+
+    .fl-photo-menu-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text3);
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .fl-photo-menu-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 13px;
+      border: 1px solid var(--border2);
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--fb);
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background .13s;
+      width: 100%;
+      text-align: left;
+    }
+
+    .fl-photo-menu-btn:hover {
+      background: var(--surf2);
+    }
+
+    .fl-photo-menu-btn span {
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .fl-photo-menu-cancel {
+      padding: 13px;
+      border-radius: 13px;
+      border: none;
+      background: var(--surf2);
+      color: var(--text2);
+      font-family: var(--fd);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 4px;
+      width: 100%;
+    }
+
+    /* viewer fullscreen */
+    .fl-viewer {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .95);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn .2s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0
+      }
+
+      to {
+        opacity: 1
+      }
+    }
+
+    .fl-viewer-img {
+      max-width: 100%;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .fl-viewer-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+    }
+
+    .fl-viewer-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .12);
+      border: none;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fl-viewer-del {
+      padding: 8px 14px;
+      border-radius: 10px;
+      background: rgba(240, 95, 95, .2);
+      border: 1px solid rgba(240, 95, 95, .4);
+      color: var(--red);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .fl-viewer-counter {
+      font-size: 13px;
+      color: rgba(255, 255, 255, .5);
+    }
+
+    .fl-viewer-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0 10px;
+      pointer-events: none;
+    }
+
+    .fl-viewer-arrow {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .1);
+      border: none;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      pointer-events: all;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* budget */
+    .fl-budget {
+      background: var(--surf);
+      border: 1px solid var(--border2);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 14px;
+      animation: up .3s ease both;
+    }
+
+    .fl-budget-title {
+      font-family: var(--fd);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .fl-budget-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .fl-budget-line:last-child {
+      border-bottom: none;
+    }
+
+    .fl-budget-line .name {
+      color: var(--text2);
+      flex: 1;
+    }
+
+    .fl-budget-line .qty {
+      color: var(--text3);
+      font-size: 11.5px;
+      margin: 0 8px;
+    }
+
+    .fl-budget-line .val {
+      font-family: var(--fd);
+      font-weight: 700;
+      color: var(--amber);
+    }
+
+    .fl-budget-sep {
+      height: 1px;
+      background: var(--border2);
+      margin: 8px 0;
+    }
+
+    .fl-budget-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0 2px;
+    }
+
+    .fl-budget-lbl {
+      font-family: var(--fd);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .fl-budget-sum {
+      font-family: var(--fd);
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--green);
+    }
+
+    .fl-budget-empty {
+      font-size: 12.5px;
+      color: var(--text3);
+      text-align: center;
+      padding: 6px 0;
+    }
+
+    /* rate box */
+    .fl-rate-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(110, 92, 245, .08);
+      border: 1px solid var(--acc-glow);
+      border-radius: 12px;
+      padding: 10px 13px;
+      margin-bottom: 14px;
+    }
+
+    .fl-rate-lbl {
+      font-size: 12.5px;
+      color: var(--text2);
+      flex: 1;
+    }
+
+    .fl-rate-inp {
+      width: 90px;
+      background: var(--surf);
+      border: 1px solid var(--border2);
+      border-radius: 9px;
+      padding: 7px 10px;
+      color: var(--text);
+      font-family: var(--fd);
+      font-size: 14px;
+      font-weight: 700;
+      outline: none;
+      text-align: right;
+    }
+
+    .fl-rate-inp:focus {
+      border-color: var(--acc);
+    }
+
+    .fl-rate-unit {
+      font-size: 12px;
+      color: var(--text3);
+    }
+
+    /* edit mode */
+    .fl-edit-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .fl-ecard {
+      background: var(--surf);
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .fl-ecard-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      cursor: pointer;
+    }
+
+    .fl-ecard-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      background: rgba(110, 92, 245, .15);
+      color: var(--acc2);
+      font-family: var(--fd);
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .fl-ecard-q {
+      flex: 1;
+      font-size: 13.5px;
+      color: var(--text);
+      line-height: 1.4;
+      min-width: 0;
+    }
+
+    .fl-ecard-chev {
+      font-size: 12px;
+      color: var(--text3);
+      transition: transform .2s;
+      flex-shrink: 0;
+    }
+
+    .fl-ecard.open .fl-ecard-chev {
+      transform: rotate(180deg);
+    }
+
+    .fl-ecard-body {
+      padding: 0 14px 14px;
+      display: none;
+    }
+
+    .fl-ecard.open .fl-ecard-body {
+      display: block;
+    }
+
+    .fl-efield {
+      margin-bottom: 10px;
+    }
+
+    .fl-efield label {
+      display: block;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 5px;
+    }
+
+    .fl-efield input,
+    .fl-efield textarea,
+    .fl-efield select {
+      width: 100%;
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      padding: 9px 12px;
+      color: var(--text);
+      font-family: var(--fb);
+      font-size: 13.5px;
+      outline: none;
+      transition: border-color .14s;
+      resize: none;
+    }
+
+    .fl-efield input:focus,
+    .fl-efield textarea:focus {
+      border-color: var(--acc);
+    }
+
+    .fl-branch-box {
+      background: var(--bg3);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 8px;
+    }
+
+    .fl-branch-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 8px;
+    }
+
+    .fl-cost-fields {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+
+    .fl-cost-type-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .fl-cost-type-btn {
+      flex: 1;
+      padding: 6px 4px;
+      border-radius: 8px;
+      border: 1px solid var(--border2);
+      background: var(--surf2);
+      color: var(--text2);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all .13s;
+    }
+
+    .fl-cost-type-btn.on {
+      background: rgba(245, 187, 69, .15);
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    .fl-cost-inline {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .fl-ecard-actions {
+      display: flex;
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .fl-save-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      background: var(--acc);
+      border: none;
+      color: #fff;
+      font-family: var(--fd);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .fl-del-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      border: none;
+      background: var(--red-bg);
+      color: var(--red);
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .fl-add-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px;
+      border-radius: 14px;
+      border: 2px dashed var(--border2);
+      background: transparent;
+      color: var(--text3);
+      font-family: var(--fd);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: all .15s;
+    }
+
+    .fl-add-btn:hover {
+      border-color: var(--acc);
+      color: var(--acc2);
+    }
+
+    .fl-root-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .fl-root-lbl {
+      font-size: 11.5px;
+      color: var(--text2);
+      flex: 1;
+    }
+
+    .fl-root-sel {
+      background: var(--surf);
+      border: 1px solid var(--border2);
+      border-radius: 9px;
+      padding: 6px 10px;
+      color: var(--text);
+      font-family: var(--fb);
+      font-size: 13px;
+      outline: none;
+    }
+
+    .fl-root-sel option {
+      background: var(--bg2);
+    }
+
+    /* fotos no edit */
+    .fl-edit-photos {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+
+    .fl-edit-photos-lbl {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 7px;
+    }
+
+    .fl-edit-photo-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .fl-edit-photo-wrap {
+      position: relative;
+    }
+
+    .fl-edit-photo-thumb {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1.5px solid var(--border2);
+    }
+
+    .fl-edit-photo-del {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--red);
+      border: none;
+      color: #fff;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .fl-edit-photo-add {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      border: 2px dashed var(--border2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: var(--surf);
+      color: var(--text3);
+      font-size: 10px;
+      font-weight: 600;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+
+    .fl-edit-photo-add-icon {
+      font-size: 20px;
+    }`,
+      defaultData: () => ({
+        laborRate: 120,
+        nodes: {
+          'n1': {
+            id: 'n1', type: 'question', question: 'O equipamento liga normalmente?', hint: '', photos: [],
+            yes: { type: 'next', nextId: 'n2' },
+            no: { type: 'next', nextId: 'n3' }
+          },
+          'n2': {
+            id: 'n2', type: 'question', question: 'Apresenta ruído ou vibração anormal?', hint: '', photos: [],
+            yes: { type: 'result', resultType: 'warn', icon: '⚠️', title: 'Verificar rolamentos', desc: 'Possível desgaste nos rolamentos.', costType: 'part', costLabel: 'Rolamento', costValue: 80, costUnit: 'un', photos: [] },
+            no: { type: 'result', resultType: 'ok', icon: '✅', title: 'Funcionamento normal', desc: 'Sem anomalias detectadas.', costType: 'none', photos: [] }
+          },
+          'n3': {
+            id: 'n3', type: 'question', question: 'Há tensão na entrada elétrica?', hint: 'Use multímetro para verificar.', photos: [],
+            yes: { type: 'result', resultType: 'err', icon: '⚡', title: 'Defeito interno', desc: 'Tensão OK mas equipamento não liga.', costType: 'labor', costLabel: 'Diagnóstico elétrico', costValue: 150, costUnit: 'h', photos: [] },
+            no: { type: 'result', resultType: 'err', icon: '🔌', title: 'Sem energia', desc: 'Verifique disjuntor e fiação.', costType: 'none', photos: [] }
+          },
+        },
+        rootId: 'n1',
+        session: { path: [], done: false, checked: {} },
+      }),
+
+      cardPreview(rec) {
+        const total = Object.keys(rec.data.nodes || {}).length;
+        const checked = Object.keys(rec.data.session?.checked || {}).length;
+        const totalR = this._totalCost(rec.data);
+        return [
+          total + ' nó' + (total !== 1 ? 's' : ''),
+          checked ? checked + ' item' + (checked !== 1 ? 's' : '') + ' marcado' + (checked !== 1 ? 's' : '') : null,
+          totalR > 0 ? 'R$ ' + totalR.toFixed(2).replace('.', ',') : null,
+        ].filter(Boolean).join(' · ');
+      },
+
+      cardBadge(rec) {
+        if (rec.data.session?.done) {
+          const t = this._totalCost(rec.data);
+          if (t > 0) return '<span class="badge badge-g">R$ ' + t.toFixed(2).replace('.', ',') + '</span>';
+          return '<span class="badge badge-g">✓ Concluído</span>';
+        }
+        if ((rec.data.session?.path || []).length) return '<span class="badge badge-a">Em andamento</span>';
+        return '<span class="badge badge-p">Novo</span>';
+      },
+
+      navActions: [
+        {
+          id: 'reset', icon: '↺', title: 'Reiniciar diagnóstico',
+          handler() { App.activePlugin._resetSession(); }
+        },
+      ],
+
+      _el: null, _rec: null, _mode: 'run', _viewerState: null,
+
+      mount(container, rec) {
+        this._el = container; this._rec = rec; this._mode = 'run';
+        if (!this._rec.data.session.checked) this._rec.data.session.checked = {};
+        if (!this._rec.data.laborRate) this._rec.data.laborRate = 120;
+        for (const node of Object.values(this._rec.data.nodes)) {
+          if (!node.photos) node.photos = [];
+          for (const ans of ['yes', 'no']) {
+            if (node[ans] && !node[ans].photos) node[ans].photos = [];
+          }
+        }
+        this._render();
+      },
+
+      unmount() { this._closeViewer(); this._el = null; this._rec = null; },
+
+      async _save() { await App.saveRecord(this._rec); },
+
+      /* ── RENDER ── */
+      _render() {
+        if (!this._el) return;
+        const { session, nodes } = this._rec.data;
+        const total = Object.keys(nodes).length;
+        const pct = session.done ? 100 : total ? Math.min(Math.round(session.path.length / total * 100), 95) : 0;
+        document.getElementById('pluginNavSub').textContent =
+          this._mode === 'edit' ? 'Editando fluxo' :
+            session.done ? 'Concluído · ' + pct + '%' : pct + '% percorrido';
+        this._el.innerHTML =
+          '<div class="fl-wrap">' +
+          '<div class="fl-tabs">' +
+          '<button class="fl-tab ' + (this._mode === 'run' ? 'on' : '') + '" onclick="App.activePlugin._setMode(\'run\')">▶ Diagnóstico</button>' +
+          '<button class="fl-tab ' + (this._mode === 'edit' ? 'on' : '') + '" onclick="App.activePlugin._setMode(\'edit\')">✏️ Editar fluxo</button>' +
+          '</div>' +
+          '<div id="fl_content"></div>' +
+          '<div style="height:16px"></div>' +
+          '</div>';
+        this._mode === 'run' ? this._renderRun() : this._renderEdit();
+      },
+
+      /* ── RUN MODE ── */
+      _renderRun() {
+        const cont = document.getElementById('fl_content');
+        const { session, nodes, rootId } = this._rec.data;
+        let html = '<div class="fl-chain">';
+        let nodeId = rootId;
+        for (let i = 0; i < session.path.length; i++) {
+          const step = session.path[i];
+          const node = nodes[step.nodeId];
+          if (!node) break;
+          html += this._answeredNodeHtml(node, step.answer, i);
+          const branch = node[step.answer];
+          if (branch && branch.type === 'result') {
+            html += this._resultCardHtml(branch, step.nodeId + '_' + step.answer);
+            nodeId = null;
+          } else if (branch && branch.type === 'next') {
+            html += '<div class="fl-conn-line"></div>';
+            nodeId = branch.nextId;
+          }
+        }
+        if (!session.done && nodeId && nodes[nodeId]) {
+          html += this._currentQuestionHtml(nodes[nodeId], session.path.length);
+        }
+        html += '</div>';
+        cont.innerHTML = html + this._budgetPanelHtml();
+        setTimeout(function () {
+          var el = cont.closest('.view-scroll');
+          if (el) el.scrollTo({ top: 99999, behavior: 'smooth' });
+        }, 80);
+      },
+
+      _answeredNodeHtml(node, answer, idx) {
+        var photos = node.photos || [];
+        var thumbs = '';
+        for (var i = 0; i < photos.length && i < 3; i++) {
+          thumbs += '<img class="fl-photo-thumb" src="' + photos[i] + '" style="width:48px;height:48px;border-radius:8px;object-fit:cover;cursor:pointer;margin-right:4px"' +
+            ' onclick="App.activePlugin._openViewer(App.activePlugin._rec.data.nodes[\'' + node.id + '\'].photos,' + i + ',\'node_' + node.id + '\')">';
+        }
+        return '<div class="fl-node done"><div class="fl-qcard">' +
+          '<div class="fl-qnum">Etapa ' + (idx + 1) + '</div>' +
+          '<div class="fl-question">' + esc(node.question) + '</div>' +
+          (thumbs ? '<div style="display:flex;gap:4px;margin-top:8px;flex-wrap:wrap">' + thumbs + '</div>' : '') +
+          '<span class="fl-answer-badge ' + answer + '">' + (answer === 'yes' ? '✓ Sim' : '✕ Não') + '</span>' +
+          '</div></div>';
+      },
+
+      _currentQuestionHtml(node, idx) {
+        var photos = node.photos || [];
+        var thumbs = '';
+        for (var i = 0; i < photos.length; i++) {
+          thumbs += '<img class="fl-photo-thumb" src="' + photos[i] + '"' +
+            ' onclick="App.activePlugin._openViewer(App.activePlugin._rec.data.nodes[\'' + node.id + '\'].photos,' + i + ',\'node_' + node.id + '\')">';
+        }
+        return '<div class="fl-node active">' +
+          '<div class="fl-qcard active">' +
+          '<div class="fl-qnum">Etapa ' + (idx + 1) + '</div>' +
+          '<div class="fl-question">' + esc(node.question) + '</div>' +
+          (node.hint ? '<div class="fl-hint">💡 ' + esc(node.hint) + '</div>' : '') +
+          (photos.length ?
+            '<div class="fl-photos"><div class="fl-photos-lbl">📷 Fotos</div><div class="fl-photo-grid">' + thumbs + '</div></div>' : '') +
+          '</div>' +
+          '<div class="fl-btns">' +
+          '<button class="fl-ans-btn yes" onclick="App.activePlugin._answer(\'' + node.id + '\',\'yes\')">✓ Sim</button>' +
+          '<button class="fl-ans-btn no"  onclick="App.activePlugin._answer(\'' + node.id + '\',\'no\')">✕ Não</button>' +
+          '</div></div>';
+      },
+
+      _resultCardHtml(branch, key) {
+        var checked = this._rec.data.session.checked;
+        var item = checked[key] || null;
+        var isChecked = !!item;
+        var qty = item ? (item.qty || 1) : 1;
+        var type = branch.costType || 'none';
+        var hasValue = type !== 'none' && branch.costValue > 0;
+        var typeLabel = type === 'part' ? '🔩 Peça' : type === 'labor' ? '🔧 Mão de obra' : '';
+        var valueStr = hasValue ? 'R$ ' + Number(branch.costValue).toFixed(2).replace('.', ',') : '';
+        var nodeId = key.split('_')[0];
+        var answer = key.split('_')[1];
+
+        var costRowHtml = hasValue
+          ? '<div class="fl-cost-row">' +
+          '<div class="fl-cost-check ' + (isChecked ? 'on' : '') + '" onclick="App.activePlugin._toggleCheck(\'' + key + '\',' + branch.costValue + ',\'' + type + '\',' + branch.costValue + ')">' + (isChecked ? '✓' : '') + '</div>' +
+          '<div class="fl-cost-info">' +
+          '<div class="fl-cost-label">' + esc(branch.costLabel || branch.title) + '</div>' +
+          '<div class="fl-cost-type">' + typeLabel + ' · ' + valueStr + ' / ' + (branch.costUnit || 'un') + '</div>' +
+          (isChecked && type !== 'none' ?
+            '<div class="fl-cost-qty">' +
+            '<button class="fl-cost-qty-btn" onclick="App.activePlugin._changeQty(\'' + key + '\', -1)">−</button>' +
+            '<span class="fl-cost-qty-val">' + qty + '</span>' +
+            '<button class="fl-cost-qty-btn" onclick="App.activePlugin._changeQty(\'' + key + '\', 1)">+</button>' +
+            '<span style="font-size:11px;color:var(--text3);margin-left:4px">' + (branch.costUnit || 'un') + '</span>' +
+            '</div>' : '') +
+          '</div>' +
+          (isChecked ? '<div class="fl-cost-value">R$ ' + (Number(branch.costValue) * qty).toFixed(2).replace('.', ',') + '</div>' : '') +
+          '</div>'
+          : '<div class="fl-cost-row" style="opacity:.5">' +
+          '<div class="fl-cost-check ' + (isChecked ? 'on' : '') + '" onclick="App.activePlugin._toggleCheck(\'' + key + '\',0,\'' + type + '\',0)">' + (isChecked ? '✓' : '') + '</div>' +
+          '<div class="fl-cost-info">' +
+          '<div class="fl-cost-label">' + (isChecked ? '✓ Executado' : 'Marcar como executado') + '</div>' +
+          '<div class="fl-cost-type">Sem custo cadastrado</div>' +
+          '</div>' +
+          '</div>';
+
+        var photos = branch.photos || [];
+        var thumbs = '';
+        for (var i = 0; i < photos.length; i++) {
+          thumbs += '<img class="fl-photo-thumb" src="' + photos[i] + '"' +
+            ' onclick="App.activePlugin._openViewerByKey(\'' + key + '\',\'' + nodeId + '\',\'' + answer + '\',' + i + ')">';
+        }
+        var photosHtml =
+          '<div class="fl-photos">' +
+          '<div class="fl-photos-lbl">📷 Fotos ' + (photos.length ? '(' + photos.length + ')' : '') + '</div>' +
+          '<div class="fl-photo-grid">' +
+          thumbs +
+          '<div class="fl-photo-add" onclick="App.activePlugin._photoMenu(\'result\',\'' + nodeId + '\',\'' + answer + '\')">' +
+          '<span class="fl-photo-add-icon">📷</span><span>Foto</span>' +
+          '</div>' +
+          '</div>' +
+          '</div>';
+
+        return '<div class="fl-result ' + (branch.resultType || 'info') + '">' +
+          '<div class="fl-result-head">' +
+          '<span class="fl-result-ico">' + (branch.icon || '📌') + '</span>' +
+          '<span class="fl-result-title">' + esc(branch.title) + '</span>' +
+          '</div>' +
+          (branch.desc ? '<div class="fl-result-desc">' + esc(branch.desc) + '</div>' : '') +
+          costRowHtml +
+          photosHtml +
+          '</div>';
+      },
+
+      /* ── FOTO MENU ── */
+      _photoMenu(context, nodeId, answer) {
+        document.getElementById('fl_photo_menu') && document.getElementById('fl_photo_menu').remove();
+        var self = this;
+        var opts = [
+          { icon: '📷', label: 'Câmera traseira', capture: 'environment' },
+          { icon: '🤳', label: 'Câmera frontal', capture: 'user' },
+          { icon: '🖼️', label: 'Galeria de fotos', capture: '' },
+        ];
+        var btns = opts.map(function (o) {
+          return '<button class="fl-photo-menu-btn" onclick="App.activePlugin._pickPhoto(\'' + context + '\',\'' + nodeId + '\',\'' + answer + '\',\'' + o.capture + '\')">' +
+            '<span>' + o.icon + '</span>' + o.label + '</button>';
+        }).join('');
+        var menu = document.createElement('div');
+        menu.className = 'fl-photo-menu';
+        menu.id = 'fl_photo_menu';
+        menu.innerHTML =
+          '<div class="fl-photo-menu-bg" onclick="document.getElementById(\'fl_photo_menu\').remove()"></div>' +
+          '<div class="fl-photo-menu-sheet">' +
+          '<div class="fl-photo-menu-title">Adicionar foto</div>' +
+          btns +
+          '<button class="fl-photo-menu-cancel" onclick="document.getElementById(\'fl_photo_menu\').remove()">Cancelar</button>' +
+          '</div>';
+        document.body.appendChild(menu);
+      },
+
+      _pickPhoto(context, nodeId, answer, capture) {
+        var el = document.getElementById('fl_photo_menu');
+        if (el) el.remove();
+        var self = this;
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.multiple = (capture === '');
+        if (capture) input.setAttribute('capture', capture);
+        input.onchange = function () {
+          if (context === 'node') self._addPhotosToNode(nodeId, input);
+          else if (context === 'result') self._addPhotosToResult(nodeId, answer, input);
+          else self._addPhotosToResultEdit(nodeId, answer, input);
+        };
+        input.click();
+      },
+
+      /* ── ADICIONAR / REMOVER FOTOS ── */
+      async _addPhotosToNode(nodeId, input) {
+        var files = Array.from(input.files);
+        if (!files.length) return;
+        var node = this._rec.data.nodes[nodeId];
+        if (!node) return;
+        if (!node.photos) node.photos = [];
+        for (var i = 0; i < files.length; i++) {
+          var b64 = await this._toBase64(files[i]);
+          node.photos.push(b64);
+        }
+        await this._save();
+        this._renderEdit();
+        toast('📷 ' + files.length + ' foto' + (files.length > 1 ? 's' : '') + ' adicionada' + (files.length > 1 ? 's' : '') + '!');
+      },
+
+      async _addPhotosToResult(nodeId, answer, input) {
+        var files = Array.from(input.files);
+        if (!files.length) return;
+        var branch = this._rec.data.nodes[nodeId] && this._rec.data.nodes[nodeId][answer];
+        if (!branch) return;
+        if (!branch.photos) branch.photos = [];
+        for (var i = 0; i < files.length; i++) {
+          var b64 = await this._toBase64(files[i]);
+          branch.photos.push(b64);
+        }
+        await this._save();
+        this._renderRun();
+        toast('📷 ' + files.length + ' foto' + (files.length > 1 ? 's' : '') + ' adicionada' + (files.length > 1 ? 's' : '') + '!');
+      },
+
+      async _addPhotosToResultEdit(nodeId, answer, input) {
+        var files = Array.from(input.files);
+        if (!files.length) return;
+        var branch = this._rec.data.nodes[nodeId] && this._rec.data.nodes[nodeId][answer];
+        if (!branch) return;
+        if (!branch.photos) branch.photos = [];
+        for (var i = 0; i < files.length; i++) {
+          var b64 = await this._toBase64(files[i]);
+          branch.photos.push(b64);
+        }
+        await this._save();
+        this._renderEdit();
+        toast('📷 ' + files.length + ' foto' + (files.length > 1 ? 's' : '') + ' adicionada' + (files.length > 1 ? 's' : '') + '!');
+      },
+
+      async _removeNodePhoto(nodeId, idx) {
+        var node = this._rec.data.nodes[nodeId];
+        if (!node || !node.photos) return;
+        node.photos.splice(idx, 1);
+        await this._save();
+        this._renderEdit();
+      },
+
+      async _removeResultPhoto(nodeId, answer, idx) {
+        var branch = this._rec.data.nodes[nodeId] && this._rec.data.nodes[nodeId][answer];
+        if (!branch || !branch.photos) return;
+        branch.photos.splice(idx, 1);
+        await this._save();
+        this._renderEdit();
+      },
+
+      _toBase64(file) {
+        return new Promise(function (res, rej) {
+          var img = new Image();
+          var url = URL.createObjectURL(file);
+          img.onload = function () {
+            URL.revokeObjectURL(url);
+            var MAX = 1200, w = img.width, h = img.height;
+            if (w > MAX || h > MAX) {
+              if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
+              else { w = Math.round(w * MAX / h); h = MAX; }
+            }
+            var c = document.createElement('canvas');
+            c.width = w; c.height = h;
+            c.getContext('2d').drawImage(img, 0, 0, w, h);
+            res(c.toDataURL('image/jpeg', 0.80));
+          };
+          img.onerror = rej;
+          img.src = url;
+        });
+      },
+
+      /* ── VIEWER ── */
+      _openViewer(photos, index, context) {
+        this._viewerState = { photos: photos, index: index, context: context };
+        this._renderViewer();
+      },
+
+      _openViewerByKey(key, nodeId, answer, index) {
+        var branch = this._rec.data.nodes[nodeId] && this._rec.data.nodes[nodeId][answer];
+        if (!branch || !branch.photos || !branch.photos.length) return;
+        this._viewerState = { photos: branch.photos, index: index, context: 'result_' + key, nodeId: nodeId, answer: answer };
+        this._renderViewer();
+      },
+
+      _renderViewer() {
+        this._closeViewer(true);
+        var s = this._viewerState;
+        if (!s || !s.photos.length) return;
+        var i = Math.max(0, Math.min(s.index, s.photos.length - 1));
+        s.index = i;
+        var total = s.photos.length;
+        var el = document.createElement('div');
+        el.className = 'fl-viewer';
+        el.id = 'fl_viewer';
+        el.innerHTML =
+          '<div class="fl-viewer-bar">' +
+          '<button class="fl-viewer-close" onclick="App.activePlugin._closeViewer()">✕</button>' +
+          '<span class="fl-viewer-counter">' + (i + 1) + ' / ' + total + '</span>' +
+          '<button class="fl-viewer-del" onclick="App.activePlugin._deleteViewerPhoto()">🗑 Remover</button>' +
+          '</div>' +
+          '<img class="fl-viewer-img" src="' + s.photos[i] + '" id="fl_viewer_img">' +
+          '<div class="fl-viewer-nav">' +
+          (i > 0 ? '<button class="fl-viewer-arrow" onclick="App.activePlugin._viewerNav(-1)">‹</button>' : '<div></div>') +
+          (i < total - 1 ? '<button class="fl-viewer-arrow" onclick="App.activePlugin._viewerNav(1)">›</button>' : '<div></div>') +
+          '</div>';
+        el.onclick = function (e) { if (e.target === el) App.activePlugin._closeViewer(); };
+        document.body.appendChild(el);
+      },
+
+      _viewerNav(delta) {
+        if (!this._viewerState) return;
+        this._viewerState.index = Math.max(0, Math.min(this._viewerState.photos.length - 1, this._viewerState.index + delta));
+        this._renderViewer();
+      },
+
+      async _deleteViewerPhoto() {
+        var s = this._viewerState;
+        if (!s) return;
+        s.photos.splice(s.index, 1);
+        await this._save();
+        if (!s.photos.length) { this._closeViewer(); this._render(); return; }
+        s.index = Math.min(s.index, s.photos.length - 1);
+        this._renderViewer();
+        if (this._mode === 'run') this._renderRun();
+        else this._renderEdit();
+      },
+
+      _closeViewer(silent) {
+        var el = document.getElementById('fl_viewer');
+        if (el) el.remove();
+        if (!silent) this._viewerState = null;
+      },
+
+      /* ── LÓGICA DIAGNÓSTICO ── */
+      _answer(nodeId, answer) {
+        var sess = this._rec.data.session;
+        var nodes = this._rec.data.nodes;
+        if (sess.path.find(function (s) { return s.nodeId === nodeId; })) return;
+        sess.path.push({ nodeId: nodeId, answer: answer });
+        var branch = nodes[nodeId] && nodes[nodeId][answer];
+        if (branch && branch.type === 'result') sess.done = true;
+        else if (branch && branch.type === 'next' && !nodes[branch.nextId]) sess.done = true;
+        var self = this;
+        this._save().then(function () { self._renderRun(); });
+      },
+
+      async _toggleCheck(key, unitPrice, type, rawVal) {
+        var checked = this._rec.data.session.checked;
+        if (checked[key]) delete checked[key];
+        else checked[key] = { qty: 1, unitPrice: Number(rawVal) || 0, type: type };
+        await this._save();
+        this._renderRun();
+      },
+
+      async _changeQty(key, delta) {
+        var checked = this._rec.data.session.checked;
+        if (!checked[key]) return;
+        checked[key].qty = Math.max(1, (checked[key].qty || 1) + delta);
+        await this._save();
+        this._renderRun();
+      },
+
+      _budgetPanelHtml() {
+        var session = this._rec.data.session;
+        var nodes = this._rec.data.nodes;
+        var checked = session.checked || {};
+        var keys = Object.keys(checked);
+        if (!keys.length && !session.done) return '';
+        var items = [];
+        for (var k = 0; k < keys.length; k++) {
+          var key = keys[k];
+          var item = checked[key];
+          var parts = key.split('_');
+          var branch = nodes[parts[0]] && nodes[parts[0]][parts[1]];
+          if (!branch) continue;
+          var unitPrice = Number(branch.costValue) || 0;
+          var qty = item.qty || 1;
+          items.push({
+            label: branch.costLabel || branch.title, type: branch.costType || 'none',
+            unit: branch.costUnit || 'un', unitPrice: unitPrice, qty: qty, subtotal: unitPrice * qty
+          });
+        }
+        if (!items.length) {
+          if (!session.done) return '';
+          return '<div class="fl-budget"><div class="fl-budget-title">🧾 Orçamento</div><div class="fl-budget-empty">Nenhum item marcado ainda.</div></div>';
+        }
+        var partsArr = items.filter(function (i) { return i.type === 'part'; });
+        var laborArr = items.filter(function (i) { return i.type === 'labor'; });
+        var othersArr = items.filter(function (i) { return i.type === 'none'; });
+        var rows = function (list, icon) {
+          return list.map(function (i) {
+            return '<div class="fl-budget-line"><span class="name">' + icon + ' ' + esc(i.label) + '</span><span class="qty">' + i.qty + '×</span><span class="val">R$ ' + i.subtotal.toFixed(2).replace('.', ',') + '</span></div>';
+          }).join('');
+        };
+        var total = items.reduce(function (s, i) { return s + i.subtotal; }, 0);
+        return '<div class="fl-budget">' +
+          '<div class="fl-budget-title">🧾 Orçamento do serviço</div>' +
+          (partsArr.length ? '<div style="font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">🔩 Peças</div>' + rows(partsArr, '') : '') +
+          (laborArr.length ? '<div style="font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin:8px 0 4px">🔧 Mão de obra</div>' + rows(laborArr, '') : '') +
+          (othersArr.length ? '<div style="font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin:8px 0 4px">📌 Outros</div>' + rows(othersArr, '') : '') +
+          '<div class="fl-budget-sep"></div>' +
+          '<div class="fl-budget-total"><span class="fl-budget-lbl">Total a cobrar</span><span class="fl-budget-sum">R$ ' + total.toFixed(2).replace('.', ',') + '</span></div>' +
+          '</div>';
+      },
+
+      _totalCost(data) {
+        var checked = data.session && data.session.checked || {};
+        var nodes = data.nodes || {};
+        var total = 0;
+        var keys = Object.keys(checked);
+        for (var i = 0; i < keys.length; i++) {
+          var parts = keys[i].split('_');
+          var branch = nodes[parts[0]] && nodes[parts[0]][parts[1]];
+          if (branch) total += (Number(branch.costValue) || 0) * (checked[keys[i]].qty || 1);
+        }
+        return total;
+      },
+
+      async _resetSession() {
+        this._rec.data.session = { path: [], done: false, checked: {} };
+        await this._save();
+        this._render();
+        toast('↺ Diagnóstico reiniciado');
+      },
+
+      /* ── EDIT MODE ── */
+      _renderEdit() {
+        var cont = document.getElementById('fl_content');
+        var nodes = this._rec.data.nodes;
+        var ids = Object.keys(nodes);
+        var self = this;
+        var rootOpts = ids.map(function (id) {
+          return '<option value="' + id + '" ' + (id === self._rec.data.rootId ? 'selected' : '') + '>' + esc((nodes[id].question || '').slice(0, 40) || id) + '</option>';
+        }).join('');
+        cont.innerHTML =
+          '<div class="fl-edit-wrap">' +
+          '<div class="fl-rate-box">' +
+          '<span class="fl-rate-lbl">💵 Valor padrão hora de trabalho (R$/h)</span>' +
+          '<input class="fl-rate-inp" type="number" min="0" step="10" value="' + (this._rec.data.laborRate || 120) + '" oninput="App.activePlugin._rec.data.laborRate=+this.value">' +
+          '<span class="fl-rate-unit">/h</span>' +
+          '</div>' +
+          '<div class="fl-root-row">' +
+          '<span class="fl-root-lbl">🚩 Nó raiz (pergunta inicial):</span>' +
+          '<select class="fl-root-sel" onchange="App.activePlugin._rec.data.rootId=this.value">' + rootOpts + '</select>' +
+          '</div>' +
+          ids.map(function (id, i) { return self._editCard(nodes[id], i + 1); }).join('') +
+          '<button class="fl-add-btn" onclick="App.activePlugin._addNode()">＋ Adicionar pergunta</button>' +
+          '</div>';
+      },
+
+      _editCard(node, num) {
+        var TYPES = [{ id: 'part', label: '🔩 Peça' }, { id: 'labor', label: '🔧 M.O.' }, { id: 'none', label: '⊘ Nenhum' }];
+        var nodes = this._rec.data.nodes;
+        var self = this;
+
+        /* fotos do nó */
+        var nodePhotos = (node.photos || []).map(function (p, i) {
+          return '<div class="fl-edit-photo-wrap">' +
+            '<img class="fl-edit-photo-thumb" src="' + p + '" onclick="App.activePlugin._openViewer(App.activePlugin._rec.data.nodes[\'' + node.id + '\'].photos,' + i + ',\'node_' + node.id + '\')">' +
+            '<button class="fl-edit-photo-del" onclick="App.activePlugin._removeNodePhoto(\'' + node.id + '\',' + i + ')">✕</button>' +
+            '</div>';
+        }).join('');
+
+        var nodePhotosHtml =
+          '<div class="fl-edit-photos">' +
+          '<div class="fl-edit-photos-lbl">📷 Fotos da pergunta</div>' +
+          '<div class="fl-edit-photo-grid">' +
+          nodePhotos +
+          '<div class="fl-edit-photo-add" onclick="App.activePlugin._photoMenu(\'node\',\'' + node.id + '\',\'\')">' +
+          '<span class="fl-edit-photo-add-icon">📷</span><span>Adicionar</span>' +
+          '</div>' +
+          '</div>' +
+          '</div>';
+
+        var branchHtml = function (answer, label) {
+          var b = node[answer] || {};
+          var isNext = b.type === 'next';
+          var isResult = b.type === 'result';
+          var otherIds = Object.keys(nodes).filter(function (id) { return id !== node.id; });
+          var costType = b.costType || 'none';
+
+          var brPhotos = (b.photos || []).map(function (p, i) {
+            return '<div class="fl-edit-photo-wrap">' +
+              '<img class="fl-edit-photo-thumb" src="' + p + '" onclick="App.activePlugin._openViewerByKey(\'' + node.id + '_' + answer + '\',\'' + node.id + '\',\'' + answer + '\',' + i + ')">' +
+              '<button class="fl-edit-photo-del" onclick="App.activePlugin._removeResultPhoto(\'' + node.id + '\',\'' + answer + '\',' + i + ')">✕</button>' +
+              '</div>';
+          }).join('');
+
+          var resultPhotosHtml =
+            '<div class="fl-edit-photos">' +
+            '<div class="fl-edit-photos-lbl">📷 Fotos deste resultado</div>' +
+            '<div class="fl-edit-photo-grid">' +
+            brPhotos +
+            '<div class="fl-edit-photo-add" onclick="App.activePlugin._photoMenu(\'result-edit\',\'' + node.id + '\',\'' + answer + '\')">' +
+            '<span class="fl-edit-photo-add-icon">📷</span><span>Adicionar</span>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+
+          return '<div class="fl-branch-box">' +
+            '<div class="fl-branch-title">' + label + '</div>' +
+            '<div class="fl-efield"><label>Tipo</label>' +
+            '<select onchange="App.activePlugin._setBranchType(\'' + node.id + '\',\'' + answer + '\',this.value)">' +
+            '<option value="next" ' + (isNext ? 'selected' : '') + '>→ Ir para outra pergunta</option>' +
+            '<option value="result" ' + (isResult ? 'selected' : '') + '>⚑ Resultado final</option>' +
+            '</select></div>' +
+            (isNext ?
+              '<div class="fl-efield"><label>Próxima pergunta</label>' +
+              '<select onchange="App.activePlugin._setNextId(\'' + node.id + '\',\'' + answer + '\',this.value)">' +
+              otherIds.map(function (id) { return '<option value="' + id + '" ' + (b.nextId === id ? 'selected' : '') + '>' + esc((nodes[id].question || '').slice(0, 40) || id) + '</option>'; }).join('') +
+              '</select></div>' : '') +
+            (isResult ?
+              '<div class="fl-efield"><label>Tipo de resultado</label>' +
+              '<select onchange="App.activePlugin._setField(\'' + node.id + '\',\'' + answer + '\',\'resultType\',this.value)">' +
+              '<option value="ok"   ' + (b.resultType === 'ok' ? 'selected' : '') + '>✅ OK</option>' +
+              '<option value="warn" ' + (b.resultType === 'warn' ? 'selected' : '') + '>⚠️ Atenção</option>' +
+              '<option value="err"  ' + (b.resultType === 'err' ? 'selected' : '') + '>❌ Erro</option>' +
+              '<option value="info" ' + (b.resultType === 'info' ? 'selected' : '') + '>ℹ️ Info</option>' +
+              '</select></div>' +
+              '<div class="fl-efield"><label>Ícone (emoji)</label>' +
+              '<input type="text" value="' + esc(b.icon || '') + '" placeholder="✅ ⚡ 🔋 🔧…" oninput="App.activePlugin._setField(\'' + node.id + '\',\'' + answer + '\',\'icon\',this.value)"></div>' +
+              '<div class="fl-efield"><label>Título</label>' +
+              '<input type="text" value="' + esc(b.title || '') + '" oninput="App.activePlugin._setField(\'' + node.id + '\',\'' + answer + '\',\'title\',this.value)"></div>' +
+              '<div class="fl-efield"><label>Descrição</label>' +
+              '<textarea rows="2" oninput="App.activePlugin._setField(\'' + node.id + '\',\'' + answer + '\',\'desc\',this.value)">' + esc(b.desc || '') + '</textarea></div>' +
+              '<div class="fl-cost-fields">' +
+              '<div style="font-size:10.5px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--text3);margin-bottom:6px">💰 Custo</div>' +
+              '<div class="fl-cost-type-row">' +
+              TYPES.map(function (t) { return '<button class="fl-cost-type-btn ' + (costType === t.id ? 'on' : '') + '" onclick="App.activePlugin._setField(\'' + node.id + '\',\'' + answer + '\',\'costType\',\'' + t.id + '\')">' + t.label + '</button>'; }).join('') +
+              '</div>' +
+              (costType !== 'none' ?
+                '<div class="fl-efield" style="margin-top:6px"><label>Nome da ' + (costType === 'part' ? 'peça' : 'tarefa') + '</label>' +
+                '<input type="text" value="' + esc(b.costLabel || b.title || '') + '" oninput="App.activePlugin._setField(\'' + node.id + '\',\'' + answer + '\',\'costLabel\',this.value)"></div>' +
+                '<div class="fl-cost-inline">' +
+                '<div class="fl-efield"><label>Valor (R$)</label><input type="number" min="0" step="0.01" value="' + (b.costValue || 0) + '" oninput="App.activePlugin._setField(\'' + node.id + '\',\'' + answer + '\',\'costValue\',+this.value)"></div>' +
+                '<div class="fl-efield"><label>Unidade</label>' +
+                '<select onchange="App.activePlugin._setField(\'' + node.id + '\',\'' + answer + '\',\'costUnit\',this.value)">' +
+                '<option value="un" ' + ((b.costUnit || 'un') === 'un' ? 'selected' : '') + '>un</option>' +
+                '<option value="h"  ' + (b.costUnit === 'h' ? 'selected' : '') + '>h</option>' +
+                '<option value="m"  ' + (b.costUnit === 'm' ? 'selected' : '') + '>m</option>' +
+                '<option value="kg" ' + (b.costUnit === 'kg' ? 'selected' : '') + '>kg</option>' +
+                '<option value="l"  ' + (b.costUnit === 'l' ? 'selected' : '') + '>L</option>' +
+                '</select></div>' +
+                '</div>' : '') +
+              '</div>' +
+              resultPhotosHtml
+              : '') +
+            '</div>';
+        };
+
+        return '<div class="fl-ecard" id="flecard_' + node.id + '">' +
+          '<div class="fl-ecard-head" onclick="App.activePlugin._toggleCard(\'' + node.id + '\')">' +
+          '<span class="fl-ecard-num">' + num + '</span>' +
+          '<span class="fl-ecard-q">' + esc((node.question || '').slice(0, 70)) + ((node.question || '').length > 70 ? '…' : '') + '</span>' +
+          '<span class="fl-ecard-chev">▾</span>' +
+          '</div>' +
+          '<div class="fl-ecard-body">' +
+          '<div class="fl-efield"><label>Pergunta</label>' +
+          '<textarea rows="2" oninput="App.activePlugin._setNodeField(\'' + node.id + '\',\'question\',this.value)">' + esc(node.question || '') + '</textarea></div>' +
+          '<div class="fl-efield"><label>Dica (opcional)</label>' +
+          '<input type="text" value="' + esc(node.hint || '') + '" oninput="App.activePlugin._setNodeField(\'' + node.id + '\',\'hint\',this.value)"></div>' +
+          nodePhotosHtml +
+          branchHtml('yes', '✅ Se SIM') +
+          branchHtml('no', '❌ Se NÃO') +
+          '<div class="fl-ecard-actions">' +
+          '<button class="fl-save-btn" onclick="App.activePlugin._saveEdit()">💾 Salvar</button>' +
+          '<button class="fl-del-btn" onclick="App.activePlugin._deleteNode(\'' + node.id + '\')">🗑</button>' +
+          '</div>' +
+          '</div>' +
+          '</div>';
+      },
+
+      _toggleCard(id) { var el = document.getElementById('flecard_' + id); if (el) el.classList.toggle('open'); },
+
+      _setNodeField(id, field, val) { if (this._rec.data.nodes[id]) this._rec.data.nodes[id][field] = val; },
+
+      _setBranchType(nodeId, answer, type) {
+        var node = this._rec.data.nodes[nodeId]; if (!node) return;
+        node[answer] = type === 'next'
+          ? { type: 'next', nextId: Object.keys(this._rec.data.nodes).find(function (id) { return id !== nodeId; }) || '' }
+          : { type: 'result', resultType: 'ok', icon: '✅', title: '', desc: '', costType: 'none', costValue: 0, costUnit: 'un', costLabel: '', photos: [] };
+        this._renderEdit();
+      },
+
+      _setNextId(nodeId, answer, nextId) {
+        var n = this._rec.data.nodes[nodeId]; if (n && n[answer]) n[answer].nextId = nextId;
+      },
+
+      _setField(nodeId, answer, field, val) {
+        var node = this._rec.data.nodes[nodeId]; if (!node) return;
+        if (!node[answer]) node[answer] = {};
+        node[answer][field] = val;
+        if (field === 'costType') this._renderEdit();
+      },
+
+      async _saveEdit() {
+        var lr = this._el && this._el.querySelector('.fl-rate-inp');
+        if (lr) this._rec.data.laborRate = +lr.value || 120;
+        await this._save();
+        toast('💾 Fluxo salvo!');
+        this._renderEdit();
+      },
+
+      async _addNode() {
+        var id = 'n' + Date.now();
+        this._rec.data.nodes[id] = {
+          id: id, type: 'question', question: 'Nova pergunta', hint: '', photos: [],
+          yes: { type: 'result', resultType: 'ok', icon: '✅', title: 'OK', desc: '', costType: 'none', costValue: 0, costUnit: 'un', costLabel: '', photos: [] },
+          no: { type: 'result', resultType: 'err', icon: '❌', title: 'Problema', desc: '', costType: 'none', costValue: 0, costUnit: 'un', costLabel: '', photos: [] },
+        };
+        await this._save();
+        this._renderEdit();
+        setTimeout(function () {
+          var el = document.getElementById('flecard_' + id);
+          if (el) { el.classList.add('open'); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+        }, 80);
+      },
+
+      async _deleteNode(id) {
+        var nodes = this._rec.data.nodes;
+        if (Object.keys(nodes).length <= 1) { toast('Precisa ter pelo menos 1 nó'); return; }
+        delete nodes[id];
+        var ids = Object.keys(nodes);
+        for (var i = 0; i < ids.length; i++) {
+          var n = nodes[ids[i]];
+          for (var j = 0; j < 2; j++) {
+            var ans = ['yes', 'no'][j];
+            if (n[ans] && n[ans].nextId === id)
+              n[ans] = { type: 'result', resultType: 'ok', icon: '✅', title: 'OK', desc: '', costType: 'none', costValue: 0, costUnit: 'un', costLabel: '', photos: [] };
+          }
+        }
+        if (this._rec.data.rootId === id) this._rec.data.rootId = Object.keys(nodes)[0];
+        await this._save();
+        this._renderEdit();
+        toast('Nó removido');
+      },
+
+      _setMode(m) { this._mode = m; this._render(); },
+    });
+  </script>
+  <!-- ▲SCRIPT -->
+
+
   <!-- BOOT -->
   <script>
     (async () => {
