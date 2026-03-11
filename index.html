@@ -5576,14 +5576,14 @@
   <!-- ▲SCRIPT -->
 
   <!-- plugin academia -->
-   <script>
+  <script>
     registerPlugin({
-  id:    'academia',
-  name:  'Academia',
-  icon:  '🏋️',
-  color: '#f0516f',
+      id: 'academia',
+      name: 'Academia',
+      icon: '🏋️',
+      color: '#f0516f',
 
-  css: `
+      css: `
 /* ═══════════════════════════════════════
    PLUGIN ACADEMIA
 ═══════════════════════════════════════ */
@@ -5727,731 +5727,731 @@
 .ac-status-pill.done    { background:var(--green-bg);color:var(--green); }
 `,
 
-  /* ══════════════════════════════════════
-     DEFAULT DATA
-  ══════════════════════════════════════ */
-  defaultData: () => ({
-    fichas: [
-      {
-        id: 'f1', name: 'Treino A — Peito e Tríceps', icon: '💪',
-        exercises: [
-          { id:'e1', name:'Supino Reto', muscle:'Peito', sets:[{reps:12,weight:60},{reps:10,weight:65},{reps:8,weight:70}], restSeconds:90 },
-          { id:'e2', name:'Crucifixo Inclinado', muscle:'Peito', sets:[{reps:12,weight:16},{reps:12,weight:16},{reps:10,weight:18}], restSeconds:60 },
-          { id:'e3', name:'Tríceps Pulley', muscle:'Tríceps', sets:[{reps:15,weight:25},{reps:12,weight:30},{reps:10,weight:35}], restSeconds:60 },
-          { id:'e4', name:'Mergulho', muscle:'Tríceps', sets:[{reps:12,weight:0},{reps:10,weight:0},{reps:8,weight:0}], restSeconds:60 },
-        ]
+      /* ══════════════════════════════════════
+         DEFAULT DATA
+      ══════════════════════════════════════ */
+      defaultData: () => ({
+        fichas: [
+          {
+            id: 'f1', name: 'Treino A — Peito e Tríceps', icon: '💪',
+            exercises: [
+              { id: 'e1', name: 'Supino Reto', muscle: 'Peito', sets: [{ reps: 12, weight: 60 }, { reps: 10, weight: 65 }, { reps: 8, weight: 70 }], restSeconds: 90 },
+              { id: 'e2', name: 'Crucifixo Inclinado', muscle: 'Peito', sets: [{ reps: 12, weight: 16 }, { reps: 12, weight: 16 }, { reps: 10, weight: 18 }], restSeconds: 60 },
+              { id: 'e3', name: 'Tríceps Pulley', muscle: 'Tríceps', sets: [{ reps: 15, weight: 25 }, { reps: 12, weight: 30 }, { reps: 10, weight: 35 }], restSeconds: 60 },
+              { id: 'e4', name: 'Mergulho', muscle: 'Tríceps', sets: [{ reps: 12, weight: 0 }, { reps: 10, weight: 0 }, { reps: 8, weight: 0 }], restSeconds: 60 },
+            ]
+          },
+          {
+            id: 'f2', name: 'Treino B — Costas e Bíceps', icon: '🦾',
+            exercises: [
+              { id: 'e5', name: 'Puxada Frontal', muscle: 'Costas', sets: [{ reps: 12, weight: 50 }, { reps: 10, weight: 55 }, { reps: 8, weight: 60 }], restSeconds: 90 },
+              { id: 'e6', name: 'Remada Curvada', muscle: 'Costas', sets: [{ reps: 12, weight: 50 }, { reps: 10, weight: 55 }, { reps: 10, weight: 55 }], restSeconds: 90 },
+              { id: 'e7', name: 'Rosca Direta', muscle: 'Bíceps', sets: [{ reps: 12, weight: 20 }, { reps: 10, weight: 22 }, { reps: 8, weight: 24 }], restSeconds: 60 },
+            ]
+          },
+          {
+            id: 'f3', name: 'Treino C — Pernas', icon: '🦵',
+            exercises: [
+              { id: 'e8', name: 'Agachamento', muscle: 'Quad/Glúteo', sets: [{ reps: 12, weight: 80 }, { reps: 10, weight: 90 }, { reps: 8, weight: 100 }], restSeconds: 120 },
+              { id: 'e9', name: 'Leg Press', muscle: 'Quad', sets: [{ reps: 15, weight: 120 }, { reps: 12, weight: 140 }, { reps: 10, weight: 160 }], restSeconds: 90 },
+              { id: 'e10', name: 'Cadeira Extensora', muscle: 'Quad', sets: [{ reps: 15, weight: 40 }, { reps: 12, weight: 45 }, { reps: 12, weight: 45 }], restSeconds: 60 },
+              { id: 'e11', name: 'Mesa Flexora', muscle: 'Posterior', sets: [{ reps: 12, weight: 35 }, { reps: 10, weight: 40 }, { reps: 10, weight: 40 }], restSeconds: 60 },
+              { id: 'e12', name: 'Panturrilha em Pé', muscle: 'Panturrilha', sets: [{ reps: 20, weight: 40 }, { reps: 18, weight: 45 }, { reps: 15, weight: 50 }], restSeconds: 45 },
+            ]
+          },
+        ],
+        history: [],
+        activeWorkout: null,
+      }),
+
+      /* ══════════════════════════════════════
+         CARD
+      ══════════════════════════════════════ */
+      cardPreview(rec) {
+        const fichas = rec.data.fichas || [];
+        const hist = rec.data.history || [];
+        const last = hist[hist.length - 1];
+        const parts = [fichas.length + ' ficha' + (fichas.length !== 1 ? 's' : '')];
+        if (last) parts.push('Último: ' + new Date(last.date).toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' }));
+        return parts.join(' · ');
       },
-      {
-        id: 'f2', name: 'Treino B — Costas e Bíceps', icon: '🦾',
-        exercises: [
-          { id:'e5', name:'Puxada Frontal', muscle:'Costas', sets:[{reps:12,weight:50},{reps:10,weight:55},{reps:8,weight:60}], restSeconds:90 },
-          { id:'e6', name:'Remada Curvada', muscle:'Costas', sets:[{reps:12,weight:50},{reps:10,weight:55},{reps:10,weight:55}], restSeconds:90 },
-          { id:'e7', name:'Rosca Direta', muscle:'Bíceps', sets:[{reps:12,weight:20},{reps:10,weight:22},{reps:8,weight:24}], restSeconds:60 },
-        ]
+      cardBadge(rec) {
+        if (rec.data.activeWorkout) return '<span class="badge badge-a">🔥 Em andamento</span>';
+        const hist = rec.data.history || [];
+        if (hist.length) return '<span class="badge badge-g">' + hist.length + ' treino' + (hist.length !== 1 ? 's' : '') + '</span>';
+        return '<span class="badge badge-p">Novo</span>';
       },
-      {
-        id: 'f3', name: 'Treino C — Pernas', icon: '🦵',
-        exercises: [
-          { id:'e8',  name:'Agachamento', muscle:'Quad/Glúteo', sets:[{reps:12,weight:80},{reps:10,weight:90},{reps:8,weight:100}], restSeconds:120 },
-          { id:'e9',  name:'Leg Press', muscle:'Quad', sets:[{reps:15,weight:120},{reps:12,weight:140},{reps:10,weight:160}], restSeconds:90 },
-          { id:'e10', name:'Cadeira Extensora', muscle:'Quad', sets:[{reps:15,weight:40},{reps:12,weight:45},{reps:12,weight:45}], restSeconds:60 },
-          { id:'e11', name:'Mesa Flexora', muscle:'Posterior', sets:[{reps:12,weight:35},{reps:10,weight:40},{reps:10,weight:40}], restSeconds:60 },
-          { id:'e12', name:'Panturrilha em Pé', muscle:'Panturrilha', sets:[{reps:20,weight:40},{reps:18,weight:45},{reps:15,weight:50}], restSeconds:45 },
-        ]
-      },
-    ],
-    history: [],
-    activeWorkout: null,
-  }),
 
-  /* ══════════════════════════════════════
-     CARD
-  ══════════════════════════════════════ */
-  cardPreview(rec) {
-    const fichas = rec.data.fichas || [];
-    const hist   = rec.data.history || [];
-    const last   = hist[hist.length-1];
-    const parts  = [fichas.length + ' ficha' + (fichas.length!==1?'s':'')];
-    if (last) parts.push('Último: ' + new Date(last.date).toLocaleDateString('pt-BR',{day:'numeric',month:'short'}));
-    return parts.join(' · ');
-  },
-  cardBadge(rec) {
-    if (rec.data.activeWorkout) return '<span class="badge badge-a">🔥 Em andamento</span>';
-    const hist = rec.data.history || [];
-    if (hist.length) return '<span class="badge badge-g">'+hist.length+' treino'+(hist.length!==1?'s':'')+'</span>';
-    return '<span class="badge badge-p">Novo</span>';
-  },
-
-  navActions: [
-    { id:'hist', icon:'📋', title:'Histórico', handler() { App.activePlugin._setTab('hist'); } },
-    { id:'evo',  icon:'📈', title:'Evolução',  handler() { App.activePlugin._setTab('evo');  } },
-  ],
-
-  /* ══════════════════════════════════════
-     ESTADO INTERNO
-  ══════════════════════════════════════ */
-  _el: null, _rec: null, _tab: 'treinos',
-  _chronoInterval: null,   // intervalo do cronômetro de treino
-  _restInterval: null,     // intervalo do descanso
-  _restTotal: 0,           // segundos totais do descanso atual
-  _restLeft: 0,            // segundos restantes
-  _formFicha: null,        // ficha sendo editada/criada no form
-  _wStart: 0,              // timestamp início do treino
-
-  /* ══════════════════════════════════════
-     MOUNT / UNMOUNT
-  ══════════════════════════════════════ */
-  mount(container, rec) {
-    this._el  = container;
-    this._rec = rec;
-    // retoma treino ativo se houver
-    if (rec.data.activeWorkout) {
-      this._tab = 'active';
-      this._wStart = rec.data.activeWorkout.startedAt || Date.now();
-      this._startChronoInterval();
-    } else {
-      this._tab = 'treinos';
-    }
-    this._render();
-  },
-
-  unmount() {
-    this._stopChronoInterval();
-    this._stopRestInterval();
-    this._el = null; this._rec = null;
-  },
-
-  async _save() { await App.saveRecord(this._rec); },
-
-  /* ══════════════════════════════════════
-     RENDER PRINCIPAL
-  ══════════════════════════════════════ */
-  _render() {
-    if (!this._el) return;
-    const aw = this._rec.data.activeWorkout;
-    document.getElementById('pluginNavSub').textContent =
-      aw ? '🔥 Treino em andamento' :
-      this._tab === 'treinos' ? 'Fichas de treino' :
-      this._tab === 'hist'    ? 'Histórico' : 'Evolução de carga';
-
-    this._el.innerHTML =
-      '<div class="ac-wrap">' +
-        '<div class="ac-tabs">' +
-          (aw ? '<button class="ac-tab '+(this._tab==='active'?'on':'')+'" onclick="App.activePlugin._setTab(\'active\')">🔥 Ativo</button>' : '') +
-          '<button class="ac-tab '+(this._tab==='treinos'?'on':'')+'" onclick="App.activePlugin._setTab(\'treinos\')">📋 Fichas</button>' +
-          '<button class="ac-tab '+(this._tab==='hist'?'on':'')+'"    onclick="App.activePlugin._setTab(\'hist\')">🕐 Histórico</button>' +
-          '<button class="ac-tab '+(this._tab==='evo'?'on':'')+'"     onclick="App.activePlugin._setTab(\'evo\')">📈 Evolução</button>' +
-        '</div>' +
-        '<div id="ac_content"></div>' +
-        '<div style="height:20px"></div>' +
-      '</div>';
-
-    if (this._tab === 'active')  this._renderActive();
-    else if (this._tab === 'treinos') this._renderFichas();
-    else if (this._tab === 'hist')    this._renderHistory();
-    else                              this._renderEvo();
-  },
-
-  _setTab(t) { this._tab = t; this._render(); },
-
-  /* ══════════════════════════════════════
-     ABA: TREINO ATIVO
-  ══════════════════════════════════════ */
-  _renderActive() {
-    const cont = document.getElementById('ac_content');
-    const aw   = this._rec.data.activeWorkout;
-    if (!aw) { this._setTab('treinos'); return; }
-
-    const elapsed = this._elapsedStr(aw.startedAt);
-    const totalSets = aw.exercises.reduce((s,e)=>s+e.sets.length,0);
-    const doneSets  = aw.exercises.reduce((s,e)=>s+e.sets.filter(st=>st.done).length,0);
-    const pct = totalSets ? Math.round(doneSets/totalSets*100) : 0;
-
-    let html = '<div class="ac-workout-header">' +
-      '<div class="ac-workout-name">' + esc(aw.name) + '</div>' +
-      '<div class="ac-workout-meta">' +
-        '<span class="ac-status-pill running">● Ativo</span>' +
-        '<span class="ac-elapsed" id="ac_elapsed">' + elapsed + '</span>' +
-        '<span>' + doneSets + '/' + totalSets + ' séries · ' + pct + '%</span>' +
-      '</div>' +
-    '</div>';
-
-    // Barra de progresso
-    html += '<div style="background:var(--border2);border-radius:4px;height:4px;margin-bottom:14px">' +
-      '<div style="width:'+pct+'%;height:100%;background:linear-gradient(90deg,rgba(240,81,111,.7),#f0516f);border-radius:4px;transition:width .4s"></div>' +
-    '</div>';
-
-    // Descanso ativo
-    if (this._restLeft > 0) {
-      const pctRest = Math.round((1 - this._restLeft/this._restTotal)*100);
-      html += '<div class="ac-rest-bar-wrap">' +
-        '<div class="ac-rest-title"><span>⏱ Descanso</span>' +
-          '<button class="ac-rest-skip" onclick="App.activePlugin._skipRest()">Pular ›</button></div>' +
-        '<div class="ac-rest-time" id="ac_rest_time">' + this._fmtSecs(this._restLeft) + '</div>' +
-        '<div class="ac-rest-bar-bg"><div class="ac-rest-bar-fill" id="ac_rest_bar" style="width:'+pctRest+'%"></div></div>' +
-        '<div class="ac-rest-presets">' +
-          [30,45,60,90,120].map(s=>'<button class="ac-rest-preset'+(this._restTotal===s?' on':'')+'" onclick="App.activePlugin._setRest('+s+')">'+this._fmtSecs(s)+'</button>').join('') +
-        '</div>' +
-      '</div>';
-    }
-
-    // Exercícios
-    aw.exercises.forEach((ex, ei) => {
-      const allDone  = ex.sets.every(s=>s.done);
-      const anyDone  = ex.sets.some(s=>s.done);
-      const icoClass = allDone ? 'done' : anyDone ? 'prog' : 'idle';
-      const icoEmoji = allDone ? '✓' : anyDone ? '◑' : '○';
-
-      html += '<div class="ac-ex-card" id="ac_ex_'+ei+'">' +
-        '<div class="ac-ex-head" onclick="App.activePlugin._toggleEx('+ei+')">' +
-          '<div class="ac-ex-done-ico '+icoClass+'">'+icoEmoji+'</div>' +
-          '<div class="ac-ex-info">' +
-            '<div class="ac-ex-name">'+esc(ex.name)+'</div>' +
-            '<div class="ac-ex-meta">'+esc(ex.muscle||'')+' · '+ex.sets.length+' séries · descanso '+this._fmtSecs(ex.restSeconds||60)+'</div>' +
-          '</div>' +
-          '<span class="ac-ex-chev">▾</span>' +
-        '</div>' +
-        '<div class="ac-ex-body">' +
-          '<div class="ac-series-header"><span>Série</span><span>Reps</span><span>Kg</span><span>Ant.</span><span></span></div>';
-
-      ex.sets.forEach((set, si) => {
-        const prev = this._getPrev(ex.name, si);
-        html += '<div class="ac-set-row">' +
-          '<span class="ac-set-num">'+(si+1)+'</span>' +
-          '<input class="ac-set-input'+(set.done?' done':'')+'" type="number" min="0" placeholder="reps" value="'+(set.reps||'')+'" ' +
-            'oninput="App.activePlugin._setVal('+ei+','+si+',\'reps\',+this.value)">' +
-          '<input class="ac-set-input'+(set.done?' done':'')+'" type="number" min="0" step="0.5" placeholder="kg" value="'+(set.weight!==undefined&&set.weight!==null?set.weight:'')+'" ' +
-            'oninput="App.activePlugin._setVal('+ei+','+si+',\'weight\',+this.value)">' +
-          '<span style="font-size:11px;color:var(--text3);text-align:center">'+(prev||'—')+'</span>' +
-          '<div class="ac-set-check'+(set.done?' on':'')+'" onclick="App.activePlugin._toggleSet('+ei+','+si+')">'+(set.done?'✓':'')+'</div>' +
-        '</div>';
-      });
-
-      html += '<button class="ac-add-set-btn" onclick="App.activePlugin._addSet('+ei+')">＋ Série</button>' +
-        '<textarea class="ac-note-inp" rows="1" placeholder="Observação…" ' +
-          'oninput="App.activePlugin._setNote('+ei+',this.value)">' + esc(ex.note||'') + '</textarea>' +
-      '</div></div>';
-    });
-
-    html += '<button class="ac-finish-btn" onclick="App.activePlugin._finishWorkout()">🏁 Finalizar Treino</button>';
-
-    cont.innerHTML = html;
-
-    // Auto-abre primeiro exercício incompleto
-    const firstIncomplete = aw.exercises.findIndex(e=>!e.sets.every(s=>s.done));
-    if (firstIncomplete >= 0) this._toggleEx(firstIncomplete, true);
-  },
-
-  _toggleEx(idx, forceOpen) {
-    const el = document.getElementById('ac_ex_'+idx);
-    if (!el) return;
-    if (forceOpen) el.classList.add('open');
-    else el.classList.toggle('open');
-  },
-
-  /* ══════════════════════════════════════
-     LÓGICA DO TREINO
-  ══════════════════════════════════════ */
-  _startWorkout(fichaId) {
-    const ficha = this._rec.data.fichas.find(f=>f.id===fichaId);
-    if (!ficha) return;
-
-    // Cria cópia dos exercícios com estado zerado
-    const exercises = ficha.exercises.map(ex => ({
-      id:          ex.id,
-      name:        ex.name,
-      muscle:      ex.muscle,
-      restSeconds: ex.restSeconds || 60,
-      note:        '',
-      sets: ex.sets.map(s => ({
-        reps:   s.reps,
-        weight: s.weight,
-        done:   false,
-      })),
-    }));
-
-    this._rec.data.activeWorkout = {
-      fichaId:   fichaId,
-      name:      ficha.name,
-      startedAt: Date.now(),
-      exercises,
-    };
-
-    this._wStart = this._rec.data.activeWorkout.startedAt;
-    this._save().then(() => {
-      this._tab = 'active';
-      this._startChronoInterval();
-      this._render();
-      toast('🔥 Treino iniciado!');
-    });
-  },
-
-  async _toggleSet(ei, si) {
-    const aw  = this._rec.data.activeWorkout;
-    const set = aw.exercises[ei].sets[si];
-    set.done  = !set.done;
-
-    if (set.done) {
-      // Inicia descanso
-      const restSecs = aw.exercises[ei].restSeconds || 60;
-      this._startRest(restSecs);
-      // Beep
-      this._beep(440, 80);
-    }
-
-    await this._save();
-    this._renderActive();
-    // Re-abre o exercício
-    this._toggleEx(ei, true);
-  },
-
-  _setVal(ei, si, field, val) {
-    const aw = this._rec.data.activeWorkout;
-    if (aw && aw.exercises[ei] && aw.exercises[ei].sets[si]) {
-      aw.exercises[ei].sets[si][field] = val;
-    }
-  },
-
-  _setNote(ei, val) {
-    const aw = this._rec.data.activeWorkout;
-    if (aw && aw.exercises[ei]) aw.exercises[ei].note = val;
-  },
-
-  async _addSet(ei) {
-    const aw = this._rec.data.activeWorkout;
-    const ex = aw.exercises[ei];
-    const last = ex.sets[ex.sets.length-1] || { reps:10, weight:0 };
-    ex.sets.push({ reps: last.reps, weight: last.weight, done: false });
-    await this._save();
-    this._renderActive();
-    this._toggleEx(ei, true);
-  },
-
-  async _finishWorkout() {
-    const aw = this._rec.data.activeWorkout;
-    if (!aw) return;
-
-    const duration = Math.round((Date.now() - aw.startedAt) / 1000);
-    const totalSets = aw.exercises.reduce((s,e)=>s+e.sets.filter(st=>st.done).length, 0);
-    const totalVol  = aw.exercises.reduce((s,e)=>s+e.sets.filter(st=>st.done).reduce((a,st)=>a+(st.weight||0)*(st.reps||0),0), 0);
-
-    const entry = {
-      id:         'h' + Date.now(),
-      fichaId:    aw.fichaId,
-      name:       aw.name,
-      date:       Date.now(),
-      duration,
-      totalSets,
-      totalVolume: totalVol,
-      exercises:  aw.exercises.map(ex => ({
-        name:   ex.name,
-        muscle: ex.muscle,
-        sets:   ex.sets.filter(s=>s.done).map(s=>({ reps:s.reps, weight:s.weight })),
-        note:   ex.note,
-      })),
-    };
-
-    this._rec.data.history = this._rec.data.history || [];
-    this._rec.data.history.push(entry);
-    this._rec.data.activeWorkout = null;
-
-    this._stopChronoInterval();
-    this._stopRestInterval();
-    this._restLeft = 0;
-
-    await this._save();
-    this._tab = 'hist';
-    this._render();
-    this._beep(523, 150);
-    setTimeout(() => this._beep(659, 200), 180);
-    toast('🏁 Treino finalizado! ' + totalSets + ' séries · ' + Math.round(duration/60) + 'min');
-  },
-
-  /* ══════════════════════════════════════
-     EVOLUÇÃO DE CARGA
-  ══════════════════════════════════════ */
-  _getPrev(exName, setIdx) {
-    const hist = [...(this._rec.data.history||[])].reverse();
-    for (const h of hist) {
-      const ex = h.exercises.find(e=>e.name===exName);
-      if (ex && ex.sets[setIdx]) {
-        const s = ex.sets[setIdx];
-        return s.weight ? s.weight+'kg×'+s.reps : s.reps+' reps';
-      }
-    }
-    return null;
-  },
-
-  /* ══════════════════════════════════════
-     CRONÔMETRO
-  ══════════════════════════════════════ */
-  _elapsedStr(startedAt) {
-    const s = Math.floor((Date.now() - startedAt) / 1000);
-    const m = Math.floor(s/60), sec = s%60;
-    return (m<10?'0':'')+m+':'+(sec<10?'0':'')+sec;
-  },
-
-  _startChronoInterval() {
-    this._stopChronoInterval();
-    this._chronoInterval = setInterval(() => {
-      const el = document.getElementById('ac_elapsed');
-      if (el && this._rec.data.activeWorkout) {
-        el.textContent = this._elapsedStr(this._rec.data.activeWorkout.startedAt);
-      }
-    }, 1000);
-  },
-
-  _stopChronoInterval() {
-    if (this._chronoInterval) { clearInterval(this._chronoInterval); this._chronoInterval = null; }
-  },
-
-  /* ══════════════════════════════════════
-     TIMER DE DESCANSO
-  ══════════════════════════════════════ */
-  _startRest(seconds) {
-    this._stopRestInterval();
-    this._restTotal = seconds;
-    this._restLeft  = seconds;
-    this._restInterval = setInterval(() => {
-      this._restLeft--;
-      if (this._restLeft <= 0) {
-        this._restLeft = 0;
-        this._stopRestInterval();
-        this._beep(880, 300);
-        setTimeout(() => this._beep(1100, 300), 350);
-        toast('✅ Descanse terminado — próxima série!');
-        this._renderActive();
-        return;
-      }
-      // Atualiza só os elementos do descanso sem re-renderizar tudo
-      const tEl = document.getElementById('ac_rest_time');
-      const bEl = document.getElementById('ac_rest_bar');
-      if (tEl) tEl.textContent = this._fmtSecs(this._restLeft);
-      if (bEl) bEl.style.width = Math.round((1-this._restLeft/this._restTotal)*100)+'%';
-    }, 1000);
-  },
-
-  _stopRestInterval() {
-    if (this._restInterval) { clearInterval(this._restInterval); this._restInterval = null; }
-  },
-
-  _setRest(s) {
-    this._startRest(s);
-    const tEl = document.getElementById('ac_rest_time');
-    const bEl = document.getElementById('ac_rest_bar');
-    if (tEl) tEl.textContent = this._fmtSecs(s);
-    if (bEl) bEl.style.width = '0%';
-    // Rerender para atualizar presets
-    this._renderActive();
-  },
-
-  _skipRest() {
-    this._stopRestInterval();
-    this._restLeft = 0;
-    this._renderActive();
-  },
-
-  _fmtSecs(s) {
-    const m = Math.floor(s/60), sec = s%60;
-    return m > 0 ? m+'m '+(sec<10?'0':'')+sec+'s' : sec+'s';
-  },
-
-  /* ══════════════════════════════════════
-     SOM (beep via AudioContext)
-  ══════════════════════════════════════ */
-  _beep(freq, dur) {
-    try {
-      const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      const o   = ctx.createOscillator();
-      const g   = ctx.createGain();
-      o.connect(g); g.connect(ctx.destination);
-      o.frequency.value = freq;
-      o.type = 'sine';
-      g.gain.setValueAtTime(0.3, ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur/1000);
-      o.start(ctx.currentTime);
-      o.stop(ctx.currentTime + dur/1000);
-    } catch(e){}
-  },
-
-  /* ══════════════════════════════════════
-     ABA: FICHAS
-  ══════════════════════════════════════ */
-  _renderFichas() {
-    const cont   = document.getElementById('ac_content');
-    const fichas = this._rec.data.fichas || [];
-    const aw     = this._rec.data.activeWorkout;
-
-    let html = '<div class="ac-fichas-wrap">';
-
-    fichas.forEach((f, fi) => {
-      const totalExs  = f.exercises.length;
-      const totalSets = f.exercises.reduce((s,e)=>s+e.sets.length,0);
-      const isActive  = aw && aw.fichaId === f.id;
-
-      html += '<div class="ac-ficha-card" id="acf_'+fi+'">' +
-        '<div class="ac-ficha-head" onclick="App.activePlugin._toggleFicha('+fi+')">' +
-          '<div class="ac-ficha-ico">'+esc(f.icon||'💪')+'</div>' +
-          '<div class="ac-ficha-info">' +
-            '<div class="ac-ficha-name">'+esc(f.name)+'</div>' +
-            '<div class="ac-ficha-meta">'+totalExs+' exerc. · '+totalSets+' séries totais</div>' +
-          '</div>' +
-          (isActive ? '<span class="ac-status-pill running">Ativo</span>' : '') +
-          '<span class="ac-ficha-chev">▾</span>' +
-        '</div>' +
-        '<div class="ac-ficha-body">' +
-          '<div class="ac-ficha-ex-list">';
-
-      f.exercises.forEach((ex, ei) => {
-        html += '<div class="ac-ficha-ex-item">' +
-          '<span class="ac-ficha-ex-num">'+(ei+1)+'</span>' +
-          '<span class="ac-ficha-ex-name">'+esc(ex.name)+'</span>' +
-          '<span class="ac-ficha-ex-sets">'+ex.sets.length+'×'+ex.sets[0].reps+' · '+ex.sets[0].weight+'kg</span>' +
-        '</div>';
-      });
-
-      html += '</div>';
-
-      if (!aw) {
-        html += '<button class="ac-ficha-start-btn" onclick="App.activePlugin._startWorkout(\''+f.id+'\')">▶ Iniciar Treino</button>';
-      } else if (isActive) {
-        html += '<button class="ac-ficha-start-btn" onclick="App.activePlugin._setTab(\'active\')" style="background:var(--amber)">🔥 Ver Treino Ativo</button>';
-      }
-
-      html += '<button class="ac-del-ficha-btn" onclick="App.activePlugin._deleteFicha(\''+f.id+'\')">🗑 Excluir ficha</button>';
-      html += '</div></div>';
-    });
-
-    // Botão + formulário de nova ficha
-    if (this._formFicha !== null) {
-      html += this._renderFichaForm();
-    } else {
-      html += '<button class="ac-add-set-btn" style="padding:14px;font-size:13px;border-radius:14px" onclick="App.activePlugin._openFichaForm()">＋ Nova ficha de treino</button>';
-    }
-
-    html += '</div>';
-    cont.innerHTML = html;
-  },
-
-  _toggleFicha(idx) {
-    document.getElementById('acf_'+idx)?.classList.toggle('open');
-  },
-
-  _openFichaForm() {
-    this._formFicha = {
-      id:        'f' + Date.now(),
-      name:      '',
-      icon:      '💪',
-      exercises: [
-        { id:'ef'+Date.now(), name:'', muscle:'', restSeconds:60, sets:[{reps:12,weight:0}] }
+      navActions: [
+        { id: 'hist', icon: '📋', title: 'Histórico', handler() { App.activePlugin._setTab('hist'); } },
+        { id: 'evo', icon: '📈', title: 'Evolução', handler() { App.activePlugin._setTab('evo'); } },
       ],
-    };
-    this._renderFichas();
-  },
 
-  _renderFichaForm() {
-    const f = this._formFicha;
-    if (!f) return '';
-    let html = '<div class="ac-add-ficha-form">' +
-      '<div class="ac-form-title">Nova Ficha de Treino</div>' +
-      '<div class="ac-field"><label>Nome da ficha</label>' +
-        '<input type="text" value="'+esc(f.name||'')+'" placeholder="Ex: Treino A — Peito" oninput="App.activePlugin._formFicha.name=this.value"></div>' +
-      '<div class="ac-field"><label>Ícone (emoji)</label>' +
-        '<input type="text" value="'+esc(f.icon||'💪')+'" placeholder="💪" style="width:70px" oninput="App.activePlugin._formFicha.icon=this.value"></div>';
+      /* ══════════════════════════════════════
+         ESTADO INTERNO
+      ══════════════════════════════════════ */
+      _el: null, _rec: null, _tab: 'treinos',
+      _chronoInterval: null,   // intervalo do cronômetro de treino
+      _restInterval: null,     // intervalo do descanso
+      _restTotal: 0,           // segundos totais do descanso atual
+      _restLeft: 0,            // segundos restantes
+      _formFicha: null,        // ficha sendo editada/criada no form
+      _wStart: 0,              // timestamp início do treino
 
-    f.exercises.forEach((ex, ei) => {
-      html += '<div class="ac-ex-form-row">' +
-        '<div class="ac-ex-form-title"><span>Exercício '+(ei+1)+'</span>' +
-          '<button class="ac-rm-btn" onclick="App.activePlugin._removeFormEx('+ei+')">✕ Remover</button></div>' +
-        '<div class="ac-field"><label>Nome</label>' +
-          '<input type="text" value="'+esc(ex.name||'')+'" placeholder="Ex: Supino Reto" oninput="App.activePlugin._formFicha.exercises['+ei+'].name=this.value"></div>' +
-        '<div class="ac-field"><label>Músculo</label>' +
-          '<input type="text" value="'+esc(ex.muscle||'')+'" placeholder="Ex: Peito, Bíceps…" oninput="App.activePlugin._formFicha.exercises['+ei+'].muscle=this.value"></div>' +
-        '<div class="ac-ex-form-grid">' +
-          '<div class="ac-field"><label>Séries</label>' +
-            '<input type="number" min="1" max="20" value="'+(ex.sets.length||3)+'" oninput="App.activePlugin._setFormSets('+ei+',+this.value)"></div>' +
-          '<div class="ac-field"><label>Reps</label>' +
-            '<input type="number" min="1" value="'+(ex.sets[0]?.reps||12)+'" oninput="App.activePlugin._setFormReps('+ei+',+this.value)"></div>' +
-          '<div class="ac-field"><label>Kg</label>' +
-            '<input type="number" min="0" step="0.5" value="'+(ex.sets[0]?.weight||0)+'" oninput="App.activePlugin._setFormWeight('+ei+',+this.value)"></div>' +
-        '</div>' +
-        '<div class="ac-field"><label>Descanso (seg)</label>' +
-          '<select oninput="App.activePlugin._formFicha.exercises['+ei+'].restSeconds=+this.value">' +
-            [30,45,60,90,120,180].map(s=>'<option value="'+s+'" '+(ex.restSeconds===s?'selected':'')+'>'+this._fmtSecs(s)+'</option>').join('') +
-          '</select></div>' +
-      '</div>';
-    });
+      /* ══════════════════════════════════════
+         MOUNT / UNMOUNT
+      ══════════════════════════════════════ */
+      mount(container, rec) {
+        this._el = container;
+        this._rec = rec;
+        // retoma treino ativo se houver
+        if (rec.data.activeWorkout) {
+          this._tab = 'active';
+          this._wStart = rec.data.activeWorkout.startedAt || Date.now();
+          this._startChronoInterval();
+        } else {
+          this._tab = 'treinos';
+        }
+        this._render();
+      },
 
-    html +=
-      '<button class="ac-add-ex-form-btn" onclick="App.activePlugin._addFormEx()">＋ Adicionar exercício</button>' +
-      '<button class="ac-save-ficha-btn" onclick="App.activePlugin._saveFicha()">💾 Salvar ficha</button>' +
-      '<button class="ac-cancel-btn" onclick="App.activePlugin._formFicha=null;App.activePlugin._renderFichas()">Cancelar</button>' +
-    '</div>';
+      unmount() {
+        this._stopChronoInterval();
+        this._stopRestInterval();
+        this._el = null; this._rec = null;
+      },
 
-    return html;
-  },
+      async _save() { await App.saveRecord(this._rec); },
 
-  _addFormEx() {
-    if (!this._formFicha) return;
-    this._formFicha.exercises.push({
-      id: 'ef'+Date.now(), name:'', muscle:'', restSeconds:60,
-      sets:[{reps:12,weight:0}]
-    });
-    this._renderFichas();
-  },
+      /* ══════════════════════════════════════
+         RENDER PRINCIPAL
+      ══════════════════════════════════════ */
+      _render() {
+        if (!this._el) return;
+        const aw = this._rec.data.activeWorkout;
+        document.getElementById('pluginNavSub').textContent =
+          aw ? '🔥 Treino em andamento' :
+            this._tab === 'treinos' ? 'Fichas de treino' :
+              this._tab === 'hist' ? 'Histórico' : 'Evolução de carga';
 
-  _removeFormEx(idx) {
-    if (!this._formFicha || this._formFicha.exercises.length <= 1) return;
-    this._formFicha.exercises.splice(idx, 1);
-    this._renderFichas();
-  },
+        this._el.innerHTML =
+          '<div class="ac-wrap">' +
+          '<div class="ac-tabs">' +
+          (aw ? '<button class="ac-tab ' + (this._tab === 'active' ? 'on' : '') + '" onclick="App.activePlugin._setTab(\'active\')">🔥 Ativo</button>' : '') +
+          '<button class="ac-tab ' + (this._tab === 'treinos' ? 'on' : '') + '" onclick="App.activePlugin._setTab(\'treinos\')">📋 Fichas</button>' +
+          '<button class="ac-tab ' + (this._tab === 'hist' ? 'on' : '') + '"    onclick="App.activePlugin._setTab(\'hist\')">🕐 Histórico</button>' +
+          '<button class="ac-tab ' + (this._tab === 'evo' ? 'on' : '') + '"     onclick="App.activePlugin._setTab(\'evo\')">📈 Evolução</button>' +
+          '</div>' +
+          '<div id="ac_content"></div>' +
+          '<div style="height:20px"></div>' +
+          '</div>';
 
-  _setFormSets(ei, n) {
-    const ex = this._formFicha?.exercises[ei]; if (!ex) return;
-    const prev = ex.sets[0] || { reps:12, weight:0 };
-    ex.sets = Array.from({length:Math.max(1,n)}, ()=>({ reps:prev.reps, weight:prev.weight }));
-  },
+        if (this._tab === 'active') this._renderActive();
+        else if (this._tab === 'treinos') this._renderFichas();
+        else if (this._tab === 'hist') this._renderHistory();
+        else this._renderEvo();
+      },
 
-  _setFormReps(ei, n) {
-    const ex = this._formFicha?.exercises[ei]; if (!ex) return;
-    ex.sets.forEach(s => s.reps = n);
-  },
+      _setTab(t) { this._tab = t; this._render(); },
 
-  _setFormWeight(ei, n) {
-    const ex = this._formFicha?.exercises[ei]; if (!ex) return;
-    ex.sets.forEach(s => s.weight = n);
-  },
+      /* ══════════════════════════════════════
+         ABA: TREINO ATIVO
+      ══════════════════════════════════════ */
+      _renderActive() {
+        const cont = document.getElementById('ac_content');
+        const aw = this._rec.data.activeWorkout;
+        if (!aw) { this._setTab('treinos'); return; }
 
-  async _saveFicha() {
-    const f = this._formFicha;
-    if (!f || !f.name.trim()) { toast('Dê um nome à ficha'); return; }
-    if (f.exercises.some(e=>!e.name.trim())) { toast('Preencha o nome de todos os exercícios'); return; }
-    this._rec.data.fichas = this._rec.data.fichas || [];
-    this._rec.data.fichas.push(f);
-    this._formFicha = null;
-    await this._save();
-    this._renderFichas();
-    toast('💾 Ficha salva!');
-  },
+        const elapsed = this._elapsedStr(aw.startedAt);
+        const totalSets = aw.exercises.reduce((s, e) => s + e.sets.length, 0);
+        const doneSets = aw.exercises.reduce((s, e) => s + e.sets.filter(st => st.done).length, 0);
+        const pct = totalSets ? Math.round(doneSets / totalSets * 100) : 0;
 
-  async _deleteFicha(id) {
-    this._rec.data.fichas = this._rec.data.fichas.filter(f=>f.id!==id);
-    await this._save();
-    this._renderFichas();
-    toast('Ficha removida');
-  },
+        let html = '<div class="ac-workout-header">' +
+          '<div class="ac-workout-name">' + esc(aw.name) + '</div>' +
+          '<div class="ac-workout-meta">' +
+          '<span class="ac-status-pill running">● Ativo</span>' +
+          '<span class="ac-elapsed" id="ac_elapsed">' + elapsed + '</span>' +
+          '<span>' + doneSets + '/' + totalSets + ' séries · ' + pct + '%</span>' +
+          '</div>' +
+          '</div>';
 
-  /* ══════════════════════════════════════
-     ABA: HISTÓRICO
-  ══════════════════════════════════════ */
-  _renderHistory() {
-    const cont = document.getElementById('ac_content');
-    const hist = [...(this._rec.data.history||[])].reverse();
+        // Barra de progresso
+        html += '<div style="background:var(--border2);border-radius:4px;height:4px;margin-bottom:14px">' +
+          '<div style="width:' + pct + '%;height:100%;background:linear-gradient(90deg,rgba(240,81,111,.7),#f0516f);border-radius:4px;transition:width .4s"></div>' +
+          '</div>';
 
-    if (!hist.length) {
-      cont.innerHTML = '<div class="ac-hist-empty"><span style="font-size:40px;display:block;margin-bottom:10px">📋</span>Nenhum treino registrado ainda.<br>Inicie uma ficha para começar.</div>';
-      return;
-    }
+        // Descanso ativo
+        if (this._restLeft > 0) {
+          const pctRest = Math.round((1 - this._restLeft / this._restTotal) * 100);
+          html += '<div class="ac-rest-bar-wrap">' +
+            '<div class="ac-rest-title"><span>⏱ Descanso</span>' +
+            '<button class="ac-rest-skip" onclick="App.activePlugin._skipRest()">Pular ›</button></div>' +
+            '<div class="ac-rest-time" id="ac_rest_time">' + this._fmtSecs(this._restLeft) + '</div>' +
+            '<div class="ac-rest-bar-bg"><div class="ac-rest-bar-fill" id="ac_rest_bar" style="width:' + pctRest + '%"></div></div>' +
+            '<div class="ac-rest-presets">' +
+            [30, 45, 60, 90, 120].map(s => '<button class="ac-rest-preset' + (this._restTotal === s ? ' on' : '') + '" onclick="App.activePlugin._setRest(' + s + ')">' + this._fmtSecs(s) + '</button>').join('') +
+            '</div>' +
+            '</div>';
+        }
 
-    let html = '';
-    hist.forEach(h => {
-      const date  = new Date(h.date).toLocaleDateString('pt-BR',{weekday:'short',day:'numeric',month:'short'});
-      const time  = new Date(h.date).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-      const dur   = Math.round((h.duration||0)/60);
-      const vol   = (h.totalVolume||0);
+        // Exercícios
+        aw.exercises.forEach((ex, ei) => {
+          const allDone = ex.sets.every(s => s.done);
+          const anyDone = ex.sets.some(s => s.done);
+          const icoClass = allDone ? 'done' : anyDone ? 'prog' : 'idle';
+          const icoEmoji = allDone ? '✓' : anyDone ? '◑' : '○';
 
-      html += '<div class="ac-hist-card">' +
-        '<div class="ac-hist-head">' +
-          '<div class="ac-hist-name">'+esc(h.name)+'</div>' +
-          '<div class="ac-hist-date">'+date+' '+time+'</div>' +
-        '</div>' +
-        '<div class="ac-hist-stats">' +
-          '<div class="ac-hist-stat"><span class="ac-hist-stat-val">'+dur+'</span><span class="ac-hist-stat-lbl">min</span></div>' +
-          '<div class="ac-hist-stat"><span class="ac-hist-stat-val">'+(h.totalSets||0)+'</span><span class="ac-hist-stat-lbl">séries</span></div>' +
-          (vol>0?'<div class="ac-hist-stat"><span class="ac-hist-stat-val">'+vol.toLocaleString('pt-BR')+'</span><span class="ac-hist-stat-lbl">kg vol.</span></div>':'') +
-        '</div>' +
-        '<div class="ac-hist-exs">';
+          html += '<div class="ac-ex-card" id="ac_ex_' + ei + '">' +
+            '<div class="ac-ex-head" onclick="App.activePlugin._toggleEx(' + ei + ')">' +
+            '<div class="ac-ex-done-ico ' + icoClass + '">' + icoEmoji + '</div>' +
+            '<div class="ac-ex-info">' +
+            '<div class="ac-ex-name">' + esc(ex.name) + '</div>' +
+            '<div class="ac-ex-meta">' + esc(ex.muscle || '') + ' · ' + ex.sets.length + ' séries · descanso ' + this._fmtSecs(ex.restSeconds || 60) + '</div>' +
+            '</div>' +
+            '<span class="ac-ex-chev">▾</span>' +
+            '</div>' +
+            '<div class="ac-ex-body">' +
+            '<div class="ac-series-header"><span>Série</span><span>Reps</span><span>Kg</span><span>Ant.</span><span></span></div>';
 
-      (h.exercises||[]).forEach(ex => {
-        const bestSet = ex.sets.reduce((best,s)=>(!best||s.weight>best.weight)?s:best, null);
-        html += '<div class="ac-hist-ex-row">'+esc(ex.name)+
-          (bestSet?'<span>'+ex.sets.length+'×'+bestSet.reps+' reps'+(bestSet.weight?' @ '+bestSet.weight+'kg':'')+'</span>':'')+'</div>';
-      });
+          ex.sets.forEach((set, si) => {
+            const prev = this._getPrev(ex.name, si);
+            html += '<div class="ac-set-row">' +
+              '<span class="ac-set-num">' + (si + 1) + '</span>' +
+              '<input class="ac-set-input' + (set.done ? ' done' : '') + '" type="number" min="0" placeholder="reps" value="' + (set.reps || '') + '" ' +
+              'oninput="App.activePlugin._setVal(' + ei + ',' + si + ',\'reps\',+this.value)">' +
+              '<input class="ac-set-input' + (set.done ? ' done' : '') + '" type="number" min="0" step="0.5" placeholder="kg" value="' + (set.weight !== undefined && set.weight !== null ? set.weight : '') + '" ' +
+              'oninput="App.activePlugin._setVal(' + ei + ',' + si + ',\'weight\',+this.value)">' +
+              '<span style="font-size:11px;color:var(--text3);text-align:center">' + (prev || '—') + '</span>' +
+              '<div class="ac-set-check' + (set.done ? ' on' : '') + '" onclick="App.activePlugin._toggleSet(' + ei + ',' + si + ')">' + (set.done ? '✓' : '') + '</div>' +
+              '</div>';
+          });
 
-      html += '</div></div>';
-    });
-
-    cont.innerHTML = html;
-  },
-
-  /* ══════════════════════════════════════
-     ABA: EVOLUÇÃO
-  ══════════════════════════════════════ */
-  _renderEvo() {
-    const cont = document.getElementById('ac_content');
-    const hist = this._rec.data.history || [];
-
-    if (!hist.length) {
-      cont.innerHTML = '<div class="ac-hist-empty"><span style="font-size:40px;display:block;margin-bottom:10px">📈</span>Nenhum dado de evolução ainda.<br>Complete treinos para ver seu progresso.</div>';
-      return;
-    }
-
-    // Monta mapa: exercício → array de { date, maxWeight, maxReps }
-    const map = {};
-    hist.forEach(h => {
-      (h.exercises||[]).forEach(ex => {
-        if (!map[ex.name]) map[ex.name] = [];
-        const best = ex.sets.reduce((b,s)=>(!b||s.weight>b.weight||(!s.weight&&s.reps>b.reps))?s:b, null);
-        if (best) map[ex.name].push({
-          date:   h.date,
-          weight: best.weight || 0,
-          reps:   best.reps   || 0,
+          html += '<button class="ac-add-set-btn" onclick="App.activePlugin._addSet(' + ei + ')">＋ Série</button>' +
+            '<textarea class="ac-note-inp" rows="1" placeholder="Observação…" ' +
+            'oninput="App.activePlugin._setNote(' + ei + ',this.value)">' + esc(ex.note || '') + '</textarea>' +
+            '</div></div>';
         });
-      });
+
+        html += '<button class="ac-finish-btn" onclick="App.activePlugin._finishWorkout()">🏁 Finalizar Treino</button>';
+
+        cont.innerHTML = html;
+
+        // Auto-abre primeiro exercício incompleto
+        const firstIncomplete = aw.exercises.findIndex(e => !e.sets.every(s => s.done));
+        if (firstIncomplete >= 0) this._toggleEx(firstIncomplete, true);
+      },
+
+      _toggleEx(idx, forceOpen) {
+        const el = document.getElementById('ac_ex_' + idx);
+        if (!el) return;
+        if (forceOpen) el.classList.add('open');
+        else el.classList.toggle('open');
+      },
+
+      /* ══════════════════════════════════════
+         LÓGICA DO TREINO
+      ══════════════════════════════════════ */
+      _startWorkout(fichaId) {
+        const ficha = this._rec.data.fichas.find(f => f.id === fichaId);
+        if (!ficha) return;
+
+        // Cria cópia dos exercícios com estado zerado
+        const exercises = ficha.exercises.map(ex => ({
+          id: ex.id,
+          name: ex.name,
+          muscle: ex.muscle,
+          restSeconds: ex.restSeconds || 60,
+          note: '',
+          sets: ex.sets.map(s => ({
+            reps: s.reps,
+            weight: s.weight,
+            done: false,
+          })),
+        }));
+
+        this._rec.data.activeWorkout = {
+          fichaId: fichaId,
+          name: ficha.name,
+          startedAt: Date.now(),
+          exercises,
+        };
+
+        this._wStart = this._rec.data.activeWorkout.startedAt;
+        this._save().then(() => {
+          this._tab = 'active';
+          this._startChronoInterval();
+          this._render();
+          toast('🔥 Treino iniciado!');
+        });
+      },
+
+      async _toggleSet(ei, si) {
+        const aw = this._rec.data.activeWorkout;
+        const set = aw.exercises[ei].sets[si];
+        set.done = !set.done;
+
+        if (set.done) {
+          // Inicia descanso
+          const restSecs = aw.exercises[ei].restSeconds || 60;
+          this._startRest(restSecs);
+          // Beep
+          this._beep(440, 80);
+        }
+
+        await this._save();
+        this._renderActive();
+        // Re-abre o exercício
+        this._toggleEx(ei, true);
+      },
+
+      _setVal(ei, si, field, val) {
+        const aw = this._rec.data.activeWorkout;
+        if (aw && aw.exercises[ei] && aw.exercises[ei].sets[si]) {
+          aw.exercises[ei].sets[si][field] = val;
+        }
+      },
+
+      _setNote(ei, val) {
+        const aw = this._rec.data.activeWorkout;
+        if (aw && aw.exercises[ei]) aw.exercises[ei].note = val;
+      },
+
+      async _addSet(ei) {
+        const aw = this._rec.data.activeWorkout;
+        const ex = aw.exercises[ei];
+        const last = ex.sets[ex.sets.length - 1] || { reps: 10, weight: 0 };
+        ex.sets.push({ reps: last.reps, weight: last.weight, done: false });
+        await this._save();
+        this._renderActive();
+        this._toggleEx(ei, true);
+      },
+
+      async _finishWorkout() {
+        const aw = this._rec.data.activeWorkout;
+        if (!aw) return;
+
+        const duration = Math.round((Date.now() - aw.startedAt) / 1000);
+        const totalSets = aw.exercises.reduce((s, e) => s + e.sets.filter(st => st.done).length, 0);
+        const totalVol = aw.exercises.reduce((s, e) => s + e.sets.filter(st => st.done).reduce((a, st) => a + (st.weight || 0) * (st.reps || 0), 0), 0);
+
+        const entry = {
+          id: 'h' + Date.now(),
+          fichaId: aw.fichaId,
+          name: aw.name,
+          date: Date.now(),
+          duration,
+          totalSets,
+          totalVolume: totalVol,
+          exercises: aw.exercises.map(ex => ({
+            name: ex.name,
+            muscle: ex.muscle,
+            sets: ex.sets.filter(s => s.done).map(s => ({ reps: s.reps, weight: s.weight })),
+            note: ex.note,
+          })),
+        };
+
+        this._rec.data.history = this._rec.data.history || [];
+        this._rec.data.history.push(entry);
+        this._rec.data.activeWorkout = null;
+
+        this._stopChronoInterval();
+        this._stopRestInterval();
+        this._restLeft = 0;
+
+        await this._save();
+        this._tab = 'hist';
+        this._render();
+        this._beep(523, 150);
+        setTimeout(() => this._beep(659, 200), 180);
+        toast('🏁 Treino finalizado! ' + totalSets + ' séries · ' + Math.round(duration / 60) + 'min');
+      },
+
+      /* ══════════════════════════════════════
+         EVOLUÇÃO DE CARGA
+      ══════════════════════════════════════ */
+      _getPrev(exName, setIdx) {
+        const hist = [...(this._rec.data.history || [])].reverse();
+        for (const h of hist) {
+          const ex = h.exercises.find(e => e.name === exName);
+          if (ex && ex.sets[setIdx]) {
+            const s = ex.sets[setIdx];
+            return s.weight ? s.weight + 'kg×' + s.reps : s.reps + ' reps';
+          }
+        }
+        return null;
+      },
+
+      /* ══════════════════════════════════════
+         CRONÔMETRO
+      ══════════════════════════════════════ */
+      _elapsedStr(startedAt) {
+        const s = Math.floor((Date.now() - startedAt) / 1000);
+        const m = Math.floor(s / 60), sec = s % 60;
+        return (m < 10 ? '0' : '') + m + ':' + (sec < 10 ? '0' : '') + sec;
+      },
+
+      _startChronoInterval() {
+        this._stopChronoInterval();
+        this._chronoInterval = setInterval(() => {
+          const el = document.getElementById('ac_elapsed');
+          if (el && this._rec.data.activeWorkout) {
+            el.textContent = this._elapsedStr(this._rec.data.activeWorkout.startedAt);
+          }
+        }, 1000);
+      },
+
+      _stopChronoInterval() {
+        if (this._chronoInterval) { clearInterval(this._chronoInterval); this._chronoInterval = null; }
+      },
+
+      /* ══════════════════════════════════════
+         TIMER DE DESCANSO
+      ══════════════════════════════════════ */
+      _startRest(seconds) {
+        this._stopRestInterval();
+        this._restTotal = seconds;
+        this._restLeft = seconds;
+        this._restInterval = setInterval(() => {
+          this._restLeft--;
+          if (this._restLeft <= 0) {
+            this._restLeft = 0;
+            this._stopRestInterval();
+            this._beep(880, 300);
+            setTimeout(() => this._beep(1100, 300), 350);
+            toast('✅ Descanse terminado — próxima série!');
+            this._renderActive();
+            return;
+          }
+          // Atualiza só os elementos do descanso sem re-renderizar tudo
+          const tEl = document.getElementById('ac_rest_time');
+          const bEl = document.getElementById('ac_rest_bar');
+          if (tEl) tEl.textContent = this._fmtSecs(this._restLeft);
+          if (bEl) bEl.style.width = Math.round((1 - this._restLeft / this._restTotal) * 100) + '%';
+        }, 1000);
+      },
+
+      _stopRestInterval() {
+        if (this._restInterval) { clearInterval(this._restInterval); this._restInterval = null; }
+      },
+
+      _setRest(s) {
+        this._startRest(s);
+        const tEl = document.getElementById('ac_rest_time');
+        const bEl = document.getElementById('ac_rest_bar');
+        if (tEl) tEl.textContent = this._fmtSecs(s);
+        if (bEl) bEl.style.width = '0%';
+        // Rerender para atualizar presets
+        this._renderActive();
+      },
+
+      _skipRest() {
+        this._stopRestInterval();
+        this._restLeft = 0;
+        this._renderActive();
+      },
+
+      _fmtSecs(s) {
+        const m = Math.floor(s / 60), sec = s % 60;
+        return m > 0 ? m + 'm ' + (sec < 10 ? '0' : '') + sec + 's' : sec + 's';
+      },
+
+      /* ══════════════════════════════════════
+         SOM (beep via AudioContext)
+      ══════════════════════════════════════ */
+      _beep(freq, dur) {
+        try {
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const o = ctx.createOscillator();
+          const g = ctx.createGain();
+          o.connect(g); g.connect(ctx.destination);
+          o.frequency.value = freq;
+          o.type = 'sine';
+          g.gain.setValueAtTime(0.3, ctx.currentTime);
+          g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur / 1000);
+          o.start(ctx.currentTime);
+          o.stop(ctx.currentTime + dur / 1000);
+        } catch (e) { }
+      },
+
+      /* ══════════════════════════════════════
+         ABA: FICHAS
+      ══════════════════════════════════════ */
+      _renderFichas() {
+        const cont = document.getElementById('ac_content');
+        const fichas = this._rec.data.fichas || [];
+        const aw = this._rec.data.activeWorkout;
+
+        let html = '<div class="ac-fichas-wrap">';
+
+        fichas.forEach((f, fi) => {
+          const totalExs = f.exercises.length;
+          const totalSets = f.exercises.reduce((s, e) => s + e.sets.length, 0);
+          const isActive = aw && aw.fichaId === f.id;
+
+          html += '<div class="ac-ficha-card" id="acf_' + fi + '">' +
+            '<div class="ac-ficha-head" onclick="App.activePlugin._toggleFicha(' + fi + ')">' +
+            '<div class="ac-ficha-ico">' + esc(f.icon || '💪') + '</div>' +
+            '<div class="ac-ficha-info">' +
+            '<div class="ac-ficha-name">' + esc(f.name) + '</div>' +
+            '<div class="ac-ficha-meta">' + totalExs + ' exerc. · ' + totalSets + ' séries totais</div>' +
+            '</div>' +
+            (isActive ? '<span class="ac-status-pill running">Ativo</span>' : '') +
+            '<span class="ac-ficha-chev">▾</span>' +
+            '</div>' +
+            '<div class="ac-ficha-body">' +
+            '<div class="ac-ficha-ex-list">';
+
+          f.exercises.forEach((ex, ei) => {
+            html += '<div class="ac-ficha-ex-item">' +
+              '<span class="ac-ficha-ex-num">' + (ei + 1) + '</span>' +
+              '<span class="ac-ficha-ex-name">' + esc(ex.name) + '</span>' +
+              '<span class="ac-ficha-ex-sets">' + ex.sets.length + '×' + ex.sets[0].reps + ' · ' + ex.sets[0].weight + 'kg</span>' +
+              '</div>';
+          });
+
+          html += '</div>';
+
+          if (!aw) {
+            html += '<button class="ac-ficha-start-btn" onclick="App.activePlugin._startWorkout(\'' + f.id + '\')">▶ Iniciar Treino</button>';
+          } else if (isActive) {
+            html += '<button class="ac-ficha-start-btn" onclick="App.activePlugin._setTab(\'active\')" style="background:var(--amber)">🔥 Ver Treino Ativo</button>';
+          }
+
+          html += '<button class="ac-del-ficha-btn" onclick="App.activePlugin._deleteFicha(\'' + f.id + '\')">🗑 Excluir ficha</button>';
+          html += '</div></div>';
+        });
+
+        // Botão + formulário de nova ficha
+        if (this._formFicha !== null) {
+          html += this._renderFichaForm();
+        } else {
+          html += '<button class="ac-add-set-btn" style="padding:14px;font-size:13px;border-radius:14px" onclick="App.activePlugin._openFichaForm()">＋ Nova ficha de treino</button>';
+        }
+
+        html += '</div>';
+        cont.innerHTML = html;
+      },
+
+      _toggleFicha(idx) {
+        document.getElementById('acf_' + idx)?.classList.toggle('open');
+      },
+
+      _openFichaForm() {
+        this._formFicha = {
+          id: 'f' + Date.now(),
+          name: '',
+          icon: '💪',
+          exercises: [
+            { id: 'ef' + Date.now(), name: '', muscle: '', restSeconds: 60, sets: [{ reps: 12, weight: 0 }] }
+          ],
+        };
+        this._renderFichas();
+      },
+
+      _renderFichaForm() {
+        const f = this._formFicha;
+        if (!f) return '';
+        let html = '<div class="ac-add-ficha-form">' +
+          '<div class="ac-form-title">Nova Ficha de Treino</div>' +
+          '<div class="ac-field"><label>Nome da ficha</label>' +
+          '<input type="text" value="' + esc(f.name || '') + '" placeholder="Ex: Treino A — Peito" oninput="App.activePlugin._formFicha.name=this.value"></div>' +
+          '<div class="ac-field"><label>Ícone (emoji)</label>' +
+          '<input type="text" value="' + esc(f.icon || '💪') + '" placeholder="💪" style="width:70px" oninput="App.activePlugin._formFicha.icon=this.value"></div>';
+
+        f.exercises.forEach((ex, ei) => {
+          html += '<div class="ac-ex-form-row">' +
+            '<div class="ac-ex-form-title"><span>Exercício ' + (ei + 1) + '</span>' +
+            '<button class="ac-rm-btn" onclick="App.activePlugin._removeFormEx(' + ei + ')">✕ Remover</button></div>' +
+            '<div class="ac-field"><label>Nome</label>' +
+            '<input type="text" value="' + esc(ex.name || '') + '" placeholder="Ex: Supino Reto" oninput="App.activePlugin._formFicha.exercises[' + ei + '].name=this.value"></div>' +
+            '<div class="ac-field"><label>Músculo</label>' +
+            '<input type="text" value="' + esc(ex.muscle || '') + '" placeholder="Ex: Peito, Bíceps…" oninput="App.activePlugin._formFicha.exercises[' + ei + '].muscle=this.value"></div>' +
+            '<div class="ac-ex-form-grid">' +
+            '<div class="ac-field"><label>Séries</label>' +
+            '<input type="number" min="1" max="20" value="' + (ex.sets.length || 3) + '" oninput="App.activePlugin._setFormSets(' + ei + ',+this.value)"></div>' +
+            '<div class="ac-field"><label>Reps</label>' +
+            '<input type="number" min="1" value="' + (ex.sets[0]?.reps || 12) + '" oninput="App.activePlugin._setFormReps(' + ei + ',+this.value)"></div>' +
+            '<div class="ac-field"><label>Kg</label>' +
+            '<input type="number" min="0" step="0.5" value="' + (ex.sets[0]?.weight || 0) + '" oninput="App.activePlugin._setFormWeight(' + ei + ',+this.value)"></div>' +
+            '</div>' +
+            '<div class="ac-field"><label>Descanso (seg)</label>' +
+            '<select oninput="App.activePlugin._formFicha.exercises[' + ei + '].restSeconds=+this.value">' +
+            [30, 45, 60, 90, 120, 180].map(s => '<option value="' + s + '" ' + (ex.restSeconds === s ? 'selected' : '') + '>' + this._fmtSecs(s) + '</option>').join('') +
+            '</select></div>' +
+            '</div>';
+        });
+
+        html +=
+          '<button class="ac-add-ex-form-btn" onclick="App.activePlugin._addFormEx()">＋ Adicionar exercício</button>' +
+          '<button class="ac-save-ficha-btn" onclick="App.activePlugin._saveFicha()">💾 Salvar ficha</button>' +
+          '<button class="ac-cancel-btn" onclick="App.activePlugin._formFicha=null;App.activePlugin._renderFichas()">Cancelar</button>' +
+          '</div>';
+
+        return html;
+      },
+
+      _addFormEx() {
+        if (!this._formFicha) return;
+        this._formFicha.exercises.push({
+          id: 'ef' + Date.now(), name: '', muscle: '', restSeconds: 60,
+          sets: [{ reps: 12, weight: 0 }]
+        });
+        this._renderFichas();
+      },
+
+      _removeFormEx(idx) {
+        if (!this._formFicha || this._formFicha.exercises.length <= 1) return;
+        this._formFicha.exercises.splice(idx, 1);
+        this._renderFichas();
+      },
+
+      _setFormSets(ei, n) {
+        const ex = this._formFicha?.exercises[ei]; if (!ex) return;
+        const prev = ex.sets[0] || { reps: 12, weight: 0 };
+        ex.sets = Array.from({ length: Math.max(1, n) }, () => ({ reps: prev.reps, weight: prev.weight }));
+      },
+
+      _setFormReps(ei, n) {
+        const ex = this._formFicha?.exercises[ei]; if (!ex) return;
+        ex.sets.forEach(s => s.reps = n);
+      },
+
+      _setFormWeight(ei, n) {
+        const ex = this._formFicha?.exercises[ei]; if (!ex) return;
+        ex.sets.forEach(s => s.weight = n);
+      },
+
+      async _saveFicha() {
+        const f = this._formFicha;
+        if (!f || !f.name.trim()) { toast('Dê um nome à ficha'); return; }
+        if (f.exercises.some(e => !e.name.trim())) { toast('Preencha o nome de todos os exercícios'); return; }
+        this._rec.data.fichas = this._rec.data.fichas || [];
+        this._rec.data.fichas.push(f);
+        this._formFicha = null;
+        await this._save();
+        this._renderFichas();
+        toast('💾 Ficha salva!');
+      },
+
+      async _deleteFicha(id) {
+        this._rec.data.fichas = this._rec.data.fichas.filter(f => f.id !== id);
+        await this._save();
+        this._renderFichas();
+        toast('Ficha removida');
+      },
+
+      /* ══════════════════════════════════════
+         ABA: HISTÓRICO
+      ══════════════════════════════════════ */
+      _renderHistory() {
+        const cont = document.getElementById('ac_content');
+        const hist = [...(this._rec.data.history || [])].reverse();
+
+        if (!hist.length) {
+          cont.innerHTML = '<div class="ac-hist-empty"><span style="font-size:40px;display:block;margin-bottom:10px">📋</span>Nenhum treino registrado ainda.<br>Inicie uma ficha para começar.</div>';
+          return;
+        }
+
+        let html = '';
+        hist.forEach(h => {
+          const date = new Date(h.date).toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'short' });
+          const time = new Date(h.date).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+          const dur = Math.round((h.duration || 0) / 60);
+          const vol = (h.totalVolume || 0);
+
+          html += '<div class="ac-hist-card">' +
+            '<div class="ac-hist-head">' +
+            '<div class="ac-hist-name">' + esc(h.name) + '</div>' +
+            '<div class="ac-hist-date">' + date + ' ' + time + '</div>' +
+            '</div>' +
+            '<div class="ac-hist-stats">' +
+            '<div class="ac-hist-stat"><span class="ac-hist-stat-val">' + dur + '</span><span class="ac-hist-stat-lbl">min</span></div>' +
+            '<div class="ac-hist-stat"><span class="ac-hist-stat-val">' + (h.totalSets || 0) + '</span><span class="ac-hist-stat-lbl">séries</span></div>' +
+            (vol > 0 ? '<div class="ac-hist-stat"><span class="ac-hist-stat-val">' + vol.toLocaleString('pt-BR') + '</span><span class="ac-hist-stat-lbl">kg vol.</span></div>' : '') +
+            '</div>' +
+            '<div class="ac-hist-exs">';
+
+          (h.exercises || []).forEach(ex => {
+            const bestSet = ex.sets.reduce((best, s) => (!best || s.weight > best.weight) ? s : best, null);
+            html += '<div class="ac-hist-ex-row">' + esc(ex.name) +
+              (bestSet ? '<span>' + ex.sets.length + '×' + bestSet.reps + ' reps' + (bestSet.weight ? ' @ ' + bestSet.weight + 'kg' : '') + '</span>' : '') + '</div>';
+          });
+
+          html += '</div></div>';
+        });
+
+        cont.innerHTML = html;
+      },
+
+      /* ══════════════════════════════════════
+         ABA: EVOLUÇÃO
+      ══════════════════════════════════════ */
+      _renderEvo() {
+        const cont = document.getElementById('ac_content');
+        const hist = this._rec.data.history || [];
+
+        if (!hist.length) {
+          cont.innerHTML = '<div class="ac-hist-empty"><span style="font-size:40px;display:block;margin-bottom:10px">📈</span>Nenhum dado de evolução ainda.<br>Complete treinos para ver seu progresso.</div>';
+          return;
+        }
+
+        // Monta mapa: exercício → array de { date, maxWeight, maxReps }
+        const map = {};
+        hist.forEach(h => {
+          (h.exercises || []).forEach(ex => {
+            if (!map[ex.name]) map[ex.name] = [];
+            const best = ex.sets.reduce((b, s) => (!b || s.weight > b.weight || (!s.weight && s.reps > b.reps)) ? s : b, null);
+            if (best) map[ex.name].push({
+              date: h.date,
+              weight: best.weight || 0,
+              reps: best.reps || 0,
+            });
+          });
+        });
+
+        let html = '<div class="ac-evo-wrap">';
+
+        Object.entries(map).forEach(([name, entries]) => {
+          if (entries.length < 2) return; // mostra só quem tem 2+ registros
+          const maxW = Math.max(...entries.map(e => e.weight || e.reps));
+          html += '<div class="ac-evo-card">' +
+            '<div class="ac-evo-name">' + esc(name) + '</div>' +
+            '<div class="ac-evo-rows">';
+
+          entries.slice(-6).forEach(e => {
+            const val = e.weight || e.reps;
+            const label = e.weight ? e.weight + 'kg' : e.reps + ' reps';
+            const pct = maxW ? Math.round(val / maxW * 100) : 100;
+            const date = new Date(e.date).toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' });
+            html += '<div class="ac-evo-row">' +
+              '<span class="ac-evo-date">' + date + '</span>' +
+              '<div class="ac-evo-bar-wrap"><div class="ac-evo-bar" style="width:' + pct + '%"><span class="ac-evo-bar-val">' + label + '</span></div></div>' +
+              '</div>';
+          });
+
+          html += '</div></div>';
+        });
+
+        if (html === '<div class="ac-evo-wrap">') {
+          html += '<div class="ac-hist-empty">Complete pelo menos 2 treinos com os mesmos exercícios para ver a evolução.</div>';
+        }
+
+        html += '</div>';
+        cont.innerHTML = html;
+      },
     });
+  </script>
 
-    let html = '<div class="ac-evo-wrap">';
+  <!-- pluguin lista poderosa -->
+  <script>
+    registerPlugin({
+      id: 'lista',
+      name: 'Lista',
+      icon: '✅',
+      color: '#3ecf7a',
 
-    Object.entries(map).forEach(([name, entries]) => {
-      if (entries.length < 2) return; // mostra só quem tem 2+ registros
-      const maxW = Math.max(...entries.map(e=>e.weight||e.reps));
-      html += '<div class="ac-evo-card">' +
-        '<div class="ac-evo-name">'+esc(name)+'</div>' +
-        '<div class="ac-evo-rows">';
-
-      entries.slice(-6).forEach(e => {
-        const val    = e.weight || e.reps;
-        const label  = e.weight ? e.weight+'kg' : e.reps+' reps';
-        const pct    = maxW ? Math.round(val/maxW*100) : 100;
-        const date   = new Date(e.date).toLocaleDateString('pt-BR',{day:'numeric',month:'short'});
-        html += '<div class="ac-evo-row">' +
-          '<span class="ac-evo-date">'+date+'</span>' +
-          '<div class="ac-evo-bar-wrap"><div class="ac-evo-bar" style="width:'+pct+'%"><span class="ac-evo-bar-val">'+label+'</span></div></div>' +
-        '</div>';
-      });
-
-      html += '</div></div>';
-    });
-
-    if (html === '<div class="ac-evo-wrap">') {
-      html += '<div class="ac-hist-empty">Complete pelo menos 2 treinos com os mesmos exercícios para ver a evolução.</div>';
-    }
-
-    html += '</div>';
-    cont.innerHTML = html;
-  },
-});
-   </script>
-
-   <!-- pluguin lista poderosa -->
-    <script>
-      registerPlugin({
-  id:    'lista',
-  name:  'Lista',
-  icon:  '✅',
-  color: '#3ecf7a',
-
-  css: `
+      css: `
 /* ═══════════════════════════════════════
    PLUGIN LISTA AVANÇADA
 ═══════════════════════════════════════ */
@@ -6617,669 +6617,1959 @@
 .ls-item.drag-over { border-color:#3ecf7a;background:rgba(62,207,122,.06); }
 `,
 
-  defaultData: () => ({
-    items: [
-      {
-        id:'i1', text:'Bem-vindo ao Plugin de Lista!', done:false,
-        priority:'baixa', category:'Geral', tags:['hub'],
-        note:'Toque em qualquer item para editar. Use o + para adicionar novos.',
-        subtasks:[], createdAt:Date.now(), dueDate:null,
+      defaultData: () => ({
+        items: [
+          {
+            id: 'i1', text: 'Bem-vindo ao Plugin de Lista!', done: false,
+            priority: 'baixa', category: 'Geral', tags: ['hub'],
+            note: 'Toque em qualquer item para editar. Use o + para adicionar novos.',
+            subtasks: [], createdAt: Date.now(), dueDate: null,
+          },
+          {
+            id: 'i2', text: 'Explorar o modo Foco', done: false,
+            priority: 'media', category: 'Geral', tags: ['hub'],
+            note: 'O modo Foco mostra um item por vez para máxima concentração.',
+            subtasks: [
+              { id: 's1', text: 'Abrir a aba Foco', done: false },
+              { id: 's2', text: 'Marcar como feito', done: false },
+            ], createdAt: Date.now() - 3600000, dueDate: null,
+          },
+        ],
+        categories: ['Geral', 'Trabalho', 'Pessoal', 'Compras'],
+        tags: [
+          { id: 't1', label: 'hub', color: '#6e5cf5' },
+          { id: 't2', label: 'urgente', color: '#f05f5f' },
+          { id: 't3', label: 'ideia', color: '#f5bb45' },
+          { id: 't4', label: 'pessoal', color: '#3ecf7a' },
+        ],
+      }),
+
+      cardPreview(rec) {
+        const items = rec.data.items || [];
+        const total = items.length;
+        const done = items.filter(i => i.done).length;
+        const overdue = items.filter(i => !i.done && i.dueDate && i.dueDate < Date.now()).length;
+        const parts = [done + '/' + total + ' concluído' + (done !== 1 ? 's' : '')];
+        if (overdue) parts.push(overdue + ' atrasado' + (overdue !== 1 ? 's' : ''));
+        return parts.join(' · ');
       },
-      {
-        id:'i2', text:'Explorar o modo Foco', done:false,
-        priority:'media', category:'Geral', tags:['hub'],
-        note:'O modo Foco mostra um item por vez para máxima concentração.',
-        subtasks:[
-          { id:'s1', text:'Abrir a aba Foco', done:false },
-          { id:'s2', text:'Marcar como feito', done:false },
-        ], createdAt:Date.now()-3600000, dueDate:null,
+
+      cardBadge(rec) {
+        const items = rec.data.items || [];
+        const total = items.length;
+        const done = items.filter(i => i.done).length;
+        const overdue = items.filter(i => !i.done && i.dueDate && i.dueDate < Date.now()).length;
+        if (overdue) return '<span class="badge badge-a">⚠ ' + overdue + ' atrasado' + (overdue !== 1 ? 's' : '') + '</span>';
+        if (total === 0) return '<span class="badge badge-p">Vazia</span>';
+        if (done === total) return '<span class="badge badge-g">✓ Tudo feito!</span>';
+        const pct = Math.round(done / total * 100);
+        return '<span class="badge badge-p">' + pct + '%</span>';
       },
-    ],
-    categories: ['Geral', 'Trabalho', 'Pessoal', 'Compras'],
-    tags: [
-      { id:'t1', label:'hub',      color:'#6e5cf5' },
-      { id:'t2', label:'urgente',  color:'#f05f5f' },
-      { id:'t3', label:'ideia',    color:'#f5bb45' },
-      { id:'t4', label:'pessoal',  color:'#3ecf7a' },
-    ],
-  }),
 
-  cardPreview(rec) {
-    const items   = rec.data.items || [];
-    const total   = items.length;
-    const done    = items.filter(i=>i.done).length;
-    const overdue = items.filter(i=>!i.done&&i.dueDate&&i.dueDate<Date.now()).length;
-    const parts   = [done+'/'+total+' concluído'+(done!==1?'s':'')];
-    if (overdue) parts.push(overdue+' atrasado'+(overdue!==1?'s':''));
-    return parts.join(' · ');
-  },
+      navActions: [
+        { id: 'foco', icon: '🎯', title: 'Modo Foco', handler() { App.activePlugin._setTab('foco'); } },
+        { id: 'stat', icon: '📊', title: 'Estatísticas', handler() { App.activePlugin._setTab('stat'); } },
+      ],
 
-  cardBadge(rec) {
-    const items   = rec.data.items||[];
-    const total   = items.length;
-    const done    = items.filter(i=>i.done).length;
-    const overdue = items.filter(i=>!i.done&&i.dueDate&&i.dueDate<Date.now()).length;
-    if (overdue) return '<span class="badge badge-a">⚠ '+overdue+' atrasado'+(overdue!==1?'s':'')+'</span>';
-    if (total===0) return '<span class="badge badge-p">Vazia</span>';
-    if (done===total) return '<span class="badge badge-g">✓ Tudo feito!</span>';
-    const pct = Math.round(done/total*100);
-    return '<span class="badge badge-p">'+pct+'%</span>';
-  },
+      /* estado */
+      _el: null, _rec: null, _tab: 'lista',
+      _filter: 'todas', _groupBy: 'categoria',
+      _detail: null,     /* item sendo editado */
+      _focusIdx: 0,
+      _dragSrc: null,
 
-  navActions: [
-    { id:'foco', icon:'🎯', title:'Modo Foco', handler() { App.activePlugin._setTab('foco'); } },
-    { id:'stat', icon:'📊', title:'Estatísticas', handler() { App.activePlugin._setTab('stat'); } },
-  ],
+      mount(container, rec) {
+        this._el = container;
+        this._rec = rec;
+        this._tab = 'lista';
+        this._render();
+      },
+      unmount() { this._closeDetail(); this._el = null; this._rec = null; },
+      async _save() { await App.saveRecord(this._rec); },
 
-  /* estado */
-  _el:null, _rec:null, _tab:'lista',
-  _filter:'todas', _groupBy:'categoria',
-  _detail:null,     /* item sendo editado */
-  _focusIdx:0,
-  _dragSrc:null,
+      /* ══════════════════════════════════════
+         RENDER PRINCIPAL
+      ══════════════════════════════════════ */
+      _render() {
+        if (!this._el) return;
+        const items = this._rec.data.items || [];
+        const total = items.length;
+        const done = items.filter(i => i.done).length;
+        const pct = total ? Math.round(done / total * 100) : 0;
+        const overdue = items.filter(i => !i.done && i.dueDate && i.dueDate < Date.now()).length;
 
-  mount(container, rec) {
-    this._el  = container;
-    this._rec = rec;
-    this._tab = 'lista';
-    this._render();
-  },
-  unmount() { this._closeDetail(); this._el=null; this._rec=null; },
-  async _save() { await App.saveRecord(this._rec); },
+        document.getElementById('pluginNavSub').textContent =
+          this._tab === 'foco' ? 'Modo Foco' :
+            this._tab === 'stat' ? 'Estatísticas' :
+              done + '/' + total + ' · ' + pct + '%';
 
-  /* ══════════════════════════════════════
-     RENDER PRINCIPAL
-  ══════════════════════════════════════ */
-  _render() {
-    if (!this._el) return;
-    const items   = this._rec.data.items||[];
-    const total   = items.length;
-    const done    = items.filter(i=>i.done).length;
-    const pct     = total ? Math.round(done/total*100) : 0;
-    const overdue = items.filter(i=>!i.done&&i.dueDate&&i.dueDate<Date.now()).length;
+        this._el.innerHTML =
+          '<div class="ls-wrap">' +
+          '<div class="ls-tabs">' +
+          '<button class="ls-tab ' + (this._tab === 'lista' ? 'on' : '') + '" onclick="App.activePlugin._setTab(\'lista\')">📋 Lista</button>' +
+          '<button class="ls-tab ' + (this._tab === 'foco' ? 'on' : '') + '"  onclick="App.activePlugin._setTab(\'foco\')">🎯 Foco</button>' +
+          '<button class="ls-tab ' + (this._tab === 'stat' ? 'on' : '') + '"  onclick="App.activePlugin._setTab(\'stat\')">📊 Stats</button>' +
+          '</div>' +
+          '<div id="ls_content"></div>' +
+          '<div style="height:20px"></div>' +
+          '</div>';
 
-    document.getElementById('pluginNavSub').textContent =
-      this._tab==='foco' ? 'Modo Foco' :
-      this._tab==='stat' ? 'Estatísticas' :
-      done+'/'+total+' · '+pct+'%';
+        if (this._tab === 'lista') this._renderLista();
+        else if (this._tab === 'foco') this._renderFoco();
+        else this._renderStats();
+      },
 
-    this._el.innerHTML =
-      '<div class="ls-wrap">' +
-        '<div class="ls-tabs">' +
-          '<button class="ls-tab '+(this._tab==='lista'?'on':'')+'" onclick="App.activePlugin._setTab(\'lista\')">📋 Lista</button>' +
-          '<button class="ls-tab '+(this._tab==='foco'?'on':'')+'"  onclick="App.activePlugin._setTab(\'foco\')">🎯 Foco</button>' +
-          '<button class="ls-tab '+(this._tab==='stat'?'on':'')+'"  onclick="App.activePlugin._setTab(\'stat\')">📊 Stats</button>' +
-        '</div>' +
-        '<div id="ls_content"></div>' +
-        '<div style="height:20px"></div>' +
-      '</div>';
+      _setTab(t) { this._tab = t; this._render(); },
 
-    if (this._tab==='lista')  this._renderLista();
-    else if (this._tab==='foco')  this._renderFoco();
-    else this._renderStats();
-  },
+      /* ══════════════════════════════════════
+         ABA: LISTA
+      ══════════════════════════════════════ */
+      _renderLista() {
+        const cont = document.getElementById('ls_content');
+        const items = this._rec.data.items || [];
+        const total = items.length;
+        const done = items.filter(i => i.done).length;
+        const pct = total ? Math.round(done / total * 100) : 0;
 
-  _setTab(t) { this._tab=t; this._render(); },
-
-  /* ══════════════════════════════════════
-     ABA: LISTA
-  ══════════════════════════════════════ */
-  _renderLista() {
-    const cont  = document.getElementById('ls_content');
-    const items = this._rec.data.items||[];
-    const total = items.length;
-    const done  = items.filter(i=>i.done).length;
-    const pct   = total ? Math.round(done/total*100) : 0;
-
-    /* barra de progresso */
-    let html =
-      '<div class="ls-progress-wrap">' +
-        '<div class="ls-progress-head">' +
+        /* barra de progresso */
+        let html =
+          '<div class="ls-progress-wrap">' +
+          '<div class="ls-progress-head">' +
           '<span class="ls-progress-lbl">Progresso geral</span>' +
-          '<span class="ls-progress-pct">'+pct+'%</span>' +
-        '</div>' +
-        '<div class="ls-progress-bar"><div class="ls-progress-fill" style="width:'+pct+'%"></div></div>' +
-        '<div class="ls-progress-sub">'+done+' de '+total+' item'+(total!==1?'s':'')+' concluído'+(done!==1?'s':'')+'</div>' +
-      '</div>';
+          '<span class="ls-progress-pct">' + pct + '%</span>' +
+          '</div>' +
+          '<div class="ls-progress-bar"><div class="ls-progress-fill" style="width:' + pct + '%"></div></div>' +
+          '<div class="ls-progress-sub">' + done + ' de ' + total + ' item' + (total !== 1 ? 's' : '') + ' concluído' + (done !== 1 ? 's' : '') + '</div>' +
+          '</div>';
 
-    /* filtros */
-    const filters = [
-      { id:'todas',   label:'Todas' },
-      { id:'pendente',label:'Pendentes' },
-      { id:'hoje',    label:'Hoje' },
-      { id:'atrasado',label:'Atrasadas' },
-      { id:'alta',    label:'🔴 Alta' },
-      { id:'feito',   label:'✓ Feitas' },
-    ];
-    html += '<div class="ls-filters">' +
-      filters.map(f=>'<button class="ls-filter-btn '+(this._filter===f.id?'on':'')+'" onclick="App.activePlugin._filter=\''+f.id+'\';App.activePlugin._renderLista()">'+f.label+'</button>').join('') +
-    '</div>';
+        /* filtros */
+        const filters = [
+          { id: 'todas', label: 'Todas' },
+          { id: 'pendente', label: 'Pendentes' },
+          { id: 'hoje', label: 'Hoje' },
+          { id: 'atrasado', label: 'Atrasadas' },
+          { id: 'alta', label: '🔴 Alta' },
+          { id: 'feito', label: '✓ Feitas' },
+        ];
+        html += '<div class="ls-filters">' +
+          filters.map(f => '<button class="ls-filter-btn ' + (this._filter === f.id ? 'on' : '') + '" onclick="App.activePlugin._filter=\'' + f.id + '\';App.activePlugin._renderLista()">' + f.label + '</button>').join('') +
+          '</div>';
 
-    /* add item */
-    html +=
-      '<div class="ls-add-row">' +
-        '<input class="ls-add-inp" id="ls_add_inp" type="text" placeholder="Adicionar item…" ' +
+        /* add item */
+        html +=
+          '<div class="ls-add-row">' +
+          '<input class="ls-add-inp" id="ls_add_inp" type="text" placeholder="Adicionar item…" ' +
           'onkeydown="if(event.key===\'Enter\')App.activePlugin._addItem()">' +
-        '<button class="ls-add-btn" onclick="App.activePlugin._addItem()">+</button>' +
-      '</div>';
+          '<button class="ls-add-btn" onclick="App.activePlugin._addItem()">+</button>' +
+          '</div>';
 
-    /* agrupar e filtrar */
-    let visible = this._applyFilter(items);
+        /* agrupar e filtrar */
+        let visible = this._applyFilter(items);
 
-    if (!visible.length) {
-      html += '<div style="text-align:center;padding:32px 20px;color:var(--text3);font-size:14px">' +
-        (this._filter==='todas' ? '✨ Nenhum item ainda. Adicione algo!' : 'Nenhum item nesta categoria.') +
-      '</div>';
-      cont.innerHTML = html;
-      return;
-    }
+        if (!visible.length) {
+          html += '<div style="text-align:center;padding:32px 20px;color:var(--text3);font-size:14px">' +
+            (this._filter === 'todas' ? '✨ Nenhum item ainda. Adicione algo!' : 'Nenhum item nesta categoria.') +
+            '</div>';
+          cont.innerHTML = html;
+          return;
+        }
 
-    /* agrupar por categoria */
-    const groups = {};
-    visible.forEach(item => {
-      const g = item.category || 'Sem categoria';
-      if (!groups[g]) groups[g] = [];
-      groups[g].push(item);
-    });
+        /* agrupar por categoria */
+        const groups = {};
+        visible.forEach(item => {
+          const g = item.category || 'Sem categoria';
+          if (!groups[g]) groups[g] = [];
+          groups[g].push(item);
+        });
 
-    Object.entries(groups).forEach(([grpName, grpItems]) => {
-      const allDone = grpItems.every(i=>i.done);
-      html +=
-        '<div class="ls-group" id="ls_grp_'+this._slugify(grpName)+'">' +
-          '<div class="ls-group-head" onclick="App.activePlugin._toggleGroup(\''+this._slugify(grpName)+'\')">' +
-            '<span class="ls-group-label">'+esc(grpName)+'</span>' +
-            '<span class="ls-group-count">'+grpItems.filter(i=>!i.done).length+' pendente'+(grpItems.filter(i=>!i.done).length!==1?'s':'')+'</span>' +
-            (allDone?'<span style="font-size:11px;color:var(--green);margin-left:4px">✓ tudo feito</span>':'') +
+        Object.entries(groups).forEach(([grpName, grpItems]) => {
+          const allDone = grpItems.every(i => i.done);
+          html +=
+            '<div class="ls-group" id="ls_grp_' + this._slugify(grpName) + '">' +
+            '<div class="ls-group-head" onclick="App.activePlugin._toggleGroup(\'' + this._slugify(grpName) + '\')">' +
+            '<span class="ls-group-label">' + esc(grpName) + '</span>' +
+            '<span class="ls-group-count">' + grpItems.filter(i => !i.done).length + ' pendente' + (grpItems.filter(i => !i.done).length !== 1 ? 's' : '') + '</span>' +
+            (allDone ? '<span style="font-size:11px;color:var(--green);margin-left:4px">✓ tudo feito</span>' : '') +
             '<span class="ls-group-chev">▾</span>' +
-          '</div>' +
-          '<div class="ls-group-items">' +
-            grpItems.map(item=>this._itemHtml(item)).join('') +
-          '</div>' +
-        '</div>';
-    });
+            '</div>' +
+            '<div class="ls-group-items">' +
+            grpItems.map(item => this._itemHtml(item)).join('') +
+            '</div>' +
+            '</div>';
+        });
 
-    cont.innerHTML = html;
+        cont.innerHTML = html;
 
-    /* ativa drag-and-drop */
-    this._initDrag();
-  },
+        /* ativa drag-and-drop */
+        this._initDrag();
+      },
 
-  _applyFilter(items) {
-    const now   = Date.now();
-    const today = new Date(); today.setHours(0,0,0,0);
-    const todayEnd = new Date(today); todayEnd.setHours(23,59,59,999);
-    switch(this._filter) {
-      case 'pendente':  return items.filter(i=>!i.done);
-      case 'feito':     return items.filter(i=>i.done);
-      case 'alta':      return items.filter(i=>i.priority==='alta'&&!i.done);
-      case 'hoje':      return items.filter(i=>!i.done&&i.dueDate&&i.dueDate>=today.getTime()&&i.dueDate<=todayEnd.getTime());
-      case 'atrasado':  return items.filter(i=>!i.done&&i.dueDate&&i.dueDate<today.getTime());
-      default:          return items;
-    }
-  },
+      _applyFilter(items) {
+        const now = Date.now();
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        const todayEnd = new Date(today); todayEnd.setHours(23, 59, 59, 999);
+        switch (this._filter) {
+          case 'pendente': return items.filter(i => !i.done);
+          case 'feito': return items.filter(i => i.done);
+          case 'alta': return items.filter(i => i.priority === 'alta' && !i.done);
+          case 'hoje': return items.filter(i => !i.done && i.dueDate && i.dueDate >= today.getTime() && i.dueDate <= todayEnd.getTime());
+          case 'atrasado': return items.filter(i => !i.done && i.dueDate && i.dueDate < today.getTime());
+          default: return items;
+        }
+      },
 
-  _itemHtml(item) {
-    const tags    = this._rec.data.tags||[];
-    const due     = item.dueDate ? this._dueTxt(item.dueDate) : null;
-    const dueClass= item.dueDate ? (item.dueDate < Date.now() && !item.done ? 'overdue' : this._isToday(item.dueDate) ? 'today' : '') : '';
-    const subDone = (item.subtasks||[]).filter(s=>s.done).length;
-    const subTotal= (item.subtasks||[]).length;
+      _itemHtml(item) {
+        const tags = this._rec.data.tags || [];
+        const due = item.dueDate ? this._dueTxt(item.dueDate) : null;
+        const dueClass = item.dueDate ? (item.dueDate < Date.now() && !item.done ? 'overdue' : this._isToday(item.dueDate) ? 'today' : '') : '';
+        const subDone = (item.subtasks || []).filter(s => s.done).length;
+        const subTotal = (item.subtasks || []).length;
 
-    let itemClass = 'ls-item';
-    if (item.done) itemClass += ' done';
-    if (!item.done && item.dueDate && item.dueDate < Date.now()) itemClass += ' overdue';
-    else if (!item.done && item.dueDate && this._isToday(item.dueDate)) itemClass += ' today';
+        let itemClass = 'ls-item';
+        if (item.done) itemClass += ' done';
+        if (!item.done && item.dueDate && item.dueDate < Date.now()) itemClass += ' overdue';
+        else if (!item.done && item.dueDate && this._isToday(item.dueDate)) itemClass += ' today';
 
-    let html =
-      '<div class="'+itemClass+'" id="ls_item_'+item.id+'" draggable="true" ' +
-        'ondragstart="App.activePlugin._onDragStart(event,\''+item.id+'\')" ' +
-        'ondragover="App.activePlugin._onDragOver(event,\''+item.id+'\')" ' +
-        'ondrop="App.activePlugin._onDrop(event,\''+item.id+'\')" ' +
-        'ondragend="App.activePlugin._onDragEnd()">' +
-        '<span class="ls-drag-handle" title="Arrastar">⠿</span>' +
-        '<div class="ls-prio '+( item.priority||'none')+'"></div>' +
-        '<div class="ls-check '+(item.done?'on':'')+'" onclick="event.stopPropagation();App.activePlugin._toggleDone(\''+item.id+'\')">'+(item.done?'✓':'')+'</div>' +
-        '<div class="ls-item-content" onclick="App.activePlugin._openDetail(\''+item.id+'\')">' +
-          '<div class="ls-item-text">'+esc(item.text)+'</div>';
+        let html =
+          '<div class="' + itemClass + '" id="ls_item_' + item.id + '" draggable="true" ' +
+          'ondragstart="App.activePlugin._onDragStart(event,\'' + item.id + '\')" ' +
+          'ondragover="App.activePlugin._onDragOver(event,\'' + item.id + '\')" ' +
+          'ondrop="App.activePlugin._onDrop(event,\'' + item.id + '\')" ' +
+          'ondragend="App.activePlugin._onDragEnd()">' +
+          '<span class="ls-drag-handle" title="Arrastar">⠿</span>' +
+          '<div class="ls-prio ' + (item.priority || 'none') + '"></div>' +
+          '<div class="ls-check ' + (item.done ? 'on' : '') + '" onclick="event.stopPropagation();App.activePlugin._toggleDone(\'' + item.id + '\')">' + (item.done ? '✓' : '') + '</div>' +
+          '<div class="ls-item-content" onclick="App.activePlugin._openDetail(\'' + item.id + '\')">' +
+          '<div class="ls-item-text">' + esc(item.text) + '</div>';
 
-    /* meta row */
-    const metaParts = [];
-    if (item.tags && item.tags.length) {
-      item.tags.forEach(tid => {
-        const tag = tags.find(t=>t.id===tid||t.label===tid);
-        if (tag) metaParts.push('<span class="ls-item-tag" style="background:'+tag.color+'22;color:'+tag.color+'">'+esc(tag.label)+'</span>');
-      });
-    }
-    if (due) metaParts.push('<span class="ls-item-due '+dueClass+'">📅 '+esc(due)+'</span>');
-    if (item.note) metaParts.push('<span class="ls-item-note-ico">📝</span>');
-    if (subTotal) metaParts.push('<span class="ls-item-sub-count">☑ '+subDone+'/'+subTotal+'</span>');
-    if (metaParts.length) html += '<div class="ls-item-meta">'+metaParts.join('')+'</div>';
+        /* meta row */
+        const metaParts = [];
+        if (item.tags && item.tags.length) {
+          item.tags.forEach(tid => {
+            const tag = tags.find(t => t.id === tid || t.label === tid);
+            if (tag) metaParts.push('<span class="ls-item-tag" style="background:' + tag.color + '22;color:' + tag.color + '">' + esc(tag.label) + '</span>');
+          });
+        }
+        if (due) metaParts.push('<span class="ls-item-due ' + dueClass + '">📅 ' + esc(due) + '</span>');
+        if (item.note) metaParts.push('<span class="ls-item-note-ico">📝</span>');
+        if (subTotal) metaParts.push('<span class="ls-item-sub-count">☑ ' + subDone + '/' + subTotal + '</span>');
+        if (metaParts.length) html += '<div class="ls-item-meta">' + metaParts.join('') + '</div>';
 
-    /* subtarefas mini */
-    if (subTotal && !item.done) {
-      html += '<div class="ls-sub-mini">';
-      (item.subtasks||[]).slice(0,3).forEach(s => {
-        html += '<div class="ls-sub-mini-row">' +
-          '<div class="ls-sub-mini-check '+(s.done?'on':'')+'" onclick="event.stopPropagation();App.activePlugin._toggleSub(\''+item.id+'\',\''+s.id+'\')">'+( s.done?'✓':'')+'</div>' +
-          '<span class="ls-sub-mini-text'+(s.done?' done':'')+'">'+esc(s.text)+'</span>' +
-        '</div>';
-      });
-      if (subTotal>3) html += '<div style="font-size:11px;color:var(--text3);margin-top:2px">+' +(subTotal-3)+' mais…</div>';
-      html += '</div>';
-    }
+        /* subtarefas mini */
+        if (subTotal && !item.done) {
+          html += '<div class="ls-sub-mini">';
+          (item.subtasks || []).slice(0, 3).forEach(s => {
+            html += '<div class="ls-sub-mini-row">' +
+              '<div class="ls-sub-mini-check ' + (s.done ? 'on' : '') + '" onclick="event.stopPropagation();App.activePlugin._toggleSub(\'' + item.id + '\',\'' + s.id + '\')">' + (s.done ? '✓' : '') + '</div>' +
+              '<span class="ls-sub-mini-text' + (s.done ? ' done' : '') + '">' + esc(s.text) + '</span>' +
+              '</div>';
+          });
+          if (subTotal > 3) html += '<div style="font-size:11px;color:var(--text3);margin-top:2px">+' + (subTotal - 3) + ' mais…</div>';
+          html += '</div>';
+        }
 
-    html += '</div>'; /* fecha content */
+        html += '</div>'; /* fecha content */
 
-    /* botão deletar */
-    html +=
-      '<div class="ls-item-actions">' +
-        '<button class="ls-item-act-btn" onclick="event.stopPropagation();App.activePlugin._deleteItem(\''+item.id+'\')" title="Deletar">🗑</button>' +
-      '</div>';
+        /* botão deletar */
+        html +=
+          '<div class="ls-item-actions">' +
+          '<button class="ls-item-act-btn" onclick="event.stopPropagation();App.activePlugin._deleteItem(\'' + item.id + '\')" title="Deletar">🗑</button>' +
+          '</div>';
 
-    html += '</div>';
-    return html;
-  },
+        html += '</div>';
+        return html;
+      },
 
-  _toggleGroup(slug) {
-    document.getElementById('ls_grp_'+slug)?.classList.toggle('collapsed');
-  },
+      _toggleGroup(slug) {
+        document.getElementById('ls_grp_' + slug)?.classList.toggle('collapsed');
+      },
 
-  /* ══════════════════════════════════════
-     LÓGICA DE ITENS
-  ══════════════════════════════════════ */
-  async _addItem() {
-    const inp = document.getElementById('ls_add_inp');
-    if (!inp) return;
-    const text = inp.value.trim();
-    if (!text) return;
-    const item = {
-      id:        'i'+Date.now(),
-      text,
-      done:      false,
-      priority:  'none',
-      category:  'Geral',
-      tags:      [],
-      note:      '',
-      subtasks:  [],
-      createdAt: Date.now(),
-      dueDate:   null,
-    };
-    this._rec.data.items.unshift(item);
-    inp.value = '';
-    await this._save();
-    this._renderLista();
-    toast('✅ Item adicionado');
-  },
+      /* ══════════════════════════════════════
+         LÓGICA DE ITENS
+      ══════════════════════════════════════ */
+      async _addItem() {
+        const inp = document.getElementById('ls_add_inp');
+        if (!inp) return;
+        const text = inp.value.trim();
+        if (!text) return;
+        const item = {
+          id: 'i' + Date.now(),
+          text,
+          done: false,
+          priority: 'none',
+          category: 'Geral',
+          tags: [],
+          note: '',
+          subtasks: [],
+          createdAt: Date.now(),
+          dueDate: null,
+        };
+        this._rec.data.items.unshift(item);
+        inp.value = '';
+        await this._save();
+        this._renderLista();
+        toast('✅ Item adicionado');
+      },
 
-  async _toggleDone(id) {
-    const item = this._rec.data.items.find(i=>i.id===id);
-    if (!item) return;
-    item.done = !item.done;
-    if (item.done) item.doneAt = Date.now();
-    await this._save();
-    this._renderLista();
-    if (item.done) { this._beep(523,80); setTimeout(()=>this._beep(659,120),100); }
-  },
+      async _toggleDone(id) {
+        const item = this._rec.data.items.find(i => i.id === id);
+        if (!item) return;
+        item.done = !item.done;
+        if (item.done) item.doneAt = Date.now();
+        await this._save();
+        this._renderLista();
+        if (item.done) { this._beep(523, 80); setTimeout(() => this._beep(659, 120), 100); }
+      },
 
-  async _toggleSub(itemId, subId) {
-    const item = this._rec.data.items.find(i=>i.id===itemId);
-    if (!item) return;
-    const sub = (item.subtasks||[]).find(s=>s.id===subId);
-    if (!sub) return;
-    sub.done = !sub.done;
-    await this._save();
-    this._renderLista();
-  },
+      async _toggleSub(itemId, subId) {
+        const item = this._rec.data.items.find(i => i.id === itemId);
+        if (!item) return;
+        const sub = (item.subtasks || []).find(s => s.id === subId);
+        if (!sub) return;
+        sub.done = !sub.done;
+        await this._save();
+        this._renderLista();
+      },
 
-  async _deleteItem(id) {
-    this._rec.data.items = this._rec.data.items.filter(i=>i.id!==id);
-    await this._save();
-    this._renderLista();
-    toast('🗑 Removido');
-  },
+      async _deleteItem(id) {
+        this._rec.data.items = this._rec.data.items.filter(i => i.id !== id);
+        await this._save();
+        this._renderLista();
+        toast('🗑 Removido');
+      },
 
-  /* ══════════════════════════════════════
-     PAINEL DE DETALHES / EDIÇÃO
-  ══════════════════════════════════════ */
-  _openDetail(id) {
-    const item = this._rec.data.items.find(i=>i.id===id);
-    if (!item) return;
-    /* cópia profunda para edição */
-    this._detail = JSON.parse(JSON.stringify(item));
-    this._renderDetail();
-  },
+      /* ══════════════════════════════════════
+         PAINEL DE DETALHES / EDIÇÃO
+      ══════════════════════════════════════ */
+      _openDetail(id) {
+        const item = this._rec.data.items.find(i => i.id === id);
+        if (!item) return;
+        /* cópia profunda para edição */
+        this._detail = JSON.parse(JSON.stringify(item));
+        this._renderDetail();
+      },
 
-  _renderDetail() {
-    document.getElementById('ls_detail_overlay')?.remove();
-    const d    = this._detail;
-    if (!d) return;
-    const tags = this._rec.data.tags||[];
-    const cats = this._rec.data.categories||[];
+      _renderDetail() {
+        document.getElementById('ls_detail_overlay')?.remove();
+        const d = this._detail;
+        if (!d) return;
+        const tags = this._rec.data.tags || [];
+        const cats = this._rec.data.categories || [];
 
-    const overlay = document.createElement('div');
-    overlay.className = 'ls-detail-overlay';
-    overlay.id = 'ls_detail_overlay';
-    overlay.onclick = e => { if(e.target===overlay) this._closeDetail(); };
+        const overlay = document.createElement('div');
+        overlay.className = 'ls-detail-overlay';
+        overlay.id = 'ls_detail_overlay';
+        overlay.onclick = e => { if (e.target === overlay) this._closeDetail(); };
 
-    const prioOpts = [
-      { id:'alta',  label:'🔴 Alta'  },
-      { id:'media', label:'🟡 Média' },
-      { id:'baixa', label:'🟢 Baixa' },
-      { id:'none',  label:'⊘ Nenhuma' },
-    ];
+        const prioOpts = [
+          { id: 'alta', label: '🔴 Alta' },
+          { id: 'media', label: '🟡 Média' },
+          { id: 'baixa', label: '🟢 Baixa' },
+          { id: 'none', label: '⊘ Nenhuma' },
+        ];
 
-    const dueFmt = d.dueDate ? new Date(d.dueDate).toISOString().slice(0,16) : '';
+        const dueFmt = d.dueDate ? new Date(d.dueDate).toISOString().slice(0, 16) : '';
 
-    let subHtml = '<div class="ls-sub-list">';
-    (d.subtasks||[]).forEach((s,si)=>{
-      subHtml +=
-        '<div class="ls-sub-row">' +
-          '<div class="ls-sub-check2 '+(s.done?'on':'')+'" onclick="App.activePlugin._detailToggleSub('+si+')">'+( s.done?'✓':'')+'</div>' +
-          '<input class="ls-sub-inp" value="'+esc(s.text)+'" placeholder="Subtarefa…" oninput="App.activePlugin._detail.subtasks['+si+'].text=this.value">' +
-          '<button class="ls-sub-del" onclick="App.activePlugin._detailRemoveSub('+si+')">✕</button>' +
-        '</div>';
-    });
-    subHtml += '</div>';
-    subHtml += '<button class="ls-add-sub-btn" onclick="App.activePlugin._detailAddSub()">＋ Subtarefa</button>';
+        let subHtml = '<div class="ls-sub-list">';
+        (d.subtasks || []).forEach((s, si) => {
+          subHtml +=
+            '<div class="ls-sub-row">' +
+            '<div class="ls-sub-check2 ' + (s.done ? 'on' : '') + '" onclick="App.activePlugin._detailToggleSub(' + si + ')">' + (s.done ? '✓' : '') + '</div>' +
+            '<input class="ls-sub-inp" value="' + esc(s.text) + '" placeholder="Subtarefa…" oninput="App.activePlugin._detail.subtasks[' + si + '].text=this.value">' +
+            '<button class="ls-sub-del" onclick="App.activePlugin._detailRemoveSub(' + si + ')">✕</button>' +
+            '</div>';
+        });
+        subHtml += '</div>';
+        subHtml += '<button class="ls-add-sub-btn" onclick="App.activePlugin._detailAddSub()">＋ Subtarefa</button>';
 
-    let tagsHtml = '<div class="ls-tags-row">' +
-      tags.map(t=>'<span class="ls-tag-chip '+(( d.tags||[]).includes(t.id)||( d.tags||[]).includes(t.label)?'on':'')+'" style="color:'+t.color+';background:'+t.color+'22" onclick="App.activePlugin._detailToggleTag(\''+t.id+'\')">'+esc(t.label)+'</span>').join('') +
-    '</div>';
+        let tagsHtml = '<div class="ls-tags-row">' +
+          tags.map(t => '<span class="ls-tag-chip ' + ((d.tags || []).includes(t.id) || (d.tags || []).includes(t.label) ? 'on' : '') + '" style="color:' + t.color + ';background:' + t.color + '22" onclick="App.activePlugin._detailToggleTag(\'' + t.id + '\')">' + esc(t.label) + '</span>').join('') +
+          '</div>';
 
-    overlay.innerHTML =
-      '<div class="ls-detail-sheet">' +
-        '<div class="ls-detail-handle"></div>' +
-        '<div class="ls-detail-head">' +
+        overlay.innerHTML =
+          '<div class="ls-detail-sheet">' +
+          '<div class="ls-detail-handle"></div>' +
+          '<div class="ls-detail-head">' +
           '<span class="ls-detail-title">Editar item</span>' +
           '<button class="ls-detail-close" onclick="App.activePlugin._closeDetail()">✕</button>' +
-        '</div>' +
-        '<div class="ls-detail-body">' +
+          '</div>' +
+          '<div class="ls-detail-body">' +
 
           '<div class="ls-dfield"><label>Texto</label>' +
-            '<textarea rows="2" oninput="App.activePlugin._detail.text=this.value">'+esc(d.text)+'</textarea></div>' +
+          '<textarea rows="2" oninput="App.activePlugin._detail.text=this.value">' + esc(d.text) + '</textarea></div>' +
 
           '<div class="ls-dfield"><label>Prioridade</label>' +
-            '<div class="ls-prio-row">' +
-              prioOpts.map(p=>'<button class="ls-prio-btn '+p.id+' '+(d.priority===p.id?'on':'')+'" onclick="App.activePlugin._detailSetPrio(\''+p.id+'\')">'+p.label+'</button>').join('') +
-            '</div></div>' +
+          '<div class="ls-prio-row">' +
+          prioOpts.map(p => '<button class="ls-prio-btn ' + p.id + ' ' + (d.priority === p.id ? 'on' : '') + '" onclick="App.activePlugin._detailSetPrio(\'' + p.id + '\')">' + p.label + '</button>').join('') +
+          '</div></div>' +
 
           '<div class="ls-dfield"><label>Categoria</label>' +
-            '<select oninput="App.activePlugin._detail.category=this.value">' +
-              cats.map(c=>'<option value="'+esc(c)+'" '+(d.category===c?'selected':'')+'>'+esc(c)+'</option>').join('') +
-              '<option value="">+ Nova categoria</option>' +
-            '</select></div>' +
+          '<select oninput="App.activePlugin._detail.category=this.value">' +
+          cats.map(c => '<option value="' + esc(c) + '" ' + (d.category === c ? 'selected' : '') + '>' + esc(c) + '</option>').join('') +
+          '<option value="">+ Nova categoria</option>' +
+          '</select></div>' +
 
           '<div class="ls-dfield"><label>Data de vencimento</label>' +
-            '<input type="datetime-local" value="'+dueFmt+'" oninput="App.activePlugin._detail.dueDate=this.value?new Date(this.value).getTime():null"></div>' +
+          '<input type="datetime-local" value="' + dueFmt + '" oninput="App.activePlugin._detail.dueDate=this.value?new Date(this.value).getTime():null"></div>' +
 
           '<div class="ls-dfield"><label>Etiquetas</label>' + tagsHtml + '</div>' +
 
           '<div class="ls-dfield"><label>Nota / Descrição</label>' +
-            '<textarea rows="3" placeholder="Adicione detalhes…" oninput="App.activePlugin._detail.note=this.value">'+esc(d.note||'')+'</textarea></div>' +
+          '<textarea rows="3" placeholder="Adicione detalhes…" oninput="App.activePlugin._detail.note=this.value">' + esc(d.note || '') + '</textarea></div>' +
 
           '<div class="ls-dfield"><label>Subtarefas</label>' + subHtml + '</div>' +
 
           '<div class="ls-detail-btns">' +
-            '<button class="ls-dsave-btn" onclick="App.activePlugin._saveDetail()">💾 Salvar</button>' +
-            '<button class="ls-ddel-btn" onclick="App.activePlugin._deleteFromDetail()">🗑</button>' +
+          '<button class="ls-dsave-btn" onclick="App.activePlugin._saveDetail()">💾 Salvar</button>' +
+          '<button class="ls-ddel-btn" onclick="App.activePlugin._deleteFromDetail()">🗑</button>' +
           '</div>' +
-        '</div>' +
-      '</div>';
+          '</div>' +
+          '</div>';
 
-    document.body.appendChild(overlay);
-  },
+        document.body.appendChild(overlay);
+      },
 
-  _closeDetail() {
-    document.getElementById('ls_detail_overlay')?.remove();
-    this._detail = null;
-  },
+      _closeDetail() {
+        document.getElementById('ls_detail_overlay')?.remove();
+        this._detail = null;
+      },
 
-  _detailSetPrio(p) {
-    if (!this._detail) return;
-    this._detail.priority = p;
-    this._renderDetail();
-  },
+      _detailSetPrio(p) {
+        if (!this._detail) return;
+        this._detail.priority = p;
+        this._renderDetail();
+      },
 
-  _detailToggleTag(tid) {
-    if (!this._detail) return;
-    if (!this._detail.tags) this._detail.tags = [];
-    const idx = this._detail.tags.indexOf(tid);
-    if (idx>=0) this._detail.tags.splice(idx,1);
-    else this._detail.tags.push(tid);
-    this._renderDetail();
-  },
+      _detailToggleTag(tid) {
+        if (!this._detail) return;
+        if (!this._detail.tags) this._detail.tags = [];
+        const idx = this._detail.tags.indexOf(tid);
+        if (idx >= 0) this._detail.tags.splice(idx, 1);
+        else this._detail.tags.push(tid);
+        this._renderDetail();
+      },
 
-  _detailAddSub() {
-    if (!this._detail) return;
-    if (!this._detail.subtasks) this._detail.subtasks = [];
-    this._detail.subtasks.push({ id:'s'+Date.now(), text:'', done:false });
-    this._renderDetail();
-  },
+      _detailAddSub() {
+        if (!this._detail) return;
+        if (!this._detail.subtasks) this._detail.subtasks = [];
+        this._detail.subtasks.push({ id: 's' + Date.now(), text: '', done: false });
+        this._renderDetail();
+      },
 
-  _detailRemoveSub(idx) {
-    if (!this._detail) return;
-    this._detail.subtasks.splice(idx,1);
-    this._renderDetail();
-  },
+      _detailRemoveSub(idx) {
+        if (!this._detail) return;
+        this._detail.subtasks.splice(idx, 1);
+        this._renderDetail();
+      },
 
-  _detailToggleSub(idx) {
-    if (!this._detail) return;
-    this._detail.subtasks[idx].done = !this._detail.subtasks[idx].done;
-    this._renderDetail();
-  },
+      _detailToggleSub(idx) {
+        if (!this._detail) return;
+        this._detail.subtasks[idx].done = !this._detail.subtasks[idx].done;
+        this._renderDetail();
+      },
 
-  async _saveDetail() {
-    if (!this._detail) return;
-    const d = this._detail;
-    if (!d.text.trim()) { toast('O item precisa de um texto'); return; }
-    const idx = this._rec.data.items.findIndex(i=>i.id===d.id);
-    if (idx>=0) this._rec.data.items[idx] = d;
-    await this._save();
-    this._closeDetail();
-    this._renderLista();
-    toast('💾 Salvo!');
-  },
+      async _saveDetail() {
+        if (!this._detail) return;
+        const d = this._detail;
+        if (!d.text.trim()) { toast('O item precisa de um texto'); return; }
+        const idx = this._rec.data.items.findIndex(i => i.id === d.id);
+        if (idx >= 0) this._rec.data.items[idx] = d;
+        await this._save();
+        this._closeDetail();
+        this._renderLista();
+        toast('💾 Salvo!');
+      },
 
-  async _deleteFromDetail() {
-    if (!this._detail) return;
-    const id = this._detail.id;
-    this._closeDetail();
-    await this._deleteItem(id);
-  },
+      async _deleteFromDetail() {
+        if (!this._detail) return;
+        const id = this._detail.id;
+        this._closeDetail();
+        await this._deleteItem(id);
+      },
 
-  /* ══════════════════════════════════════
-     DRAG AND DROP
-  ══════════════════════════════════════ */
-  _initDrag() { /* handlers já estão inline nos elementos */ },
+      /* ══════════════════════════════════════
+         DRAG AND DROP
+      ══════════════════════════════════════ */
+      _initDrag() { /* handlers já estão inline nos elementos */ },
 
-  _onDragStart(e, id) {
-    this._dragSrc = id;
-    setTimeout(()=>{ const el=document.getElementById('ls_item_'+id); if(el)el.classList.add('dragging'); },0);
-  },
+      _onDragStart(e, id) {
+        this._dragSrc = id;
+        setTimeout(() => { const el = document.getElementById('ls_item_' + id); if (el) el.classList.add('dragging'); }, 0);
+      },
 
-  _onDragOver(e, id) {
-    e.preventDefault();
-    document.querySelectorAll('.ls-item.drag-over').forEach(el=>el.classList.remove('drag-over'));
-    if (id!==this._dragSrc) { const el=document.getElementById('ls_item_'+id); if(el)el.classList.add('drag-over'); }
-  },
+      _onDragOver(e, id) {
+        e.preventDefault();
+        document.querySelectorAll('.ls-item.drag-over').forEach(el => el.classList.remove('drag-over'));
+        if (id !== this._dragSrc) { const el = document.getElementById('ls_item_' + id); if (el) el.classList.add('drag-over'); }
+      },
 
-  _onDrop(e, targetId) {
-    e.preventDefault();
-    const srcId = this._dragSrc;
-    if (!srcId || srcId===targetId) return;
-    const items  = this._rec.data.items;
-    const srcIdx = items.findIndex(i=>i.id===srcId);
-    const tgtIdx = items.findIndex(i=>i.id===targetId);
-    if (srcIdx<0||tgtIdx<0) return;
-    const [moved] = items.splice(srcIdx,1);
-    items.splice(tgtIdx,0,moved);
-    this._save().then(()=>this._renderLista());
-  },
+      _onDrop(e, targetId) {
+        e.preventDefault();
+        const srcId = this._dragSrc;
+        if (!srcId || srcId === targetId) return;
+        const items = this._rec.data.items;
+        const srcIdx = items.findIndex(i => i.id === srcId);
+        const tgtIdx = items.findIndex(i => i.id === targetId);
+        if (srcIdx < 0 || tgtIdx < 0) return;
+        const [moved] = items.splice(srcIdx, 1);
+        items.splice(tgtIdx, 0, moved);
+        this._save().then(() => this._renderLista());
+      },
 
-  _onDragEnd() {
-    document.querySelectorAll('.ls-item.dragging,.ls-item.drag-over').forEach(el=>{
-      el.classList.remove('dragging','drag-over');
-    });
-    this._dragSrc = null;
-  },
+      _onDragEnd() {
+        document.querySelectorAll('.ls-item.dragging,.ls-item.drag-over').forEach(el => {
+          el.classList.remove('dragging', 'drag-over');
+        });
+        this._dragSrc = null;
+      },
 
-  /* ══════════════════════════════════════
-     MODO FOCO
-  ══════════════════════════════════════ */
-  _renderFoco() {
-    const cont    = document.getElementById('ls_content');
-    const pending = (this._rec.data.items||[]).filter(i=>!i.done);
+      /* ══════════════════════════════════════
+         MODO FOCO
+      ══════════════════════════════════════ */
+      _renderFoco() {
+        const cont = document.getElementById('ls_content');
+        const pending = (this._rec.data.items || []).filter(i => !i.done);
 
-    if (!pending.length) {
-      cont.innerHTML =
-        '<div class="ls-focus-wrap">' +
-          '<div class="ls-focus-empty">' +
+        if (!pending.length) {
+          cont.innerHTML =
+            '<div class="ls-focus-wrap">' +
+            '<div class="ls-focus-empty">' +
             '<span style="font-size:48px;display:block;margin-bottom:12px">🎉</span>' +
             'Tudo feito! Nenhum item pendente.' +
-          '</div>' +
-        '</div>';
-      return;
-    }
+            '</div>' +
+            '</div>';
+          return;
+        }
 
-    /* ordena por prioridade */
-    const order = { alta:0, media:1, baixa:2, none:3 };
-    const sorted = [...pending].sort((a,b)=>(order[a.priority]||3)-(order[b.priority]||3));
+        /* ordena por prioridade */
+        const order = { alta: 0, media: 1, baixa: 2, none: 3 };
+        const sorted = [...pending].sort((a, b) => (order[a.priority] || 3) - (order[b.priority] || 3));
 
-    if (this._focusIdx >= sorted.length) this._focusIdx = 0;
-    const item   = sorted[this._focusIdx];
-    const tags   = this._rec.data.tags||[];
-    const due    = item.dueDate ? this._dueTxt(item.dueDate) : null;
-    const pct    = Math.round((this._focusIdx)/sorted.length*100);
+        if (this._focusIdx >= sorted.length) this._focusIdx = 0;
+        const item = sorted[this._focusIdx];
+        const tags = this._rec.data.tags || [];
+        const due = item.dueDate ? this._dueTxt(item.dueDate) : null;
+        const pct = Math.round((this._focusIdx) / sorted.length * 100);
 
-    const prioColor = item.priority==='alta'?'#f05f5f':item.priority==='media'?'#f5bb45':'#3ecf7a';
-    const prioLabel = item.priority==='alta'?'ALTA':item.priority==='media'?'MÉDIA':item.priority==='baixa'?'BAIXA':'—';
+        const prioColor = item.priority === 'alta' ? '#f05f5f' : item.priority === 'media' ? '#f5bb45' : '#3ecf7a';
+        const prioLabel = item.priority === 'alta' ? 'ALTA' : item.priority === 'media' ? 'MÉDIA' : item.priority === 'baixa' ? 'BAIXA' : '—';
 
-    let tagsHtml = '';
-    (item.tags||[]).forEach(tid=>{
-      const tag=tags.find(t=>t.id===tid||t.label===tid);
-      if(tag) tagsHtml+='<span class="ls-item-tag" style="background:'+tag.color+'22;color:'+tag.color+'">'+esc(tag.label)+'</span>';
-    });
+        let tagsHtml = '';
+        (item.tags || []).forEach(tid => {
+          const tag = tags.find(t => t.id === tid || t.label === tid);
+          if (tag) tagsHtml += '<span class="ls-item-tag" style="background:' + tag.color + '22;color:' + tag.color + '">' + esc(tag.label) + '</span>';
+        });
 
-    cont.innerHTML =
-      '<div class="ls-focus-wrap">' +
-        '<span class="ls-focus-pct">'+pct+'% COMPLETO · '+this._focusIdx+'/'+sorted.length+' FEITOS</span>' +
-        '<div class="ls-focus-card">' +
-          (item.priority!=='none'?'<span class="ls-focus-tag" style="background:'+prioColor+'22;color:'+prioColor+'">'+prioLabel+'</span>':'') +
-          (tagsHtml?'<div style="margin-bottom:8px">'+tagsHtml+'</div>':'') +
-          '<div class="ls-focus-text">'+esc(item.text)+'</div>' +
-          (item.note?'<div class="ls-focus-note">'+esc(item.note)+'</div>':'') +
-          (due?'<div class="ls-focus-due">📅 '+esc(due)+'</div>':'') +
-          '<button class="ls-focus-done-btn" onclick="App.activePlugin._focusDone(\''+item.id+'\','+JSON.stringify(sorted.map(i=>i.id)).replace(/"/g,"'")+')">✓</button>' +
+        cont.innerHTML =
+          '<div class="ls-focus-wrap">' +
+          '<span class="ls-focus-pct">' + pct + '% COMPLETO · ' + this._focusIdx + '/' + sorted.length + ' FEITOS</span>' +
+          '<div class="ls-focus-card">' +
+          (item.priority !== 'none' ? '<span class="ls-focus-tag" style="background:' + prioColor + '22;color:' + prioColor + '">' + prioLabel + '</span>' : '') +
+          (tagsHtml ? '<div style="margin-bottom:8px">' + tagsHtml + '</div>' : '') +
+          '<div class="ls-focus-text">' + esc(item.text) + '</div>' +
+          (item.note ? '<div class="ls-focus-note">' + esc(item.note) + '</div>' : '') +
+          (due ? '<div class="ls-focus-due">📅 ' + esc(due) + '</div>' : '') +
+          '<button class="ls-focus-done-btn" onclick="App.activePlugin._focusDone(\'' + item.id + '\',' + JSON.stringify(sorted.map(i => i.id)).replace(/"/g, "'") + ')">✓</button>' +
           '<div style="font-size:12px;color:var(--text3)">Toque para concluir</div>' +
-        '</div>' +
-        '<div class="ls-focus-nav">' +
-          (this._focusIdx>0?'<button class="ls-focus-nav-btn" onclick="App.activePlugin._focusIdx--;App.activePlugin._renderFoco()">← Anterior</button>':'') +
-          (this._focusIdx<sorted.length-1?'<button class="ls-focus-nav-btn" onclick="App.activePlugin._focusIdx++;App.activePlugin._renderFoco()">Próximo →</button>':'') +
-        '</div>' +
-      '</div>';
-  },
-
-  async _focusDone(id, orderedIds) {
-    await this._toggleDone(id);
-    const newPending = (this._rec.data.items||[]).filter(i=>!i.done);
-    if (!newPending.length) { this._focusIdx=0; this._renderFoco(); return; }
-    /* mantém posição relativa */
-    const nextIdx = orderedIds.indexOf(id) + 1;
-    this._focusIdx = Math.min(nextIdx, newPending.length-1);
-    this._renderFoco();
-  },
-
-  /* ══════════════════════════════════════
-     ESTATÍSTICAS
-  ══════════════════════════════════════ */
-  _renderStats() {
-    const cont  = document.getElementById('ls_content');
-    const items = this._rec.data.items||[];
-    const total = items.length;
-    const done  = items.filter(i=>i.done).length;
-    const pct   = total ? Math.round(done/total*100) : 0;
-
-    const overdue  = items.filter(i=>!i.done&&i.dueDate&&i.dueDate<Date.now()).length;
-    const today    = items.filter(i=>!i.done&&i.dueDate&&this._isToday(i.dueDate)).length;
-    const withSubs = items.filter(i=>(i.subtasks||[]).length>0).length;
-    const subTotal = items.reduce((s,i)=>s+(i.subtasks||[]).length,0);
-    const subDone  = items.reduce((s,i)=>s+(i.subtasks||[]).filter(st=>st.done).length,0);
-
-    const prioMap = { alta:0, media:0, baixa:0, none:0 };
-    items.filter(i=>!i.done).forEach(i=>{ prioMap[i.priority||'none']++; });
-
-    let html =
-      '<div class="ls-stats-grid">' +
-        '<div class="ls-stat-card"><div class="ls-stat-val">'+total+'</div><div class="ls-stat-lbl">Total de itens</div><div class="ls-stat-sub">'+done+' concluídos</div></div>' +
-        '<div class="ls-stat-card"><div class="ls-stat-val">'+pct+'%</div><div class="ls-stat-lbl">Concluído</div><div class="ls-stat-sub">'+(total-done)+' pendentes</div></div>' +
-        '<div class="ls-stat-card"><div class="ls-stat-val" style="color:var(--red)">'+overdue+'</div><div class="ls-stat-lbl">Atrasados</div><div class="ls-stat-sub" style="color:var(--amber)">'+today+' hoje</div></div>' +
-        '<div class="ls-stat-card"><div class="ls-stat-val">'+subDone+'/'+subTotal+'</div><div class="ls-stat-lbl">Subtarefas</div><div class="ls-stat-sub">'+withSubs+' itens com subtarefas</div></div>' +
-      '</div>';
-
-    html +=
-      '<div class="ls-stat-card" style="margin-bottom:14px">' +
-        '<div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Itens pendentes por prioridade</div>' +
-        '<div class="ls-prio-stat-row"><div class="ls-prio-dot" style="background:#f05f5f"></div><span class="ls-prio-stat-lbl">Alta prioridade</span><span class="ls-prio-stat-val">'+prioMap.alta+'</span></div>' +
-        '<div class="ls-prio-stat-row"><div class="ls-prio-dot" style="background:var(--amber)"></div><span class="ls-prio-stat-lbl">Média prioridade</span><span class="ls-prio-stat-val">'+prioMap.media+'</span></div>' +
-        '<div class="ls-prio-stat-row"><div class="ls-prio-dot" style="background:#3ecf7a"></div><span class="ls-prio-stat-lbl">Baixa prioridade</span><span class="ls-prio-stat-val">'+prioMap.baixa+'</span></div>' +
-        '<div class="ls-prio-stat-row"><div class="ls-prio-dot" style="background:var(--border2)"></div><span class="ls-prio-stat-lbl">Sem prioridade</span><span class="ls-prio-stat-val">'+prioMap.none+'</span></div>' +
-      '</div>';
-
-    /* categorias */
-    const catMap = {};
-    items.forEach(i=>{ const c=i.category||'Sem categoria'; if(!catMap[c])catMap[c]={total:0,done:0}; catMap[c].total++; if(i.done)catMap[c].done++; });
-
-    html += '<div class="ls-stat-card"><div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Por categoria</div>';
-    Object.entries(catMap).forEach(([cat,v])=>{
-      const p=v.total?Math.round(v.done/v.total*100):0;
-      html +=
-        '<div class="ls-prio-stat-row">' +
-          '<span class="ls-prio-stat-lbl">'+esc(cat)+'</span>' +
-          '<div style="flex:1;height:6px;background:var(--border2);border-radius:3px;margin:0 10px;overflow:hidden">' +
-            '<div style="width:'+p+'%;height:100%;background:#3ecf7a;border-radius:3px"></div>' +
           '</div>' +
-          '<span class="ls-prio-stat-val">'+v.done+'/'+v.total+'</span>' +
-        '</div>';
+          '<div class="ls-focus-nav">' +
+          (this._focusIdx > 0 ? '<button class="ls-focus-nav-btn" onclick="App.activePlugin._focusIdx--;App.activePlugin._renderFoco()">← Anterior</button>' : '') +
+          (this._focusIdx < sorted.length - 1 ? '<button class="ls-focus-nav-btn" onclick="App.activePlugin._focusIdx++;App.activePlugin._renderFoco()">Próximo →</button>' : '') +
+          '</div>' +
+          '</div>';
+      },
+
+      async _focusDone(id, orderedIds) {
+        await this._toggleDone(id);
+        const newPending = (this._rec.data.items || []).filter(i => !i.done);
+        if (!newPending.length) { this._focusIdx = 0; this._renderFoco(); return; }
+        /* mantém posição relativa */
+        const nextIdx = orderedIds.indexOf(id) + 1;
+        this._focusIdx = Math.min(nextIdx, newPending.length - 1);
+        this._renderFoco();
+      },
+
+      /* ══════════════════════════════════════
+         ESTATÍSTICAS
+      ══════════════════════════════════════ */
+      _renderStats() {
+        const cont = document.getElementById('ls_content');
+        const items = this._rec.data.items || [];
+        const total = items.length;
+        const done = items.filter(i => i.done).length;
+        const pct = total ? Math.round(done / total * 100) : 0;
+
+        const overdue = items.filter(i => !i.done && i.dueDate && i.dueDate < Date.now()).length;
+        const today = items.filter(i => !i.done && i.dueDate && this._isToday(i.dueDate)).length;
+        const withSubs = items.filter(i => (i.subtasks || []).length > 0).length;
+        const subTotal = items.reduce((s, i) => s + (i.subtasks || []).length, 0);
+        const subDone = items.reduce((s, i) => s + (i.subtasks || []).filter(st => st.done).length, 0);
+
+        const prioMap = { alta: 0, media: 0, baixa: 0, none: 0 };
+        items.filter(i => !i.done).forEach(i => { prioMap[i.priority || 'none']++; });
+
+        let html =
+          '<div class="ls-stats-grid">' +
+          '<div class="ls-stat-card"><div class="ls-stat-val">' + total + '</div><div class="ls-stat-lbl">Total de itens</div><div class="ls-stat-sub">' + done + ' concluídos</div></div>' +
+          '<div class="ls-stat-card"><div class="ls-stat-val">' + pct + '%</div><div class="ls-stat-lbl">Concluído</div><div class="ls-stat-sub">' + (total - done) + ' pendentes</div></div>' +
+          '<div class="ls-stat-card"><div class="ls-stat-val" style="color:var(--red)">' + overdue + '</div><div class="ls-stat-lbl">Atrasados</div><div class="ls-stat-sub" style="color:var(--amber)">' + today + ' hoje</div></div>' +
+          '<div class="ls-stat-card"><div class="ls-stat-val">' + subDone + '/' + subTotal + '</div><div class="ls-stat-lbl">Subtarefas</div><div class="ls-stat-sub">' + withSubs + ' itens com subtarefas</div></div>' +
+          '</div>';
+
+        html +=
+          '<div class="ls-stat-card" style="margin-bottom:14px">' +
+          '<div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Itens pendentes por prioridade</div>' +
+          '<div class="ls-prio-stat-row"><div class="ls-prio-dot" style="background:#f05f5f"></div><span class="ls-prio-stat-lbl">Alta prioridade</span><span class="ls-prio-stat-val">' + prioMap.alta + '</span></div>' +
+          '<div class="ls-prio-stat-row"><div class="ls-prio-dot" style="background:var(--amber)"></div><span class="ls-prio-stat-lbl">Média prioridade</span><span class="ls-prio-stat-val">' + prioMap.media + '</span></div>' +
+          '<div class="ls-prio-stat-row"><div class="ls-prio-dot" style="background:#3ecf7a"></div><span class="ls-prio-stat-lbl">Baixa prioridade</span><span class="ls-prio-stat-val">' + prioMap.baixa + '</span></div>' +
+          '<div class="ls-prio-stat-row"><div class="ls-prio-dot" style="background:var(--border2)"></div><span class="ls-prio-stat-lbl">Sem prioridade</span><span class="ls-prio-stat-val">' + prioMap.none + '</span></div>' +
+          '</div>';
+
+        /* categorias */
+        const catMap = {};
+        items.forEach(i => { const c = i.category || 'Sem categoria'; if (!catMap[c]) catMap[c] = { total: 0, done: 0 }; catMap[c].total++; if (i.done) catMap[c].done++; });
+
+        html += '<div class="ls-stat-card"><div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Por categoria</div>';
+        Object.entries(catMap).forEach(([cat, v]) => {
+          const p = v.total ? Math.round(v.done / v.total * 100) : 0;
+          html +=
+            '<div class="ls-prio-stat-row">' +
+            '<span class="ls-prio-stat-lbl">' + esc(cat) + '</span>' +
+            '<div style="flex:1;height:6px;background:var(--border2);border-radius:3px;margin:0 10px;overflow:hidden">' +
+            '<div style="width:' + p + '%;height:100%;background:#3ecf7a;border-radius:3px"></div>' +
+            '</div>' +
+            '<span class="ls-prio-stat-val">' + v.done + '/' + v.total + '</span>' +
+            '</div>';
+        });
+        html += '</div>';
+
+        cont.innerHTML = html;
+      },
+
+      /* ══════════════════════════════════════
+         UTILITÁRIOS
+      ══════════════════════════════════════ */
+      _dueTxt(ts) {
+        const d = new Date(ts);
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        const diff = Math.floor((d - today) / (1000 * 60 * 60 * 24));
+        if (diff < 0) return 'Atrasado ' + Math.abs(diff) + 'd';
+        if (diff === 0) return 'Hoje ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        if (diff === 1) return 'Amanhã';
+        return d.toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' });
+      },
+
+      _isToday(ts) {
+        const d = new Date(ts);
+        const today = new Date();
+        return d.getDate() === today.getDate() && d.getMonth() === today.getMonth() && d.getFullYear() === today.getFullYear();
+      },
+
+      _slugify(s) { return s.replace(/[^a-z0-9]/gi, '_').toLowerCase(); },
+
+      _beep(freq, dur) {
+        try {
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const o = ctx.createOscillator(), g = ctx.createGain();
+          o.connect(g); g.connect(ctx.destination);
+          o.frequency.value = freq; o.type = 'sine';
+          g.gain.setValueAtTime(0.2, ctx.currentTime);
+          g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur / 1000);
+          o.start(ctx.currentTime); o.stop(ctx.currentTime + dur / 1000);
+        } catch (e) { }
+      },
     });
-    html += '</div>';
+  </script>
 
-    cont.innerHTML = html;
-  },
+  <!-- plugin fluxogramas aqui -->
+  <script>
+    registerPlugin({
+      id: 'crono',
+      name: 'Cronogramas',
+      icon: '📋',
+      color: '#6e5cf5',
 
-  /* ══════════════════════════════════════
-     UTILITÁRIOS
-  ══════════════════════════════════════ */
-  _dueTxt(ts) {
-    const d     = new Date(ts);
-    const today = new Date(); today.setHours(0,0,0,0);
-    const diff  = Math.floor((d-today)/(1000*60*60*24));
-    if (diff<0)   return 'Atrasado '+Math.abs(diff)+'d';
-    if (diff===0) return 'Hoje '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-    if (diff===1) return 'Amanhã';
-    return d.toLocaleDateString('pt-BR',{day:'numeric',month:'short'});
-  },
+      css: `
+/* ═══════════════════════════════════════
+   PLUGIN CRONOGRAMAS
+═══════════════════════════════════════ */
+.cr-wrap         { padding:0 0 80px; }
 
-  _isToday(ts) {
-    const d     = new Date(ts);
-    const today = new Date();
-    return d.getDate()===today.getDate()&&d.getMonth()===today.getMonth()&&d.getFullYear()===today.getFullYear();
-  },
+/* ── HEADER / TOOLBAR ── */
+.cr-toolbar      { display:flex;gap:7px;padding:14px 16px 10px;flex-wrap:wrap;align-items:center; }
+.cr-search-wrap  { flex:1;min-width:160px;position:relative; }
+.cr-search       { width:100%;background:var(--surf);border:1px solid var(--border2);border-radius:11px;padding:9px 34px 9px 12px;color:var(--text);font-family:var(--fb);font-size:13.5px;outline:none;transition:border-color .14s; }
+.cr-search:focus { border-color:#6e5cf5;box-shadow:0 0 0 3px rgba(110,92,245,.15); }
+.cr-search-ico   { position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:13px;opacity:.4;pointer-events:none; }
+.cr-toolbar-btn  { padding:9px 13px;border-radius:11px;border:1px solid var(--border2);background:var(--surf);color:var(--text2);font-size:13px;cursor:pointer;transition:all .14s;white-space:nowrap; }
+.cr-toolbar-btn:hover { background:var(--surf2);color:var(--text);border-color:var(--border3); }
+.cr-toolbar-btn.accent { background:rgba(110,92,245,.12);border-color:#6e5cf5;color:#9b8af9; }
 
-  _slugify(s) { return s.replace(/[^a-z0-9]/gi,'_').toLowerCase(); },
+/* ── FORM CRIAR / EDITAR ── */
+.cr-form         { background:var(--surf);border:1px solid var(--border2);border-radius:16px;margin:0 14px 12px;overflow:hidden; }
+.cr-form-head    { display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--border); }
+.cr-form-title   { font-family:var(--fd);font-size:15px;font-weight:700;color:var(--text); }
+.cr-form-close   { width:28px;height:28px;border-radius:8px;border:none;background:var(--surf2);color:var(--text3);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center; }
+.cr-form-body    { padding:14px 16px; }
+.cr-field        { margin-bottom:10px; }
+.cr-field label  { display:block;font-size:10.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text3);margin-bottom:5px; }
+.cr-inp          { width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:9px 12px;color:var(--text);font-family:var(--fb);font-size:13.5px;outline:none;transition:border-color .14s;resize:none; }
+.cr-inp:focus    { border-color:#6e5cf5; }
+.cr-steps-inp    { font-family:'Courier New',monospace;font-size:13px;min-height:140px;white-space:pre;overflow-x:auto; }
+.cr-indent-row   { display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap; }
+.cr-indent-btn   { padding:5px 10px;border-radius:8px;border:1px solid var(--border2);background:var(--surf2);color:var(--text2);font-size:11.5px;cursor:pointer;transition:all .13s; }
+.cr-indent-btn:hover { background:var(--surf);color:var(--text); }
+.cr-level-badge  { padding:4px 10px;border-radius:8px;font-size:11px;font-weight:700;background:#4caf5022;color:#4caf50;align-self:center; }
+.cr-voice-row    { display:flex;gap:6px;margin-bottom:8px;align-items:center; }
+.cr-mic-btn      { display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:9px;border:1px solid var(--border2);background:var(--surf2);color:var(--text2);font-size:12px;cursor:pointer;transition:all .13s; }
+.cr-mic-btn.rec  { background:rgba(240,95,95,.15);border-color:var(--red);color:var(--red);animation:crPulse 1.2s ease-in-out infinite; }
+@keyframes crPulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+.cr-mic-status   { font-size:11.5px;color:var(--text3); }
+.cr-mic-status.listening { color:#3ecf7a; }
+.cr-audio-note-btn { display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:9px;border:1px solid var(--border2);background:var(--surf2);color:var(--text2);font-size:12px;cursor:pointer;transition:all .13s; }
+.cr-audio-note-btn.rec { background:rgba(240,95,95,.15);border-color:var(--red);color:var(--red); }
+.cr-img-row      { display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px; }
+.cr-img-btn      { padding:7px 12px;border-radius:9px;border:1px solid var(--border2);background:var(--surf2);color:var(--text2);font-size:12px;cursor:pointer;transition:all .13s; }
+.cr-img-btn:hover { background:var(--surf);color:var(--text); }
+.cr-img-previews { display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px; }
+.cr-img-thumb    { position:relative;width:70px;height:70px;border-radius:10px;overflow:hidden; }
+.cr-img-thumb img{ width:100%;height:100%;object-fit:cover; }
+.cr-img-rm       { position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;border:none;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center; }
+.cr-form-actions { display:flex;gap:8px;margin-top:4px; }
+.cr-save-btn     { flex:1;padding:11px;background:linear-gradient(135deg,#6e5cf5,#9e8cfb);border:none;border-radius:11px;color:#fff;font-family:var(--fd);font-size:14px;font-weight:700;cursor:pointer;transition:transform .13s; }
+.cr-save-btn:active { transform:scale(.98); }
+.cr-cancel-btn   { padding:11px 16px;border-radius:11px;border:1px solid var(--border2);background:var(--surf2);color:var(--text2);font-size:13px;cursor:pointer; }
 
-  _beep(freq, dur) {
-    try {
-      const ctx=new(window.AudioContext||window.webkitAudioContext)();
-      const o=ctx.createOscillator(), g=ctx.createGain();
-      o.connect(g); g.connect(ctx.destination);
-      o.frequency.value=freq; o.type='sine';
-      g.gain.setValueAtTime(0.2,ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+dur/1000);
-      o.start(ctx.currentTime); o.stop(ctx.currentTime+dur/1000);
-    } catch(e){}
-  },
-});
-    </script>
+/* ── LISTA DE CRONOGRAMAS ── */
+.cr-list         { display:flex;flex-direction:column;gap:10px;padding:0 14px; }
+.cr-empty        { text-align:center;padding:50px 20px;color:var(--text3); }
+.cr-empty-ico    { font-size:44px;display:block;margin-bottom:10px; }
+
+/* ── CARD CRONOGRAMA ── */
+.cr-card         { background:var(--surf);border:1px solid var(--border2);border-radius:16px;overflow:hidden;transition:border-color .14s; }
+.cr-card.done    { opacity:.65; }
+.cr-card-head    { padding:13px 14px 10px; }
+.cr-card-title-row { display:flex;align-items:flex-start;gap:8px;margin-bottom:8px; }
+.cr-card-stripe  { width:3px;border-radius:3px;flex-shrink:0;margin-top:3px;align-self:stretch; }
+.cr-card-name    { font-family:var(--fd);font-size:16px;font-weight:700;color:var(--text);flex:1;line-height:1.3; }
+.cr-card-name mark { background:#6e5cf522;color:#9b8af9;border-radius:3px;padding:0 2px; }
+.cr-prog-row     { display:flex;align-items:center;gap:8px;margin-bottom:4px; }
+.cr-prog-bar-bg  { flex:1;height:5px;background:var(--border2);border-radius:3px;overflow:hidden; }
+.cr-prog-bar     { height:100%;background:linear-gradient(90deg,#6e5cf5,#9b8af9);border-radius:3px;transition:width .4s ease; }
+.cr-prog-txt     { font-size:11px;color:var(--text3);white-space:nowrap; }
+.cr-card-actions { display:flex;gap:5px;flex-wrap:wrap;padding:0 14px 12px; }
+.cr-act-btn      { display:flex;align-items:center;gap:4px;padding:7px 11px;border-radius:9px;border:1px solid var(--border2);background:var(--surf2);color:var(--text2);font-size:12px;cursor:pointer;transition:all .13s; }
+.cr-act-btn:hover { background:var(--surf);color:var(--text);border-color:var(--border3); }
+.cr-act-btn.accent { background:rgba(110,92,245,.1);border-color:#6e5cf5;color:#9b8af9; }
+.cr-act-btn.green  { background:var(--green-bg);border-color:rgba(62,207,122,.3);color:#3ecf7a; }
+.cr-act-btn.red    { background:var(--red-bg);border-color:rgba(240,95,95,.3);color:var(--red); }
+.cr-act-btn.reading { background:var(--amber-bg);border-color:var(--amber);color:var(--amber); }
+
+/* ── IMAGENS ── */
+.cr-imgs-scroll  { display:none;gap:8px;overflow-x:auto;padding:0 14px 12px;scrollbar-width:none; }
+.cr-imgs-scroll::-webkit-scrollbar { display:none; }
+.cr-imgs-scroll.on { display:flex; }
+.cr-img-card     { flex-shrink:0;width:90px;height:90px;border-radius:10px;overflow:hidden;cursor:pointer; }
+.cr-img-card img { width:100%;height:100%;object-fit:cover; }
+
+/* ── PASSOS ── */
+.cr-steps-section { border-top:1px solid var(--border); }
+.cr-steps-controls{ display:flex;gap:5px;padding:8px 14px;border-bottom:1px solid var(--border); }
+.cr-step-ctrl-btn { padding:4px 10px;border-radius:7px;border:1px solid var(--border2);background:var(--surf2);color:var(--text3);font-size:11px;cursor:pointer;transition:all .13s; }
+.cr-step-ctrl-btn:hover { color:var(--text);background:var(--surf); }
+.cr-steps-search  { display:flex;gap:5px;padding:6px 14px;border-bottom:1px solid var(--border);align-items:center; }
+.cr-step-search-inp{ flex:1;background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:6px 10px;color:var(--text);font-size:12.5px;outline:none; }
+.cr-step-search-inp:focus { border-color:#6e5cf5; }
+.cr-step-nav-btn  { width:26px;height:26px;border-radius:7px;border:1px solid var(--border2);background:var(--surf2);color:var(--text2);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center; }
+.cr-step-nav-btn:hover { background:var(--surf);color:var(--text); }
+.cr-search-count  { font-size:11px;color:var(--text3);white-space:nowrap; }
+
+.cr-steps-list    { padding:6px 0; }
+.cr-step          { display:flex;align-items:flex-start;gap:8px;padding:7px 14px;cursor:pointer;transition:background .12s;position:relative; }
+.cr-step:hover    { background:rgba(255,255,255,.03); }
+.cr-step.active   { background:rgba(110,92,245,.08);border-left:3px solid #6e5cf5; }
+.cr-step.completed .cr-step-text { text-decoration:line-through;color:var(--text3); }
+.cr-step.focused  { background:rgba(245,187,69,.08);border-left:3px solid var(--amber); }
+
+.cr-collapse-ico  { color:var(--text3);font-size:11px;cursor:pointer;flex-shrink:0;width:16px;text-align:center;margin-top:3px;user-select:none;transition:transform .15s; }
+.cr-step-check    { width:18px;height:18px;border-radius:5px;border:1.5px solid var(--border2);background:var(--surf2);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;margin-top:2px;font-size:10px;transition:all .14s; }
+.cr-step-check.on { background:#6e5cf5;border-color:#6e5cf5;color:#fff; }
+.cr-step-text     { flex:1;font-size:13.5px;color:var(--text);line-height:1.5;word-break:break-word; }
+.cr-step-text mark{ background:#6e5cf522;color:#9b8af9;border-radius:3px;padding:0 2px; }
+
+/* Níveis visuais */
+.cr-step[data-level="1"] { padding-left:30px; }
+.cr-step[data-level="2"] { padding-left:46px; }
+.cr-step[data-level="3"] { padding-left:62px; }
+.cr-step[data-level="4"] { padding-left:78px; }
+.cr-step[data-level="5"] { padding-left:94px; }
+
+/* Nota de áudio inline */
+.cr-audio-player  { display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;background:rgba(110,92,245,.12);border:1px solid rgba(110,92,245,.25);cursor:pointer;vertical-align:middle;margin:0 3px;transition:all .13s; }
+.cr-audio-player:hover,.cr-audio-player.playing { background:rgba(110,92,245,.22);border-color:#6e5cf5; }
+.cr-audio-play-ico{ font-size:11px;color:#9b8af9; }
+.cr-audio-dur     { font-size:10.5px;color:var(--text3); }
+.cr-audio-waves   { display:flex;align-items:center;gap:2px; }
+.cr-audio-waves span { display:block;width:2px;border-radius:1px;background:#9b8af9; }
+.cr-audio-player.playing .cr-audio-waves span { animation:crWave .8s ease-in-out infinite; }
+.cr-audio-waves span:nth-child(2){ animation-delay:.1s; }
+.cr-audio-waves span:nth-child(3){ animation-delay:.2s; }
+.cr-audio-waves span:nth-child(4){ animation-delay:.1s; }
+@keyframes crWave { 0%,100%{transform:scaleY(1)} 50%{transform:scaleY(2)} }
+
+/* Modal imagem */
+.cr-img-modal     { position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;display:none;align-items:center;justify-content:center; }
+.cr-img-modal.on  { display:flex; }
+.cr-img-modal img { max-width:90vw;max-height:85vh;border-radius:12px;object-fit:contain; }
+.cr-img-modal-close { position:fixed;top:16px;right:16px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center; }
+.cr-img-nav       { position:fixed;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center; }
+.cr-img-nav.left  { left:12px; }
+.cr-img-nav.right { right:12px; }
+
+/* Câmera modal */
+.cr-cam-modal     { position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px; }
+.cr-cam-modal.on  { display:flex; }
+.cr-cam-video     { max-width:90vw;max-height:65vh;border-radius:12px; }
+.cr-cam-btns      { display:flex;gap:10px; }
+.cr-cam-btn       { padding:12px 22px;border-radius:11px;border:none;font-family:var(--fd);font-size:14px;font-weight:700;cursor:pointer; }
+.cr-cam-btn.capture { background:#3ecf7a;color:#fff; }
+.cr-cam-btn.switch  { background:#6e5cf5;color:#fff; }
+.cr-cam-btn.close   { background:var(--red);color:#fff; }
+`,
+
+      /* ═══════════════════ DEFAULT DATA ═══════════════════ */
+      defaultData: () => ({
+        cronogramas: [],
+        // sem campos extras, tudo salvo aqui
+      }),
+
+      /* ═══════════════════ CARD ═══════════════════ */
+      cardPreview(rec) {
+        const list = rec.data.cronogramas || [];
+        if (!list.length) return 'Nenhum cronograma ainda';
+        const done = list.filter(c => c.steps.every(s => s.completed)).length;
+        return list.length + ' cronograma' + (list.length !== 1 ? 's' : '') +
+          (done ? ' · ' + done + ' concluído' + (done !== 1 ? 's' : '') : '');
+      },
+
+      cardBadge(rec) {
+        const list = rec.data.cronogramas || [];
+        if (!list.length) return '<span class="badge badge-p">Vazio</span>';
+        const total = list.reduce((s, c) => s + c.steps.length, 0);
+        const done = list.reduce((s, c) => s + c.steps.filter(st => st.completed).length, 0);
+        const pct = total ? Math.round(done / total * 100) : 0;
+        if (pct === 100) return '<span class="badge badge-g">✓ Tudo feito</span>';
+        if (pct > 0) return '<span class="badge badge-a">' + pct + '% feito</span>';
+        return '<span class="badge badge-p">' + list.length + ' item' + (list.length !== 1 ? 's' : '') + '</span>';
+      },
+
+      navActions: [
+        {
+          id: 'novo', icon: '＋', title: 'Novo cronograma',
+          handler() { App.activePlugin._openForm(); }
+        },
+      ],
+
+      /* ═══════════════════ ESTADO INTERNO ═══════════════════ */
+      _el: null, _rec: null,
+      _form: null,          // { mode:'new'|'edit', id, title, stepsText, images[], audioNotes{}, pendingAudio{} }
+      _expandedIds: new Set(),
+      _searchQuery: '',
+      _stepSearches: {},    // { cronoId: { query, matches[], matchIdx } }
+      _activeAudios: {},    // { noteId: HTMLAudioElement }
+      _ttsActive: null,     // { cronoId, queue[], idx, utterance }
+      _execActive: null,
+      _voiceRec: null,
+      _voiceTarget: null,   // 'title'|'steps'
+      _isRecordingVoice: false,
+      _isRecordingNote: false,
+      _noteRecorder: null,
+      _noteChunks: [],
+      _noteTargetForm: null,
+      _imgModalImages: [],
+      _imgModalIdx: 0,
+      _camStream: null,
+      _camFacing: 'environment',
+      _camForEdit: false,
+
+      /* ═══════════════════ MOUNT / UNMOUNT ═══════════════════ */
+      mount(container, rec) {
+        this._el = container;
+        this._rec = rec;
+        this._render();
+      },
+      unmount() {
+        this._stopTTS();
+        this._stopVoice();
+        this._closeCam();
+        this._el = null; this._rec = null;
+      },
+      async _save() { await App.saveRecord(this._rec); },
+
+      /* ═══════════════════════════════════════════════════════
+         RENDER PRINCIPAL
+      ═══════════════════════════════════════════════════════ */
+      _render() {
+        if (!this._el) return;
+        const list = this._rec.data.cronogramas || [];
+
+        // Filtra por busca global
+        const q = this._searchQuery.toLowerCase().trim();
+        const filtered = q
+          ? list.filter(c => c.title.toLowerCase().includes(q) ||
+            c.steps.some(s => s.text.toLowerCase().includes(q)))
+          : list;
+
+        document.getElementById('pluginNavSub').textContent =
+          list.length + ' cronograma' + (list.length !== 1 ? 's' : '');
+
+        let html = '<div class="cr-wrap">';
+
+        // Toolbar
+        html += '<div class="cr-toolbar">' +
+          '<div class="cr-search-wrap">' +
+          '<input class="cr-search" id="cr_gsearch" type="text" placeholder="Buscar cronogramas…" value="' + esc(this._searchQuery) + '" ' +
+          'oninput="App.activePlugin._onGlobalSearch(this.value)">' +
+          '<span class="cr-search-ico">🔍</span>' +
+          '</div>' +
+          '<button class="cr-toolbar-btn accent" onclick="App.activePlugin._openForm()">＋ Novo</button>' +
+          '</div>';
+
+        // Formulário (se aberto)
+        if (this._form) html += this._renderForm();
+
+        // Lista
+        html += '<div class="cr-list">';
+        if (!filtered.length) {
+          html += '<div class="cr-empty"><span class="cr-empty-ico">📋</span>' +
+            (q ? 'Nenhum resultado para "' + esc(q) + '"' : 'Nenhum cronograma ainda.<br>Toque em + Novo para criar.') +
+            '</div>';
+        } else {
+          filtered.forEach(c => { html += this._renderCard(c); });
+        }
+        html += '</div></div>';
+
+        // Modais
+        html += this._renderImgModal();
+        html += this._renderCamModal();
+
+        this._el.innerHTML = html;
+        this._bindEvents();
+      },
+
+      /* ═══════════════════════════════════════════════════════
+         FORMULÁRIO CRIAR / EDITAR
+      ═══════════════════════════════════════════════════════ */
+      _openForm(crono) {
+        this._form = crono
+          ? {
+            mode: 'edit', id: crono.id, title: crono.title,
+            stepsText: this._stepsToText(crono.steps),
+            images: [...(crono.images || [])],
+            audioNotes: { ...(crono.audioNotes || {}) },
+            pendingAudio: {}
+          }
+          : {
+            mode: 'new', id: null, title: '', stepsText: '',
+            images: [], audioNotes: {}, pendingAudio: {}
+          };
+        this._render();
+        setTimeout(() => {
+          const inp = document.getElementById('cr_form_steps');
+          if (inp) { inp.focus(); inp.scrollTop = inp.scrollHeight; }
+        }, 80);
+      },
+
+      _closeForm() { this._form = null; this._render(); },
+
+      _renderForm() {
+        const f = this._form;
+        const COLORS = ['#f05f5f', '#f5bb45', '#3ecf7a', '#6e5cf5', '#22d3ee', '#a78bfa', '#fb923c', '#e879f9'];
+        const imgPreviews = f.images.map((src, i) =>
+          '<div class="cr-img-thumb">' +
+          '<img src="' + src + '">' +
+          '<button class="cr-img-rm" onclick="App.activePlugin._removeFormImg(' + i + ')">✕</button>' +
+          '</div>'
+        ).join('');
+
+        return '<div class="cr-form">' +
+          '<div class="cr-form-head">' +
+          '<span class="cr-form-title">' + (f.mode === 'new' ? '＋ Novo Cronograma' : '✏️ Editar') + '</span>' +
+          '<button class="cr-form-close" onclick="App.activePlugin._closeForm()">✕</button>' +
+          '</div>' +
+          '<div class="cr-form-body">' +
+
+          // Voz
+          '<div class="cr-voice-row">' +
+          '<button class="cr-mic-btn' + (this._isRecordingVoice ? ' rec' : '') + '" id="cr_mic_btn" onclick="App.activePlugin._toggleVoice()">' +
+          (this._isRecordingVoice ? '⏹ Parar' : '🎤 Voz') +
+          '</button>' +
+          '<span class="cr-mic-status" id="cr_mic_status"></span>' +
+          '</div>' +
+
+          // Título
+          '<div class="cr-field"><label>Título</label>' +
+          '<input class="cr-inp" id="cr_form_title" type="text" placeholder="Nome do cronograma…" value="' + esc(f.title) + '"></div>' +
+
+          // Passos
+          '<div class="cr-field"><label>Passos (2 espaços = 1 nível de indentação)</label>' +
+          '<div class="cr-indent-row">' +
+          '<button class="cr-indent-btn" onclick="App.activePlugin._indent(\'cr_form_steps\',1)">→ Indentar</button>' +
+          '<button class="cr-indent-btn" onclick="App.activePlugin._indent(\'cr_form_steps\',-1)">← Remover</button>' +
+          '<button class="cr-indent-btn" onclick="App.activePlugin._indent(\'cr_form_steps\',0)">⌫ Raiz</button>' +
+          '<span class="cr-level-badge" id="cr_level_badge">Raiz (0)</span>' +
+          '</div>' +
+          '<textarea class="cr-inp cr-steps-inp" id="cr_form_steps" rows="8" ' +
+          'oninput="App.activePlugin._onStepsInput()" ' +
+          'onclick="App.activePlugin._updateLevelBadge()" ' +
+          'onkeydown="App.activePlugin._onStepsKeydown(event)">' +
+          esc(f.stepsText) +
+          '</textarea>' +
+          '</div>' +
+
+          // Nota de áudio
+          '<div class="cr-voice-row">' +
+          '<button class="cr-audio-note-btn' + (this._isRecordingNote ? ' rec' : '') + '" onclick="App.activePlugin._toggleAudioNote()">' +
+          (this._isRecordingNote ? '⏹ Parar Gravação' : '🎵 Nota de Áudio') +
+          '</button>' +
+          '<span class="cr-mic-status" id="cr_note_status"></span>' +
+          '</div>' +
+
+          // Imagens
+          '<div class="cr-field"><label>Imagens</label>' +
+          '<div class="cr-img-row">' +
+          '<button class="cr-img-btn" onclick="App.activePlugin._openCam()">📷 Câmera</button>' +
+          '<button class="cr-img-btn" onclick="document.getElementById(\'cr_file_inp\').click()">🖼️ Galeria</button>' +
+          '</div>' +
+          '<input type="file" id="cr_file_inp" accept="image/*" multiple style="display:none" onchange="App.activePlugin._onFileSelect(event)">' +
+          (imgPreviews ? '<div class="cr-img-previews">' + imgPreviews + '</div>' : '') +
+          '</div>' +
+
+          '<div class="cr-form-actions">' +
+          '<button class="cr-save-btn" onclick="App.activePlugin._saveForm()">💾 Salvar</button>' +
+          '<button class="cr-cancel-btn" onclick="App.activePlugin._closeForm()">Cancelar</button>' +
+          '</div>' +
+          '</div>' +
+          '</div>';
+      },
+
+      _onStepsInput() {
+        const inp = document.getElementById('cr_form_steps');
+        if (inp && this._form) this._form.stepsText = inp.value;
+        this._updateLevelBadge();
+      },
+
+      _onStepsKeydown(e) {
+        const ta = document.getElementById('cr_form_steps');
+        if (!ta) return;
+        if (e.key === 'Tab') {
+          e.preventDefault();
+          const s = ta.selectionStart;
+          ta.value = ta.value.substring(0, s) + '  ' + ta.value.substring(ta.selectionEnd);
+          ta.selectionStart = ta.selectionEnd = s + 2;
+          this._updateLevelBadge();
+        }
+      },
+
+      _updateLevelBadge() {
+        const ta = document.getElementById('cr_form_steps');
+        const badge = document.getElementById('cr_level_badge');
+        if (!ta || !badge) return;
+        const val = ta.value;
+        const lineStart = val.lastIndexOf('\n', ta.selectionStart - 1) + 1;
+        const lineEnd = val.indexOf('\n', ta.selectionStart);
+        const line = val.substring(lineStart, lineEnd === -1 ? val.length : lineEnd);
+        const spaces = (line.match(/^ */)[0] || '').length;
+        const level = Math.floor(spaces / 2);
+        const labels = ['Raiz', 'Sub', 'Sub-sub', 'Detalhe', 'Nível 4', 'Nível 5'];
+        const colors = ['#4caf50', '#2196f3', '#ff9800', '#9c27b0', '#607d8b', '#795548'];
+        badge.textContent = (labels[level] || 'Nível ' + level) + ' (' + level + ')';
+        badge.style.background = (colors[level] || '#607d8b') + '33';
+        badge.style.color = colors[level] || '#607d8b';
+      },
+
+      _indent(taId, dir) {
+        const ta = document.getElementById(taId);
+        if (!ta) return;
+        const val = ta.value;
+        const s = ta.selectionStart;
+        const lineStart = val.lastIndexOf('\n', s - 1) + 1;
+        const lineEnd = val.indexOf('\n', s);
+        const end = lineEnd === -1 ? val.length : lineEnd;
+        const line = val.substring(lineStart, end);
+        let newLine;
+        if (dir === 1) newLine = '  ' + line;
+        else if (dir === -1) newLine = line.replace(/^ {1,2}/, '');
+        else newLine = line.trimStart();
+        ta.value = val.substring(0, lineStart) + newLine + val.substring(end);
+        ta.selectionStart = ta.selectionEnd = lineStart + newLine.length;
+        ta.focus();
+        if (this._form) this._form.stepsText = ta.value;
+        this._updateLevelBadge();
+      },
+
+      async _saveForm() {
+        const f = this._form;
+        if (!f) return;
+        const titleEl = document.getElementById('cr_form_title');
+        const stepsEl = document.getElementById('cr_form_steps');
+        const title = (titleEl ? titleEl.value : f.title).trim();
+        const stepsText = (stepsEl ? stepsEl.value : f.stepsText).trim();
+        if (!title) { toast('Insira um título'); return; }
+        if (!stepsText) { toast('Insira pelo menos um passo'); return; }
+
+        // Merge audioNotes pendentes
+        const audioNotes = { ...f.audioNotes, ...f.pendingAudio };
+        const steps = this._textToSteps(stepsText);
+
+        const list = this._rec.data.cronogramas;
+        if (f.mode === 'new') {
+          list.unshift({
+            id: 'c' + Date.now(), title, steps,
+            images: f.images, audioNotes, createdAt: Date.now()
+          });
+        } else {
+          const existing = list.find(c => c.id === f.id);
+          if (existing) {
+            // Preserva completed dos steps existentes
+            steps.forEach((s, i) => {
+              const old = existing.steps[i];
+              s.completed = old ? old.completed : false;
+            });
+            existing.title = title;
+            existing.steps = steps;
+            existing.images = f.images;
+            existing.audioNotes = audioNotes;
+            // Limpa audioNotes órfãs
+            const allText = steps.map(s => s.text).join('\n');
+            Object.keys(existing.audioNotes).forEach(id => {
+              if (!allText.includes(id)) delete existing.audioNotes[id];
+            });
+          }
+        }
+        this._form = null;
+        await this._save();
+        this._render();
+        toast(f.mode === 'new' ? '📋 Cronograma criado!' : '✅ Salvo!');
+      },
+
+      _removeFormImg(i) {
+        if (this._form) this._form.images.splice(i, 1);
+        this._render();
+      },
+
+      /* ═══════════════════════════════════════════════════════
+         PASSOS — CONVERSÃO TEXTO ↔ ARRAY
+      ═══════════════════════════════════════════════════════ */
+      _textToSteps(text) {
+        return text.split('\n').filter(l => l.trim()).map(line => {
+          const spaces = (line.match(/^ */)[0] || '').length;
+          return { text: line.trim(), level: Math.floor(spaces / 2), completed: false };
+        });
+      },
+
+      _stepsToText(steps) {
+        return (steps || []).map(s => '  '.repeat(s.level || 0) + s.text).join('\n');
+      },
+
+      /* ═══════════════════════════════════════════════════════
+         RENDER CARD
+      ═══════════════════════════════════════════════════════ */
+      _renderCard(crono) {
+        const steps = crono.steps || [];
+        const total = steps.length;
+        const done = steps.filter(s => s.completed).length;
+        const pct = total ? Math.round(done / total * 100) : 0;
+        const isExpanded = this._expandedIds.has(crono.id);
+        const isDone = pct === 100;
+        const ss = this._stepSearches[crono.id] || { query: '', matches: [], matchIdx: 0 };
+        const tts = this._ttsActive;
+        const isReading = tts && tts.cronoId === crono.id;
+
+        let html = '<div class="cr-card' + (isDone ? ' done' : '') + '" id="crcard_' + crono.id + '">' +
+          '<div class="cr-card-head">' +
+          '<div class="cr-card-title-row">' +
+          '<div class="cr-card-stripe" style="background:#6e5cf5"></div>' +
+          '<div class="cr-card-name">' + this._highlightText(crono.title, this._searchQuery) + '</div>' +
+          '</div>' +
+          '<div class="cr-prog-row">' +
+          '<div class="cr-prog-bar-bg"><div class="cr-prog-bar" style="width:' + pct + '%"></div></div>' +
+          '<span class="cr-prog-txt">' + done + '/' + total + ' · ' + pct + '%</span>' +
+          '</div>' +
+          '</div>' +
+
+          // Ações
+          '<div class="cr-card-actions">' +
+          '<button class="cr-act-btn accent" onclick="App.activePlugin._toggleExpand(\'' + crono.id + '\')">' +
+          (isExpanded ? '▲ Recolher' : '▼ Expandir (' + total + ' passos)') + '</button>' +
+          (crono.images && crono.images.length ?
+            '<button class="cr-act-btn" onclick="App.activePlugin._toggleImgs(\'' + crono.id + '\')">' +
+            '🖼️ Imagens</button>' : '') +
+          '<button class="cr-act-btn green" onclick="App.activePlugin._execNext(\'' + crono.id + '\')" title="Ler e marcar próximo passo">▶️ Executar</button>' +
+          '<button class="cr-act-btn' + (isReading ? ' reading' : '') + '" onclick="App.activePlugin._toggleTTS(\'' + crono.id + '\')">' +
+          (isReading ? '⏹ Parar' : '🔊 Ler') + '</button>' +
+          '<button class="cr-act-btn" onclick="App.activePlugin._openForm(App.activePlugin._rec.data.cronogramas.find(c=>c.id===\'' + crono.id + '\'))">✏️ Editar</button>' +
+          '<button class="cr-act-btn" onclick="App.activePlugin._resetCrono(\'' + crono.id + '\')">🔄 Reset</button>' +
+          '<button class="cr-act-btn red" onclick="App.activePlugin._deleteCrono(\'' + crono.id + '\')">🗑</button>' +
+          '</div>' +
+
+          // Imagens
+          '<div class="cr-imgs-scroll" id="crim_' + crono.id + '">' +
+          (crono.images || []).map((src, i) =>
+            '<div class="cr-img-card" onclick="App.activePlugin._openImgModal(\'' + crono.id + '\',' + i + ')">' +
+            '<img src="' + src + '" loading="lazy">' +
+            '</div>'
+          ).join('') +
+          '</div>';
+
+        // Passos expandidos
+        if (isExpanded) {
+          html += '<div class="cr-steps-section">' +
+            '<div class="cr-steps-controls">' +
+            '<button class="cr-step-ctrl-btn" onclick="App.activePlugin._expandAll(\'' + crono.id + '\')">▼ Expandir tudo</button>' +
+            '<button class="cr-step-ctrl-btn" onclick="App.activePlugin._collapseAll(\'' + crono.id + '\')">▶ Recolher tudo</button>' +
+            '</div>' +
+            '<div class="cr-steps-search">' +
+            '<input class="cr-step-search-inp" id="crss_' + crono.id + '" type="text" placeholder="Buscar nos passos…" value="' + esc(ss.query) + '" ' +
+            'oninput="App.activePlugin._onStepSearch(\'' + crono.id + '\',this.value)">' +
+            '<button class="cr-step-nav-btn" onclick="App.activePlugin._stepSearchNav(\'' + crono.id + '\',-1)">◀</button>' +
+            '<button class="cr-step-nav-btn" onclick="App.activePlugin._stepSearchNav(\'' + crono.id + '\',1)">▶</button>' +
+            (ss.matches.length ? '<span class="cr-search-count">' + (ss.matchIdx + 1) + '/' + ss.matches.length + '</span>' : '') +
+            '<button class="cr-step-nav-btn" onclick="App.activePlugin._clearStepSearch(\'' + crono.id + '\')">✕</button>' +
+            '<button class="cr-step-nav-btn" title="Buscar por voz" onclick="App.activePlugin._voiceStepSearch(\'' + crono.id + '\')">🎙️</button>' +
+            '</div>' +
+            '<div class="cr-steps-list" id="crsteps_' + crono.id + '">' +
+            this._renderSteps(crono) +
+            '</div>' +
+            '</div>';
+        }
+
+        html += '</div>';
+        return html;
+      },
+
+      /* ═══════════════════════════════════════════════════════
+         RENDER PASSOS
+      ═══════════════════════════════════════════════════════ */
+      _renderSteps(crono) {
+        const steps = crono.steps || [];
+        const notes = crono.audioNotes || {};
+        const ss = this._stepSearches[crono.id] || { query: '', matches: [], matchIdx: 0 };
+        const colState = this._getColState(crono.id); // { [idx]: 'open'|'closed' }
+
+        let html = '';
+        steps.forEach((step, i) => {
+          const level = step.level || 0;
+          const hasChildren = i < steps.length - 1 && steps[i + 1].level > level;
+          const colKey = crono.id + '_' + i;
+          const isCollapsed = colState[i] === 'closed';
+          // Se algum pai está fechado, este step é oculto
+          const isHidden = this._isStepHidden(steps, i, colState);
+
+          const isMatch = ss.matches.includes(i);
+          const isFocused = ss.matches.length && ss.matches[ss.matchIdx] === i;
+
+          let textHtml = this._renderStepText(step.text, notes, ss.query);
+          if (isMatch && ss.query) textHtml = this._highlightText(step.text, ss.query);
+
+          const colIco = hasChildren
+            ? '<span class="cr-collapse-ico" onclick="App.activePlugin._toggleStepCollapse(\'' + crono.id + '\',' + i + ',event)">' +
+            (isCollapsed ? '▶' : '▼') + '</span>'
+            : '<span class="cr-collapse-ico" style="opacity:0;pointer-events:none">▶</span>';
+
+          html += '<div class="cr-step' +
+            (step.completed ? ' completed' : '') +
+            (isFocused ? ' focused' : '') +
+            '" data-idx="' + i + '" data-level="' + level + '" ' +
+            'style="' + (isHidden ? 'display:none;' : '') + '"' +
+            ' onclick="App.activePlugin._onStepClick(\'' + crono.id + '\',' + i + ',event)">' +
+            colIco +
+            '<div class="cr-step-check' + (step.completed ? ' on' : '') + '" ' +
+            'onclick="App.activePlugin._toggleStep(\'' + crono.id + '\',' + i + ',event)">' +
+            (step.completed ? '✓' : '') + '</div>' +
+            '<div class="cr-step-text">' + textHtml + '</div>' +
+            '</div>';
+        });
+
+        return html || '<div style="padding:12px 14px;color:var(--text3);font-size:13px">Nenhum passo</div>';
+      },
+
+      _isStepHidden(steps, idx, colState) {
+        const level = steps[idx].level || 0;
+        if (level === 0) return false;
+        // Procura pai mais próximo
+        for (let i = idx - 1; i >= 0; i--) {
+          const parentLevel = steps[i].level || 0;
+          if (parentLevel < level) {
+            if (colState[i] === 'closed') return true;
+            return this._isStepHidden(steps, i, colState);
+          }
+        }
+        return false;
+      },
+
+      _getColState(cronoId) {
+        return this['_colState_' + cronoId] || (this['_colState_' + cronoId] = {});
+      },
+
+      _toggleStepCollapse(cronoId, idx, e) {
+        if (e) { e.stopPropagation(); e.preventDefault(); }
+        const state = this._getColState(cronoId);
+        state[idx] = state[idx] === 'closed' ? 'open' : 'closed';
+        const cont = document.getElementById('crsteps_' + cronoId);
+        if (!cont) return;
+        const crono = this._rec.data.cronogramas.find(c => c.id === cronoId);
+        if (crono) cont.innerHTML = this._renderSteps(crono);
+      },
+
+      _expandAll(cronoId) {
+        this['_colState_' + cronoId] = {};
+        const cont = document.getElementById('crsteps_' + cronoId);
+        const crono = this._rec.data.cronogramas.find(c => c.id === cronoId);
+        if (cont && crono) cont.innerHTML = this._renderSteps(crono);
+      },
+
+      _collapseAll(cronoId) {
+        const crono = this._rec.data.cronogramas.find(c => c.id === cronoId);
+        if (!crono) return;
+        const state = {};
+        crono.steps.forEach((s, i) => {
+          const hasChildren = i < crono.steps.length - 1 && crono.steps[i + 1].level > (s.level || 0);
+          if (hasChildren) state[i] = 'closed';
+        });
+        this['_colState_' + cronoId] = state;
+        const cont = document.getElementById('crsteps_' + cronoId);
+        if (cont) cont.innerHTML = this._renderSteps(crono);
+      },
+
+      /* ═══════════════════════════════════════════════════════
+         TEXTO DO PASSO — áudio inline
+      ═══════════════════════════════════════════════════════ */
+      _renderStepText(text, notes, searchQ) {
+        const base = searchQ ? this._highlightText(text, searchQ) : esc(text);
+        // substitui marcadores de áudio
+        return base.replace(/\[AUDIO_NOTE:(an_[\w]+)\]/g, (match, noteId) => {
+          const hasSrc = !!(notes && notes[noteId]);
+          if (!hasSrc) return '<span style="color:var(--text3);font-size:11px">[áudio]</span>';
+          return '<span class="cr-audio-player" data-note="' + noteId + '" ' +
+            'onclick="App.activePlugin._toggleAudioPlay(\'' + noteId + '\',event)">' +
+            '<span class="cr-audio-play-ico">▶</span>' +
+            '<span class="cr-audio-waves">' +
+            '<span style="height:4px"></span><span style="height:10px"></span>' +
+            '<span style="height:14px"></span><span style="height:10px"></span>' +
+            '<span style="height:4px"></span>' +
+            '</span>' +
+            '<span class="cr-audio-dur" id="crdur_' + noteId + '">♪</span>' +
+            '</span>';
+        });
+      },
+
+      _highlightText(text, query) {
+        if (!query) return esc(text);
+        const norm = t => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        const nq = norm(query);
+        const ne = esc(text);
+        // Destaque simples
+        try {
+          return ne.replace(new RegExp('(' + nq.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'), '<mark>$1</mark>');
+        } catch { return ne; }
+      },
+
+      /* ═══════════════════════════════════════════════════════
+         AÇÕES DOS PASSOS
+      ═══════════════════════════════════════════════════════ */
+      _onStepClick(cronoId, idx, e) {
+        if (e.target.classList.contains('cr-collapse-ico') ||
+          e.target.classList.contains('cr-step-check') ||
+          e.target.closest('.cr-audio-player')) return;
+        this._toggleStep(cronoId, idx, e);
+      },
+
+      async _toggleStep(cronoId, idx, e) {
+        if (e) e.stopPropagation();
+        const crono = this._rec.data.cronogramas.find(c => c.id === cronoId);
+        if (!crono || !crono.steps[idx]) return;
+        crono.steps[idx].completed = !crono.steps[idx].completed;
+        await this._save();
+        // Atualiza só o card sem re-renderizar tudo
+        this._refreshCard(cronoId);
+      },
+
+      async _resetCrono(id) {
+        const crono = this._rec.data.cronogramas.find(c => c.id === id);
+        if (!crono) return;
+        crono.steps.forEach(s => s.completed = false);
+        await this._save();
+        this._refreshCard(id);
+        toast('🔄 Progresso resetado');
+      },
+
+      async _deleteCrono(id) {
+        this._rec.data.cronogramas = this._rec.data.cronogramas.filter(c => c.id !== id);
+        this._expandedIds.delete(id);
+        await this._save();
+        this._render();
+        toast('Cronograma removido');
+      },
+
+      /* ═══════════════════════════════════════════════════════
+         EXPAND / COLLAPSE CARD
+      ═══════════════════════════════════════════════════════ */
+      _toggleExpand(id) {
+        if (this._expandedIds.has(id)) {
+          this._expandedIds.delete(id);
+        } else {
+          this._expandedIds.add(id);
+        }
+        this._render();
+        setTimeout(() => {
+          const el = document.getElementById('crcard_' + id);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 80);
+      },
+
+      /* ═══════════════════════════════════════════════════════
+         BUSCA NOS PASSOS
+      ═══════════════════════════════════════════════════════ */
+      _onStepSearch(id, q) {
+        const crono = this._rec.data.cronogramas.find(c => c.id === id);
+        if (!crono) return;
+        const norm = t => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        const nq = norm(q.trim());
+        const matches = nq
+          ? crono.steps.map((s, i) => norm(s.text).includes(nq) ? i : -1).filter(i => i >= 0)
+          : [];
+        this._stepSearches[id] = { query: q, matches, matchIdx: 0 };
+        const cont = document.getElementById('crsteps_' + id);
+        if (cont) cont.innerHTML = this._renderSteps(crono);
+        if (matches.length) this._scrollToStep(id, matches[0]);
+        // Atualiza contador
+        this._refreshStepSearchUI(id);
+      },
+
+      _stepSearchNav(id, dir) {
+        const ss = this._stepSearches[id];
+        if (!ss || !ss.matches.length) return;
+        ss.matchIdx = (ss.matchIdx + dir + ss.matches.length) % ss.matches.length;
+        const crono = this._rec.data.cronogramas.find(c => c.id === id);
+        const cont = document.getElementById('crsteps_' + id);
+        if (cont && crono) cont.innerHTML = this._renderSteps(crono);
+        this._scrollToStep(id, ss.matches[ss.matchIdx]);
+        this._refreshStepSearchUI(id);
+      },
+
+      _clearStepSearch(id) {
+        this._stepSearches[id] = { query: '', matches: [], matchIdx: 0 };
+        const inp = document.getElementById('crss_' + id);
+        if (inp) inp.value = '';
+        const crono = this._rec.data.cronogramas.find(c => c.id === id);
+        const cont = document.getElementById('crsteps_' + id);
+        if (cont && crono) cont.innerHTML = this._renderSteps(crono);
+        this._refreshStepSearchUI(id);
+      },
+
+      _refreshStepSearchUI(id) {
+        // Re-renderiza apenas o header de busca para atualizar contador
+        const ss = this._stepSearches[id] || { query: '', matches: [], matchIdx: 0 };
+        const countEl = document.querySelector('#crcard_' + id + ' .cr-search-count');
+        if (countEl) countEl.textContent = ss.matches.length ? (ss.matchIdx + 1) + '/' + ss.matches.length : '';
+      },
+
+      _scrollToStep(id, idx) {
+        setTimeout(() => {
+          const cont = document.getElementById('crsteps_' + id);
+          if (!cont) return;
+          const el = cont.querySelector('[data-idx="' + idx + '"]');
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 60);
+      },
+
+      _voiceStepSearch(id) {
+        const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SR) { toast('Voz não suportada'); return; }
+        const r = new SR();
+        r.lang = 'pt-BR'; r.interimResults = false;
+        r.onresult = e => {
+          const t = e.results[0][0].transcript;
+          const inp = document.getElementById('crss_' + id);
+          if (inp) { inp.value = t; this._onStepSearch(id, t); }
+        };
+        r.onerror = () => toast('Erro no microfone');
+        r.start();
+        toast('🎙️ Ouvindo…');
+      },
+
+      /* ═══════════════════════════════════════════════════════
+         TTS — LER EM VOZ ALTA
+      ═══════════════════════════════════════════════════════ */
+      _toggleTTS(id) {
+        if (this._ttsActive && this._ttsActive.cronoId === id) {
+          this._stopTTS(); return;
+        }
+        this._stopTTS();
+        const crono = this._rec.data.cronogramas.find(c => c.id === id);
+        if (!crono) return;
+        const queue = this._buildTTSQueue(crono);
+        this._ttsActive = { cronoId: id, queue, idx: 0 };
+        this._playTTSNext();
+        this._refreshCard(id);
+      },
+
+      _buildTTSQueue(crono) {
+        const queue = [{ type: 'speech', text: crono.title }, { type: 'pause', ms: 1000 }];
+        const notes = crono.audioNotes || {};
+        (crono.steps || []).forEach((step, i) => {
+          const parts = step.text.split(/\[AUDIO_NOTE:(an_[\w]+)\]/g);
+          for (let j = 0; j < parts.length; j++) {
+            if (j % 2 === 0) { if (parts[j].trim()) queue.push({ type: 'speech', text: parts[j].trim() }); }
+            else { const src = notes[parts[j]]; if (src) queue.push({ type: 'audio', src, noteId: parts[j] }); }
+          }
+          if (i < crono.steps.length - 1) queue.push({ type: 'pause', ms: 500 });
+        });
+        return queue;
+      },
+
+      _playTTSNext() {
+        const state = this._ttsActive;
+        if (!state || state.idx >= state.queue.length) { this._stopTTS(); return; }
+        const item = state.queue[state.idx];
+        if (item.type === 'pause') {
+          state._timeout = setTimeout(() => { state.idx++; this._playTTSNext(); }, item.ms);
+        } else if (item.type === 'audio') {
+          const a = new Audio(item.src);
+          a.onended = () => { state.idx++; this._playTTSNext(); };
+          a.onerror = () => { state.idx++; this._playTTSNext(); };
+          a.play().catch(() => { state.idx++; this._playTTSNext(); });
+          state._audio = a;
+        } else {
+          const u = new SpeechSynthesisUtterance(item.text);
+          u.lang = 'pt-BR'; u.rate = 0.9; u.pitch = 1;
+          u.onend = () => { state.idx++; this._playTTSNext(); };
+          u.onerror = () => { state.idx++; this._playTTSNext(); };
+          speechSynthesis.speak(u);
+          state._utt = u;
+        }
+      },
+
+      _stopTTS() {
+        if (!this._ttsActive) return;
+        const s = this._ttsActive;
+        speechSynthesis.cancel();
+        if (s._timeout) clearTimeout(s._timeout);
+        if (s._audio) { s._audio.pause(); }
+        const cid = s.cronoId;
+        this._ttsActive = null;
+        this._refreshCard(cid);
+      },
+
+      /* ═══════════════════════════════════════════════════════
+         EXECUTAR — passo a passo
+      ═══════════════════════════════════════════════════════ */
+      _execNext(id) {
+        const crono = this._rec.data.cronogramas.find(c => c.id === id);
+        if (!crono) return;
+        const nextIdx = crono.steps.findIndex(s => !s.completed);
+        if (nextIdx < 0) { toast('✅ Todos os passos concluídos!'); return; }
+
+        const step = crono.steps[nextIdx];
+        const notes = crono.audioNotes || {};
+        const parts = step.text.split(/\[AUDIO_NOTE:(an_[\w]+)\]/g);
+        const items = [];
+        for (let j = 0; j < parts.length; j++) {
+          if (j % 2 === 0) { if (parts[j].trim()) items.push({ type: 'speech', text: parts[j].trim() }); }
+          else { const src = notes[parts[j]]; if (src) items.push({ type: 'audio', src }); }
+        }
+
+        const playItems = (i) => {
+          if (i >= items.length) {
+            crono.steps[nextIdx].completed = true;
+            this._save().then(() => this._refreshCard(id));
+            return;
+          }
+          const item = items[i];
+          if (item.type === 'audio') {
+            const a = new Audio(item.src);
+            a.onended = () => playItems(i + 1);
+            a.onerror = () => playItems(i + 1);
+            a.play().catch(() => playItems(i + 1));
+          } else {
+            const u = new SpeechSynthesisUtterance(item.text);
+            u.lang = 'pt-BR'; u.rate = 0.9;
+            u.onend = () => playItems(i + 1);
+            u.onerror = () => playItems(i + 1);
+            speechSynthesis.cancel();
+            speechSynthesis.speak(u);
+          }
+        };
+        if (!items.length) {
+          crono.steps[nextIdx].completed = true;
+          this._save().then(() => this._refreshCard(id));
+        } else {
+          playItems(0);
+        }
+        // Abre o card e foca no passo
+        if (!this._expandedIds.has(id)) {
+          this._expandedIds.add(id);
+          this._render();
+        } else {
+          this._scrollToStep(id, nextIdx);
+        }
+      },
+
+      /* ═══════════════════════════════════════════════════════
+         IMAGENS
+      ═══════════════════════════════════════════════════════ */
+      _toggleImgs(id) {
+        const el = document.getElementById('crim_' + id);
+        if (el) el.classList.toggle('on');
+      },
+
+      _openImgModal(id, idx) {
+        const crono = this._rec.data.cronogramas.find(c => c.id === id);
+        if (!crono) return;
+        this._imgModalImages = crono.images || [];
+        this._imgModalIdx = idx;
+        this._showImgModal();
+      },
+
+      _showImgModal() {
+        const modal = document.getElementById('cr_img_modal');
+        const img = document.getElementById('cr_modal_img');
+        if (!modal || !img) return;
+        img.src = this._imgModalImages[this._imgModalIdx] || '';
+        modal.classList.add('on');
+      },
+
+      _closeImgModal() {
+        const modal = document.getElementById('cr_img_modal');
+        if (modal) modal.classList.remove('on');
+      },
+
+      _navImg(dir) {
+        const n = this._imgModalImages.length;
+        if (!n) return;
+        this._imgModalIdx = (this._imgModalIdx + dir + n) % n;
+        const img = document.getElementById('cr_modal_img');
+        if (img) img.src = this._imgModalImages[this._imgModalIdx];
+      },
+
+      _renderImgModal() {
+        return '<div class="cr-img-modal" id="cr_img_modal">' +
+          '<button class="cr-img-modal-close" onclick="App.activePlugin._closeImgModal()">✕</button>' +
+          '<button class="cr-img-nav left" onclick="App.activePlugin._navImg(-1)">‹</button>' +
+          '<img id="cr_modal_img" src="">' +
+          '<button class="cr-img-nav right" onclick="App.activePlugin._navImg(1)">›</button>' +
+          '</div>';
+      },
+
+      /* ═══════════════════════════════════════════════════════
+         CÂMERA
+      ═══════════════════════════════════════════════════════ */
+      _openCam() {
+        this._camForEdit = true;
+        this._startCam();
+      },
+
+      async _startCam() {
+        try {
+          this._camStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: this._camFacing }
+          });
+          const modal = document.getElementById('cr_cam_modal');
+          const video = document.getElementById('cr_cam_video');
+          if (modal && video) {
+            video.srcObject = this._camStream;
+            modal.classList.add('on');
+          }
+        } catch (e) { toast('Erro ao acessar câmera'); }
+      },
+
+      async _switchCam() {
+        this._closeCam();
+        this._camFacing = this._camFacing === 'environment' ? 'user' : 'environment';
+        await this._startCam();
+      },
+
+      _captureCam() {
+        const video = document.getElementById('cr_cam_video');
+        if (!video || !this._form) return;
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0);
+        this._form.images.push(canvas.toDataURL('image/jpeg', 0.82));
+        this._closeCam();
+        this._render();
+        toast('📷 Foto capturada!');
+      },
+
+      _closeCam() {
+        if (this._camStream) {
+          this._camStream.getTracks().forEach(t => t.stop());
+          this._camStream = null;
+        }
+        const modal = document.getElementById('cr_cam_modal');
+        if (modal) modal.classList.remove('on');
+      },
+
+      _renderCamModal() {
+        return '<div class="cr-cam-modal" id="cr_cam_modal">' +
+          '<video id="cr_cam_video" autoplay class="cr-cam-video"></video>' +
+          '<div class="cr-cam-btns">' +
+          '<button class="cr-cam-btn capture" onclick="App.activePlugin._captureCam()">📸 Capturar</button>' +
+          '<button class="cr-cam-btn switch" onclick="App.activePlugin._switchCam()">🔄 Trocar</button>' +
+          '<button class="cr-cam-btn close" onclick="App.activePlugin._closeCam()">✕ Fechar</button>' +
+          '</div>' +
+          '</div>';
+      },
+
+      _onFileSelect(e) {
+        if (!this._form) return;
+        Array.from(e.target.files).forEach(file => {
+          const r = new FileReader();
+          r.onload = ev => {
+            this._form.images.push(ev.target.result);
+            this._render();
+          };
+          r.readAsDataURL(file);
+        });
+        e.target.value = '';
+      },
+
+      /* ═══════════════════════════════════════════════════════
+         VOZ — STT
+      ═══════════════════════════════════════════════════════ */
+      _toggleVoice() {
+        if (this._isRecordingVoice) { this._stopVoice(); return; }
+        const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SR) { toast('Voz não suportada'); return; }
+        if (!this._voiceRec) {
+          this._voiceRec = new SR();
+          this._voiceRec.lang = 'pt-BR';
+          this._voiceRec.continuous = false;
+          this._voiceRec.interimResults = false;
+        }
+        this._voiceRec.onresult = e => {
+          const text = e.results[0][0].transcript.trim();
+          this._handleVoiceResult(text);
+        };
+        this._voiceRec.onerror = () => { this._stopVoice(); toast('Erro no microfone'); };
+        this._voiceRec.onend = () => this._stopVoice();
+        this._voiceRec.start();
+        this._isRecordingVoice = true;
+        this._voiceTarget = !this._form?.title ? 'title' : 'steps';
+        const btn = document.getElementById('cr_mic_btn');
+        const st = document.getElementById('cr_mic_status');
+        if (btn) { btn.classList.add('rec'); btn.textContent = '⏹ Parar'; }
+        if (st) { st.className = 'cr-mic-status listening'; st.textContent = '🎤 Ouvindo…'; }
+      },
+
+      _stopVoice() {
+        if (this._voiceRec && this._isRecordingVoice) {
+          try { this._voiceRec.stop(); } catch (e) { }
+        }
+        this._isRecordingVoice = false;
+        const btn = document.getElementById('cr_mic_btn');
+        const st = document.getElementById('cr_mic_status');
+        if (btn) { btn.classList.remove('rec'); btn.textContent = '🎤 Voz'; }
+        if (st) { st.className = 'cr-mic-status'; st.textContent = ''; }
+      },
+
+      _handleVoiceResult(text) {
+        const titleEl = document.getElementById('cr_form_title');
+        const stepsEl = document.getElementById('cr_form_steps');
+        if (!this._form) return;
+        if (this._voiceTarget === 'title' || !this._form.title) {
+          if (titleEl) { titleEl.value = text; this._form.title = text; }
+          this._voiceTarget = 'steps';
+          const st = document.getElementById('cr_mic_status');
+          if (st) st.textContent = '✅ Título definido! Continue falando…';
+        } else {
+          if (stepsEl) {
+            stepsEl.value += (stepsEl.value ? '\n' : '') + text;
+            this._form.stepsText = stepsEl.value;
+            stepsEl.scrollTop = stepsEl.scrollHeight;
+          }
+          const st = document.getElementById('cr_mic_status');
+          if (st) st.textContent = '✅ Passo adicionado!';
+        }
+      },
+
+      /* ═══════════════════════════════════════════════════════
+         NOTA DE ÁUDIO INLINE
+      ═══════════════════════════════════════════════════════ */
+      async _toggleAudioNote() {
+        if (this._isRecordingNote) {
+          if (this._noteRecorder && this._noteRecorder.state !== 'inactive') this._noteRecorder.stop();
+          return;
+        }
+        if (!navigator.mediaDevices) { toast('Microfone não disponível'); return; }
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          this._noteChunks = [];
+          const mime = MediaRecorder.isTypeSupported('audio/webm;codecs=opus') ? 'audio/webm;codecs=opus'
+            : MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/ogg';
+          this._noteRecorder = new MediaRecorder(stream, { mimeType: mime });
+          this._noteRecorder.ondataavailable = e => { if (e.data.size > 0) this._noteChunks.push(e.data); };
+          this._noteRecorder.onstop = async () => {
+            stream.getTracks().forEach(t => t.stop());
+            await this._insertAudioNote(mime);
+            this._isRecordingNote = false;
+            this._render();
+          };
+          this._noteRecorder.start(100);
+          this._isRecordingNote = true;
+          this._render();
+        } catch (e) { toast('Não foi possível acessar o microfone'); }
+      },
+
+      async _insertAudioNote(mime) {
+        if (!this._form) return;
+        const blob = new Blob(this._noteChunks, { type: mime });
+        const base64 = await new Promise(res => {
+          const r = new FileReader();
+          r.onload = e => res(e.target.result);
+          r.readAsDataURL(blob);
+        });
+        const noteId = 'an_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+        this._form.pendingAudio[noteId] = base64;
+        // Insere marcador no textarea
+        const ta = document.getElementById('cr_form_steps');
+        if (ta) {
+          const marker = '[AUDIO_NOTE:' + noteId + ']';
+          const s = ta.selectionStart;
+          ta.value = ta.value.substring(0, s) + marker + ta.value.substring(ta.selectionEnd);
+          ta.selectionStart = ta.selectionEnd = s + marker.length;
+          this._form.stepsText = ta.value;
+        }
+        toast('🎵 Nota de áudio inserida!');
+      },
+
+      /* ═══════════════════════════════════════════════════════
+         PLAYER DE ÁUDIO INLINE
+      ═══════════════════════════════════════════════════════ */
+      _toggleAudioPlay(noteId, e) {
+        if (e) e.stopPropagation();
+        // Encontra o src nos cronogramas
+        let src = null;
+        for (const c of (this._rec.data.cronogramas || [])) {
+          if (c.audioNotes && c.audioNotes[noteId]) { src = c.audioNotes[noteId]; break; }
+        }
+        if (!src) { toast('Áudio não encontrado'); return; }
+
+        if (this._activeAudios[noteId]) {
+          const a = this._activeAudios[noteId];
+          if (!a.paused) { a.pause(); this._setAudioState(noteId, false); }
+          else { a.play(); this._setAudioState(noteId, true); }
+          return;
+        }
+        // Para todos os outros
+        Object.entries(this._activeAudios).forEach(([id, a]) => {
+          if (id !== noteId) { a.pause(); this._setAudioState(id, false); }
+        });
+        const audio = new Audio(src);
+        this._activeAudios[noteId] = audio;
+        // Duração
+        audio.addEventListener('loadedmetadata', () => {
+          const el = document.getElementById('crdur_' + noteId);
+          if (el && isFinite(audio.duration)) {
+            const s = Math.round(audio.duration);
+            el.textContent = s < 60 ? s + 's' : Math.floor(s / 60) + 'm' + (s % 60) + 's';
+          }
+        });
+        audio.onended = () => { this._setAudioState(noteId, false); delete this._activeAudios[noteId]; };
+        audio.onerror = () => { delete this._activeAudios[noteId]; };
+        audio.play();
+        this._setAudioState(noteId, true);
+      },
+
+      _setAudioState(noteId, playing) {
+        document.querySelectorAll('[data-note="' + noteId + '"]').forEach(el => {
+          const ico = el.querySelector('.cr-audio-play-ico');
+          if (playing) { el.classList.add('playing'); if (ico) ico.textContent = '⏸'; }
+          else { el.classList.remove('playing'); if (ico) ico.textContent = '▶'; }
+        });
+      },
+
+      /* ═══════════════════════════════════════════════════════
+         REFRESH PARCIAL (sem re-renderizar tudo)
+      ═══════════════════════════════════════════════════════ */
+      _refreshCard(id) {
+        const crono = this._rec.data.cronogramas.find(c => c.id === id);
+        if (!crono) return;
+        const el = document.getElementById('crcard_' + id);
+        if (!el) { this._render(); return; }
+        const tmp = document.createElement('div');
+        tmp.innerHTML = this._renderCard(crono);
+        el.replaceWith(tmp.firstElementChild);
+        // Re-injeta durações de áudio
+        const newEl = document.getElementById('crcard_' + id);
+        if (newEl && crono.audioNotes) this._loadAudioDurations(newEl, crono.audioNotes);
+      },
+
+      _loadAudioDurations(container, notes) {
+        container.querySelectorAll('[data-note]').forEach(el => {
+          const noteId = el.getAttribute('data-note');
+          const src = notes[noteId];
+          if (!src) return;
+          const tmp = new Audio(src);
+          tmp.addEventListener('loadedmetadata', () => {
+            const durEl = document.getElementById('crdur_' + noteId);
+            if (durEl && isFinite(tmp.duration)) {
+              const s = Math.round(tmp.duration);
+              durEl.textContent = s < 60 ? s + 's' : Math.floor(s / 60) + 'm' + (s % 60) + 's';
+            }
+          });
+        });
+      },
+
+      /* ═══════════════════════════════════════════════════════
+         BUSCA GLOBAL
+      ═══════════════════════════════════════════════════════ */
+      _onGlobalSearch(q) {
+        this._searchQuery = q;
+        const list = document.querySelector('.cr-list');
+        if (!list) { this._render(); return; }
+        // Re-render apenas a lista
+        this._render();
+      },
+
+      /* ═══════════════════════════════════════════════════════
+         BIND EVENTS
+      ═══════════════════════════════════════════════════════ */
+      _bindEvents() {
+        // Carrega durações de áudio nos players visíveis
+        (this._rec.data.cronogramas || []).forEach(c => {
+          if (!c.audioNotes) return;
+          const el = document.getElementById('crcard_' + c.id);
+          if (el) this._loadAudioDurations(el, c.audioNotes);
+        });
+
+        // Swipe no modal de imagem
+        const modalImg = document.getElementById('cr_modal_img');
+        if (modalImg) {
+          let sx = 0;
+          modalImg.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+          modalImg.addEventListener('touchend', e => {
+            const dx = e.changedTouches[0].clientX - sx;
+            if (Math.abs(dx) > 50) this._navImg(dx < 0 ? 1 : -1);
+          }, { passive: true });
+        }
+
+        // Fecha modal de imagem ao clicar no fundo
+        const imgModal = document.getElementById('cr_img_modal');
+        if (imgModal) imgModal.addEventListener('click', e => {
+          if (e.target === imgModal) this._closeImgModal();
+        });
+
+        // Atualiza badge de nível no form
+        const stepsEl = document.getElementById('cr_form_steps');
+        if (stepsEl) {
+          stepsEl.addEventListener('keyup', () => this._updateLevelBadge());
+          stepsEl.addEventListener('click', () => this._updateLevelBadge());
+        }
+      },
+    });
+  </script>
 
   <!-- BOOT -->
   <script>
