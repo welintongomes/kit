@@ -5,7 +5,7 @@
    Atualize CACHE_NAME ao fazer deploy de mudanças.
 ═══════════════════════════════════════════════ */
 
-const CACHE_NAME = 'hub-v2';
+const CACHE_NAME = 'hub-v3';
 
 /* Arquivos essenciais para funcionar offline */
 const PRECACHE = [
