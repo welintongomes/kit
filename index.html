@@ -1010,8 +1010,8 @@
     <div class="view active" id="viewHome">
       <header class="home-header">
         <button id="btnInstall" onclick="PWA.install()" title="Instalar app">
-              ⬇️ Instalar
-            </button>
+          ⬇️ Instalar
+        </button>
         <div class="home-top">
           <span class="logo">Hub<span class="logo-dot"></span></span>
           <div class="home-top-right">
@@ -2649,7 +2649,7 @@
       name: 'Fluxograma',
       icon: '🔀',
       color: '#22d3ee',
-css:`.fl-wrap {
+      css: `.fl-wrap {
       padding: 14px 16px 0;
     }
 
@@ -4348,6 +4348,1231 @@ css:`.fl-wrap {
   </script>
   <!-- ▲SCRIPT -->
 
+  <!--pluguin horas-->
+  <!-- ▼SCRIPT -->
+  <script>
+    registerPlugin({
+
+      /* ── Identidade ─────────────────────────── */
+      id: 'horas',
+      name: 'Horas Trabalhadas',
+      icon: '⏱️',
+      color: '#10b981',
+      css: `
+      .hr-wrap {
+      padding: 14px 16px 80px;
+    }
+
+    /* ── tabs ── */
+    .hr-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .hr-tab {
+      flex: 1;
+      padding: 8px 0;
+      border-radius: 11px;
+      border: 1px solid var(--border2);
+      background: var(--surf);
+      color: var(--text2);
+      font-family: var(--fd);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+      text-align: center;
+    }
+
+    .hr-tab.on {
+      background: var(--acc);
+      border-color: var(--acc);
+      color: #fff;
+      box-shadow: 0 4px 14px var(--acc-glow);
+    }
+
+    /* ── summary strip ── */
+    .hr-summary {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .hr-sum-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 12px 14px;
+    }
+
+    .hr-sum-val {
+      font-family: var(--fd);
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .hr-sum-lbl {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 4px;
+    }
+
+    .hr-sum-card.green .hr-sum-val {
+      color: var(--green);
+    }
+
+    .hr-sum-card.amber .hr-sum-val {
+      color: var(--amber);
+    }
+
+    .hr-sum-card.acc .hr-sum-val {
+      color: var(--acc2);
+    }
+
+    .hr-sum-card.red .hr-sum-val {
+      color: var(--red);
+    }
+
+    /* ── settings box ── */
+    .hr-settings {
+      background: var(--surf);
+      border: 1px solid var(--border2);
+      border-radius: 13px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .hr-settings-title {
+      font-family: var(--fd);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .hr-settings-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .hr-set-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .hr-set-field label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+      color: var(--text3);
+    }
+
+    .hr-set-inp {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 9px;
+      padding: 8px 11px;
+      color: var(--text);
+      font-family: var(--fb);
+      font-size: 13.5px;
+      outline: none;
+      transition: border-color .14s;
+      width: 100%;
+    }
+
+    .hr-set-inp:focus {
+      border-color: var(--acc);
+    }
+
+    /* ── add day btn ── */
+    .hr-add-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 13px;
+      border-radius: 13px;
+      border: 2px dashed var(--border2);
+      background: transparent;
+      color: var(--text3);
+      font-family: var(--fd);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+      margin-bottom: 14px;
+    }
+
+    .hr-add-btn:hover {
+      border-color: var(--acc);
+      color: var(--acc2);
+    }
+
+    /* ── period nav ── */
+    .hr-period-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .hr-period-title {
+      font-family: var(--fd);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .hr-period-btns {
+      display: flex;
+      gap: 6px;
+    }
+
+    .hr-pnav-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      border: 1px solid var(--border2);
+      background: var(--surf);
+      color: var(--text);
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background .13s;
+    }
+
+    .hr-pnav-btn:hover {
+      background: var(--surf2);
+    }
+
+    /* ── day card ── */
+    .hr-day-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 8px;
+      animation: up .2s ease both;
+    }
+
+    .hr-day-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      cursor: pointer;
+    }
+
+    .hr-day-date {
+      flex: 1;
+    }
+
+    .hr-day-name {
+      font-family: var(--fd);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      text-transform: capitalize;
+    }
+
+    .hr-day-sub {
+      font-size: 11.5px;
+      color: var(--text3);
+      margin-top: 2px;
+    }
+
+    .hr-day-badge {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-family: var(--fd);
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .hr-day-badge.ok {
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    .hr-day-badge.low {
+      background: var(--amber-bg);
+      color: var(--amber);
+    }
+
+    .hr-day-badge.zero {
+      background: var(--surf2);
+      color: var(--text3);
+    }
+
+    .hr-day-chev {
+      font-size: 12px;
+      color: var(--text3);
+      transition: transform .2s;
+      flex-shrink: 0;
+    }
+
+    .hr-day-card.open .hr-day-chev {
+      transform: rotate(180deg);
+    }
+
+    .hr-day-body {
+      display: none;
+      padding: 0 14px 14px;
+    }
+
+    .hr-day-card.open .hr-day-body {
+      display: block;
+    }
+
+    /* time grid */
+    .hr-time-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .hr-time-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .hr-time-field label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      color: var(--text3);
+    }
+
+    .hr-time-inp {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 9px;
+      padding: 8px 11px;
+      color: var(--text);
+      font-family: var(--fd);
+      font-size: 15px;
+      font-weight: 700;
+      outline: none;
+      transition: border-color .14s;
+      width: 100%;
+      text-align: center;
+    }
+
+    .hr-time-inp:focus {
+      border-color: var(--acc);
+    }
+
+    /* day extras */
+    .hr-extras-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .hr-day-result {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg3);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+    }
+
+    .hr-day-res-lbl {
+      font-size: 12.5px;
+      color: var(--text2);
+    }
+
+    .hr-day-res-val {
+      font-family: var(--fd);
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--green);
+    }
+
+    .hr-day-actions {
+      display: flex;
+      gap: 7px;
+    }
+
+    .hr-day-save-btn {
+      flex: 1;
+      padding: 9px;
+      border-radius: 10px;
+      background: var(--acc);
+      border: none;
+      color: #fff;
+      font-family: var(--fd);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .13s;
+    }
+
+    .hr-day-save-btn:hover {
+      opacity: .85;
+    }
+
+    .hr-day-del-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: none;
+      background: var(--red-bg);
+      color: var(--red);
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* ── finance panel ── */
+    .hr-finance {
+      background: var(--surf);
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .hr-fin-title {
+      font-family: var(--fd);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .hr-fin-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .hr-fin-row:last-child {
+      border-bottom: none;
+    }
+
+    .hr-fin-row .lbl {
+      color: var(--text2);
+      flex: 1;
+    }
+
+    .hr-fin-row .val {
+      font-family: var(--fd);
+      font-weight: 700;
+    }
+
+    .hr-fin-row .val.green {
+      color: var(--green);
+    }
+
+    .hr-fin-row .val.red {
+      color: var(--red);
+    }
+
+    .hr-fin-row .val.amber {
+      color: var(--amber);
+    }
+
+    .hr-fin-sep {
+      height: 1px;
+      background: var(--border2);
+      margin: 8px 0;
+    }
+
+    .hr-fin-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0 2px;
+    }
+
+    .hr-fin-total-lbl {
+      font-family: var(--fd);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .hr-fin-total-val {
+      font-family: var(--fd);
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    /* ── export btn ── */
+    .hr-export-btn {
+      width: 100%;
+      padding: 13px;
+      border-radius: 13px;
+      border: 1px solid var(--border2);
+      background: var(--surf);
+      color: var(--text2);
+      font-family: var(--fd);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .hr-export-btn:hover {
+      border-color: var(--acc2);
+      color: var(--acc2);
+    }
+
+    .hr-export-btn.primary {
+      background: linear-gradient(135deg, var(--acc), #9e8cfb);
+      border-color: var(--acc);
+      color: #fff;
+      box-shadow: 0 4px 14px var(--acc-glow);
+    }
+
+    /* ── section label ── */
+    .hr-section-lbl {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin: 14px 0 8px;
+    }
+
+    /* ── empty ── */
+    .hr-empty {
+      text-align: center;
+      padding: 32px 20px;
+      color: var(--text3);
+    }
+
+    .hr-empty span {
+      display: block;
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .hr-empty h3 {
+      font-family: var(--fd);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .hr-empty p {
+      font-size: 13px;
+      line-height: 1.6;
+    }`,
+      defaultData: () => ({
+        hourRate: 15.00,    // R$ por hora
+        defaultTimes: { entrada: '08:00', almoco: '12:30', retorno: '13:30', saida: '17:00' },
+        saldoAnterior: 0,
+        adiantamento: 0,
+        days: [],
+        /* day = { id, date:'YYYY-MM-DD', entrada, almoco, retorno, saida,
+                   extras:[{desc,value}], obs } */
+      }),
+
+      /* ── Card na home ───────────────────────── */
+      cardPreview(rec) {
+        const days = rec.data.days || [];
+        const total = days.reduce((s, d) => s + this._dayMinutes(d), 0);
+        const earn = (total / 60) * (rec.data.hourRate || 0);
+        if (!days.length) return 'Nenhum dia registrado';
+        return `${days.length} dia${days.length !== 1 ? 's' : ''} · ${this._fmtH(total)} trabalhadas · R$ ${earn.toFixed(2).replace('.', ',')}`;
+      },
+      cardBadge(rec) {
+        const days = rec.data.days || [];
+        // find today
+        const today = this._dateKey(new Date());
+        const hasToday = days.some(d => d.date === today);
+        if (hasToday) return '<span class="badge badge-g">✓ Hoje registrado</span>';
+        if (!days.length) return '<span class="badge badge-p">Novo</span>';
+        return `<span class="badge badge-p">⏱️ ${days.length}d</span>`;
+      },
+
+      navActions: [
+        {
+          id: 'add', icon: '＋', title: 'Registrar dia',
+          handler() { App.activePlugin._openDayForm(null); }
+        },
+        {
+          id: 'exp', icon: '📋', title: 'Copiar relatório',
+          handler() { App.activePlugin._copyReport('all'); }
+        },
+      ],
+
+      /* ── Estado ─────────────────────────────── */
+      _el: null, _rec: null,
+      _view: 'week',        // 'week' | 'finance'
+      _weekOffset: 0,       // 0=semana atual, -1=anterior…
+
+      /* ══ HOOKS ══════════════════════════════════ */
+      mount(container, rec) {
+        this._el = container; this._rec = rec;
+        this._view = 'week'; this._weekOffset = 0;
+        this._render();
+      },
+      unmount() { this._el = null; this._rec = null; },
+      async _save() { await App.saveRecord(this._rec); },
+
+      /* ════════════════════════════════════════════
+         RENDER PRINCIPAL
+      ════════════════════════════════════════════ */
+      _render() {
+        if (!this._el) return;
+        const days = this._rec.data.days || [];
+        const total = days.reduce((s, d) => s + this._dayMinutes(d), 0);
+        const earn = (total / 60) * (this._rec.data.hourRate || 0);
+        document.getElementById('pluginNavSub').textContent =
+          `${days.length} dias · ${this._fmtH(total)} · R$ ${earn.toFixed(2).replace('.', ',')}`;
+
+        this._el.innerHTML = `
+      <div class="hr-wrap">
+        <div class="hr-tabs">
+          <button class="hr-tab ${this._view === 'week' ? 'on' : ''}"
+            onclick="App.activePlugin._setView('week')">📅 Semana</button>
+          <button class="hr-tab ${this._view === 'finance' ? 'on' : ''}"
+            onclick="App.activePlugin._setView('finance')">💰 Financeiro</button>
+        </div>
+        <div id="hr_content"></div>
+      </div>`;
+
+        this._view === 'week' ? this._renderWeek() : this._renderFinance();
+      },
+
+      /* ════════════════════════════════════════════
+         VISTA SEMANA
+      ════════════════════════════════════════════ */
+      _renderWeek() {
+        const cont = document.getElementById('hr_content');
+        if (!cont) return;
+
+        const { start, end } = this._weekRange(this._weekOffset);
+        const weekDays = this._rec.data.days.filter(d => d.date >= start && d.date <= end);
+        const weekMins = weekDays.reduce((s, d) => s + this._dayMinutes(d), 0);
+        const weekEarn = (weekMins / 60) * (this._rec.data.hourRate || 0);
+        const allMins = this._rec.data.days.reduce((s, d) => s + this._dayMinutes(d), 0);
+        const allEarn = (allMins / 60) * (this._rec.data.hourRate || 0);
+
+        const startFmt = new Date(start + 'T12:00').toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' });
+        const endFmt = new Date(end + 'T12:00').toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' });
+
+        cont.innerHTML = `
+      <div class="hr-summary">
+        <div class="hr-sum-card acc">
+          <div class="hr-sum-val">${this._fmtH(weekMins)}</div>
+          <div class="hr-sum-lbl">Horas esta semana</div>
+        </div>
+        <div class="hr-sum-card green">
+          <div class="hr-sum-val">R$ ${weekEarn.toFixed(2).replace('.', ',')}</div>
+          <div class="hr-sum-lbl">Ganhos esta semana</div>
+        </div>
+        <div class="hr-sum-card">
+          <div class="hr-sum-val">${this._fmtH(allMins)}</div>
+          <div class="hr-sum-lbl">Total geral de horas</div>
+        </div>
+        <div class="hr-sum-card amber">
+          <div class="hr-sum-val">R$ ${allEarn.toFixed(2).replace('.', ',')}</div>
+          <div class="hr-sum-lbl">Total geral bruto</div>
+        </div>
+      </div>
+
+      <button class="hr-add-btn" onclick="App.activePlugin._openDayForm(null)">
+        ＋ Registrar dia de trabalho
+      </button>
+
+      <div class="hr-period-nav">
+        <button class="hr-pnav-btn" onclick="App.activePlugin._shiftWeek(-1)">‹</button>
+        <div class="hr-period-title">${startFmt} – ${endFmt}</div>
+        <div style="display:flex;gap:6px">
+          <button class="hr-pnav-btn" onclick="App.activePlugin._shiftWeek(0)" title="Semana atual" style="font-size:12px;width:auto;padding:0 9px">Hoje</button>
+          <button class="hr-pnav-btn" onclick="App.activePlugin._shiftWeek(1)">›</button>
+        </div>
+      </div>
+
+      ${weekDays.length === 0 ? `
+        <div class="hr-empty">
+          <span>⏱️</span>
+          <h3>Nenhum dia nesta semana</h3>
+          <p>Toque em <strong>＋</strong> para registrar.</p>
+        </div>` : `
+        <div id="hr_days">
+          ${weekDays.sort((a, b) => b.date.localeCompare(a.date)).map((d, i) => this._dayCardHtml(d, i)).join('')}
+        </div>`}`;
+      },
+
+      _dayCardHtml(day, idx) {
+        const mins = this._dayMinutes(day);
+        const earn = (mins / 60) * (this._rec.data.hourRate || 0);
+        const dateStr = new Date(day.date + 'T12:00').toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'short' });
+        const timeStr = day.entrada && day.saida ? `${day.entrada} → ${day.saida}` : 'Horário incompleto';
+        const badgeCls = mins >= 480 ? 'ok' : mins > 0 ? 'low' : 'zero';
+        const badgeTxt = mins > 0 ? this._fmtH(mins) : '—';
+        const extraSum = (day.extras || []).reduce((s, e) => s + (Number(e.value) || 0), 0);
+
+        return `
+      <div class="hr-day-card" id="hrday_${day.id}" style="animation-delay:${idx * .04}s">
+        <div class="hr-day-head" onclick="App.activePlugin._toggleDay('${day.id}')">
+          <div class="hr-day-date">
+            <div class="hr-day-name">${dateStr}</div>
+            <div class="hr-day-sub">${timeStr}${extraSum ? ` · +R$ ${extraSum.toFixed(2).replace('.', ',')} extras` : ''}</div>
+          </div>
+          <div class="hr-day-badge ${badgeCls}">${badgeTxt}</div>
+          <span class="hr-day-chev">▾</span>
+        </div>
+        <div class="hr-day-body" id="hrbody_${day.id}">
+          ${this._dayFormHtml(day)}
+        </div>
+      </div>`;
+      },
+
+      _dayFormHtml(day) {
+        const mins = this._dayMinutes(day);
+        const earn = (mins / 60) * (this._rec.data.hourRate || 0);
+        const extraRows = (day.extras || []).map((e, i) => `
+      <div style="display:flex;gap:6px;margin-bottom:6px">
+        <input style="flex:1;background:var(--bg2);border:1px solid var(--border2);border-radius:9px;padding:7px 10px;color:var(--text);font-size:13px;outline:none"
+          type="text" value="${esc(e.desc || '')}" placeholder="Descrição"
+          oninput="App.activePlugin._setExtra('${day.id}',${i},'desc',this.value)">
+        <input style="width:90px;background:var(--bg2);border:1px solid var(--border2);border-radius:9px;padding:7px 10px;color:var(--text);font-family:var(--fd);font-size:13px;font-weight:700;outline:none;text-align:right"
+          type="number" step="0.01" value="${e.value || ''}" placeholder="R$"
+          oninput="App.activePlugin._setExtra('${day.id}',${i},'value',+this.value)">
+        <button style="width:30px;height:34px;border-radius:9px;border:none;background:var(--red-bg);color:var(--red);cursor:pointer;flex-shrink:0;font-size:14px"
+          onclick="App.activePlugin._removeExtra('${day.id}',${i})">✕</button>
+      </div>`).join('');
+
+        return `
+      <div class="hr-time-grid">
+        <div class="hr-time-field">
+          <label>🟢 Entrada</label>
+          <input class="hr-time-inp" type="time" value="${day.entrada || ''}"
+            oninput="App.activePlugin._setDayField('${day.id}','entrada',this.value)">
+        </div>
+        <div class="hr-time-field">
+          <label>🍽️ Almoço saída</label>
+          <input class="hr-time-inp" type="time" value="${day.almoco || ''}"
+            oninput="App.activePlugin._setDayField('${day.id}','almoco',this.value)">
+        </div>
+        <div class="hr-time-field">
+          <label>🔄 Retorno almoço</label>
+          <input class="hr-time-inp" type="time" value="${day.retorno || ''}"
+            oninput="App.activePlugin._setDayField('${day.id}','retorno',this.value)">
+        </div>
+        <div class="hr-time-field">
+          <label>🔴 Saída</label>
+          <input class="hr-time-inp" type="time" value="${day.saida || ''}"
+            oninput="App.activePlugin._setDayField('${day.id}','saida',this.value)">
+        </div>
+      </div>
+
+      <div class="hr-day-result">
+        <span class="hr-day-res-lbl">Horas trabalhadas · Valor do dia</span>
+        <span class="hr-day-res-val" id="hrres_${day.id}">${this._fmtH(mins)} · R$ ${earn.toFixed(2).replace('.', ',')}</span>
+      </div>
+
+      <div class="hr-section-lbl" style="margin-top:0">💼 Extras / Serviços adicionais</div>
+      <div id="hrextras_${day.id}">${extraRows}</div>
+      <button style="width:100%;padding:7px;border-radius:9px;border:1px dashed var(--border2);background:transparent;color:var(--text3);font-size:13px;cursor:pointer;margin-bottom:12px;transition:all .13s"
+        onmouseover="this.style.borderColor='var(--acc2)';this.style.color='var(--acc2)'"
+        onmouseout="this.style.borderColor='';this.style.color=''"
+        onclick="App.activePlugin._addExtra('${day.id}')">+ Adicionar extra</button>
+
+      <div class="hr-time-field" style="margin-bottom:12px">
+        <label>📝 Observações</label>
+        <input style="width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:9px;padding:8px 11px;color:var(--text);font-size:13px;outline:none"
+          type="text" value="${esc(day.obs || '')}" placeholder="Anotações do dia…"
+          oninput="App.activePlugin._setDayField('${day.id}','obs',this.value)">
+      </div>
+
+      <div class="hr-day-actions">
+        <button class="hr-day-save-btn" onclick="App.activePlugin._saveDay('${day.id}')">💾 Salvar</button>
+        <button class="hr-day-del-btn"  onclick="App.activePlugin._deleteDay('${day.id}')">🗑</button>
+      </div>`;
+      },
+
+      /* ════════════════════════════════════════════
+         VISTA FINANCEIRO
+      ════════════════════════════════════════════ */
+      _renderFinance() {
+        const cont = document.getElementById('hr_content');
+        if (!cont) return;
+        const data = this._rec.data;
+        const days = data.days || [];
+        const rate = data.hourRate || 0;
+
+        const totalMins = days.reduce((s, d) => s + this._dayMinutes(d), 0);
+        const totalHoras = totalMins / 60;
+        const ganhoHoras = totalHoras * rate;
+        const totalExtras = days.reduce((s, d) => s + (d.extras || []).reduce((x, e) => x + (Number(e.value) || 0), 0), 0);
+        const saldo = Number(data.saldoAnterior) || 0;
+        const adiant = Number(data.adiantamento) || 0;
+        const total = ganhoHoras + totalExtras + saldo - adiant;
+        const isPos = total >= 0;
+
+        cont.innerHTML = `
+      <div class="hr-settings">
+        <div class="hr-settings-title">⚙️ Configurações</div>
+        <div class="hr-settings-row">
+          <div class="hr-set-field">
+            <label>Valor por hora (R$)</label>
+            <input class="hr-set-inp" type="number" min="0" step="0.50"
+              value="${rate}"
+              oninput="App.activePlugin._rec.data.hourRate=+this.value">
+          </div>
+          <div class="hr-set-field">
+            <label>Adiantamento (R$)</label>
+            <input class="hr-set-inp" type="number" min="0" step="10"
+              value="${adiant}"
+              oninput="App.activePlugin._rec.data.adiantamento=+this.value">
+          </div>
+          <div class="hr-set-field">
+            <label>Saldo anterior (R$)</label>
+            <input class="hr-set-inp" type="number" step="0.01"
+              value="${saldo}"
+              oninput="App.activePlugin._rec.data.saldoAnterior=+this.value">
+          </div>
+          <div class="hr-set-field">
+            <label>Hora entrada padrão</label>
+            <input class="hr-set-inp" type="time"
+              value="${data.defaultTimes?.entrada || '08:00'}"
+              oninput="App.activePlugin._setDefault('entrada',this.value)">
+          </div>
+          <div class="hr-set-field">
+            <label>Almoço saída padrão</label>
+            <input class="hr-set-inp" type="time"
+              value="${data.defaultTimes?.almoco || '12:30'}"
+              oninput="App.activePlugin._setDefault('almoco',this.value)">
+          </div>
+          <div class="hr-set-field">
+            <label>Retorno almoço padrão</label>
+            <input class="hr-set-inp" type="time"
+              value="${data.defaultTimes?.retorno || '13:30'}"
+              oninput="App.activePlugin._setDefault('retorno',this.value)">
+          </div>
+          <div class="hr-set-field">
+            <label>Hora saída padrão</label>
+            <input class="hr-set-inp" type="time"
+              value="${data.defaultTimes?.saida || '17:00'}"
+              oninput="App.activePlugin._setDefault('saida',this.value)">
+          </div>
+        </div>
+        <button style="margin-top:10px;width:100%;padding:9px;border-radius:10px;background:var(--acc);border:none;color:#fff;font-family:var(--fd);font-size:13px;font-weight:700;cursor:pointer"
+          onclick="App.activePlugin._saveSettings()">Salvar configurações</button>
+      </div>
+
+      <div class="hr-finance">
+        <div class="hr-fin-title">🧾 Resumo financeiro geral</div>
+        <div class="hr-fin-row">
+          <span class="lbl">⏱️ Total de horas trabalhadas</span>
+          <span class="val">${this._fmtH(totalMins)}</span>
+        </div>
+        <div class="hr-fin-row">
+          <span class="lbl">💵 Ganho por horas (${totalHoras.toFixed(2).replace('.', ',')}h × R$ ${rate.toFixed(2).replace('.', ',')})</span>
+          <span class="val green">R$ ${ganhoHoras.toFixed(2).replace('.', ',')}</span>
+        </div>
+        ${totalExtras ? `
+        <div class="hr-fin-row">
+          <span class="lbl">🔧 Extras / Serviços adicionais</span>
+          <span class="val green">R$ ${totalExtras.toFixed(2).replace('.', ',')}</span>
+        </div>` : ''}
+        ${saldo ? `
+        <div class="hr-fin-row">
+          <span class="lbl">↩️ Saldo anterior</span>
+          <span class="val ${saldo >= 0 ? 'green' : 'red'}">R$ ${saldo.toFixed(2).replace('.', ',')}</span>
+        </div>` : ''}
+        ${adiant ? `
+        <div class="hr-fin-row">
+          <span class="lbl">💸 Adiantamento descontado</span>
+          <span class="val red">– R$ ${adiant.toFixed(2).replace('.', ',')}</span>
+        </div>` : ''}
+        <div class="hr-fin-sep"></div>
+        <div class="hr-fin-total">
+          <span class="hr-fin-total-lbl">💰 Total a receber</span>
+          <span class="hr-fin-total-val" style="color:${isPos ? 'var(--green)' : 'var(--red)'}">
+            R$ ${Math.abs(total).toFixed(2).replace('.', ',')}${!isPos ? ' (negativo)' : ''}
+          </span>
+        </div>
+      </div>
+<div class="hr-section-lbl">📋 Relatório completo</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+        <button class="hr-export-btn primary" style="margin-bottom:0"
+          onclick="App.activePlugin._copyReport('all')">
+          📋 Copiar texto
+        </button>
+                <button class="hr-export-btn" style="margin-bottom:0"
+          onclick="App.activePlugin._export()">
+          📤 Baixar .txt
+        </button>
+      </div>
+
+      <div class="hr-section-lbl">📆 Apenas esta semana</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <button class="hr-export-btn" style="margin-bottom:0;border-color:var(--acc-glow);color:var(--acc2)"
+          onclick="App.activePlugin._copyReport('week')">
+          📋 Copiar texto
+        </button>
+        <button class="hr-export-btn" style="margin-bottom:0"
+          onclick="App.activePlugin._exportWeek()">
+          📤 Baixar .txt
+        </button>
+      </div>`;
+      },
+
+      /* ════════════════════════════════════════════
+         FORM — novo dia (bottom sheet)
+      ════════════════════════════════════════════ */
+      _openDayForm(dateStr) {
+        const def = this._rec.data.defaultTimes || {};
+        const today = dateStr || this._dateKey(new Date());
+        const newDay = {
+          id: 'd' + Date.now(),
+          date: today,
+          entrada: def.entrada || '08:00',
+          almoco: def.almoco || '12:30',
+          retorno: def.retorno || '13:30',
+          saida: def.saida || '17:00',
+          extras: [],
+          obs: '',
+        };
+        // check if day already exists
+        const exists = this._rec.data.days.find(d => d.date === today);
+        if (exists) {
+          toast('Já existe registro para hoje. Abra o card para editar.');
+          this._weekOffset = 0;
+          this._render();
+          return;
+        }
+
+        const ov = document.createElement('div');
+        ov.className = 'overlay'; ov.id = 'hr_form_ov';
+        ov.innerHTML = `
+      <div class="sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-head">
+          <span class="sheet-title">📅 Registrar dia</span>
+          <button class="x-btn" onclick="App.activePlugin._closeForm()">✕</button>
+        </div>
+        <div style="padding:0 20px 24px">
+          <div class="hr-set-field" style="margin-bottom:12px">
+            <label>Data</label>
+            <input class="hr-set-inp" type="date" id="hr_new_date" value="${today}"
+              oninput="App.activePlugin._newDay.date=this.value">
+          </div>
+          <div class="hr-time-grid">
+            <div class="hr-time-field">
+              <label>🟢 Entrada</label>
+              <input class="hr-time-inp" type="time" id="hr_new_entrada" value="${newDay.entrada}"
+                oninput="App.activePlugin._newDay.entrada=this.value">
+            </div>
+            <div class="hr-time-field">
+              <label>🍽️ Almoço</label>
+              <input class="hr-time-inp" type="time" id="hr_new_almoco" value="${newDay.almoco}"
+                oninput="App.activePlugin._newDay.almoco=this.value">
+            </div>
+            <div class="hr-time-field">
+              <label>🔄 Retorno</label>
+              <input class="hr-time-inp" type="time" id="hr_new_retorno" value="${newDay.retorno}"
+                oninput="App.activePlugin._newDay.retorno=this.value">
+            </div>
+            <div class="hr-time-field">
+              <label>🔴 Saída</label>
+              <input class="hr-time-inp" type="time" id="hr_new_saida" value="${newDay.saida}"
+                oninput="App.activePlugin._newDay.saida=this.value">
+            </div>
+          </div>
+          <div class="hr-set-field" style="margin-bottom:16px">
+            <label>📝 Observações</label>
+            <input class="hr-set-inp" type="text" placeholder="Anotações do dia…"
+              oninput="App.activePlugin._newDay.obs=this.value">
+          </div>
+          <button style="width:100%;padding:14px;border-radius:13px;background:linear-gradient(135deg,var(--acc),#9e8cfb);border:none;color:#fff;font-family:var(--fd);font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px var(--acc-glow)"
+            onclick="App.activePlugin._confirmNewDay()">✓ Salvar dia</button>
+        </div>
+      </div>`;
+
+        this._newDay = newDay;
+        ov.onclick = e => { if (e.target === ov) this._closeForm(); };
+        document.body.appendChild(ov);
+        requestAnimationFrame(() => ov.classList.add('on'));
+      },
+
+      async _confirmNewDay() {
+        const d = this._newDay;
+        if (!d.date) { toast('Escolha uma data'); return; }
+        if (this._rec.data.days.find(x => x.id !== d.id && x.date === d.date)) {
+          toast('Já existe registro para esta data'); return;
+        }
+        this._rec.data.days.push(d);
+        await this._save();
+        this._closeForm();
+        this._weekOffset = 0;
+        this._render();
+        toast('✓ Dia registrado!');
+      },
+
+      _closeForm() {
+        const ov = document.getElementById('hr_form_ov');
+        if (!ov) return;
+        ov.classList.remove('on');
+        setTimeout(() => ov.remove(), 320);
+        this._newDay = null;
+      },
+
+      /* ════════════════════════════════════════════
+         DAY CARD INTERACTIONS
+      ════════════════════════════════════════════ */
+      _toggleDay(id) {
+        document.getElementById('hrday_' + id)?.classList.toggle('open');
+      },
+
+      _setDayField(id, field, val) {
+        const day = this._rec.data.days.find(d => d.id === id);
+        if (!day) return;
+        day[field] = val;
+        // live update result display
+        const mins = this._dayMinutes(day);
+        const earn = (mins / 60) * (this._rec.data.hourRate || 0);
+        const res = document.getElementById('hrres_' + id);
+        if (res) res.textContent = `${this._fmtH(mins)} · R$ ${earn.toFixed(2).replace('.', ',')}`;
+      },
+
+      _addExtra(id) {
+        const day = this._rec.data.days.find(d => d.id === id);
+        if (!day) return;
+        day.extras = day.extras || [];
+        day.extras.push({ desc: '', value: 0 });
+        // re-render body only
+        const body = document.getElementById('hrbody_' + id);
+        if (body) body.innerHTML = this._dayFormHtml(day);
+      },
+
+      _removeExtra(id, idx) {
+        const day = this._rec.data.days.find(d => d.id === id);
+        if (!day) return;
+        day.extras.splice(idx, 1);
+        const body = document.getElementById('hrbody_' + id);
+        if (body) body.innerHTML = this._dayFormHtml(day);
+      },
+
+      _setExtra(id, idx, field, val) {
+        const day = this._rec.data.days.find(d => d.id === id);
+        if (day?.extras?.[idx]) day.extras[idx][field] = val;
+      },
+
+      async _saveDay(id) {
+        await this._save();
+        // refresh card
+        const day = this._rec.data.days.find(d => d.id === id);
+        if (!day) return;
+        const card = document.getElementById('hrday_' + id);
+        if (card) {
+          const wasOpen = card.classList.contains('open');
+          const mins = this._dayMinutes(day);
+          const earn = (mins / 60) * (this._rec.data.hourRate || 0);
+          const dateStr = new Date(day.date + 'T12:00').toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'short' });
+          const timeStr = day.entrada && day.saida ? `${day.entrada} → ${day.saida}` : 'Horário incompleto';
+          const badgeCls = mins >= 480 ? 'ok' : mins > 0 ? 'low' : 'zero';
+          const badgeTxt = mins > 0 ? this._fmtH(mins) : '—';
+          const extraSum = (day.extras || []).reduce((s, e) => s + (Number(e.value) || 0), 0);
+          card.querySelector('.hr-day-name').textContent = dateStr;
+          card.querySelector('.hr-day-sub').textContent = `${timeStr}${extraSum ? ` · +R$ ${extraSum.toFixed(2).replace('.', ',')} extras` : ''}`;
+          card.querySelector('.hr-day-badge').className = `hr-day-badge ${badgeCls}`;
+          card.querySelector('.hr-day-badge').textContent = badgeTxt;
+          if (!wasOpen) card.classList.remove('open');
+        }
+        toast('💾 Salvo!');
+      },
+
+      async _deleteDay(id) {
+        this._rec.data.days = this._rec.data.days.filter(d => d.id !== id);
+        await this._save();
+        this._render();
+        toast('Dia removido');
+      },
+
+      /* ════════════════════════════════════════════
+         SETTINGS
+      ════════════════════════════════════════════ */
+      _setDefault(field, val) {
+        if (!this._rec.data.defaultTimes) this._rec.data.defaultTimes = {};
+        this._rec.data.defaultTimes[field] = val;
+      },
+      async _saveSettings() {
+        await this._save();
+        toast('⚙️ Configurações salvas!');
+      },
+
+      /* ════════════════════════════════════════════
+         EXPORT
+      ════════════════════════════════════════════ */
+      _buildReport(days, title) {
+        const data = this._rec.data;
+        const rate = data.hourRate || 0;
+        const lines = [`${title}`, `Gerado em: ${new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}`, `Valor/hora: R$ ${rate.toFixed(2).replace('.', ',')}`, '─'.repeat(42)];
+
+        let totalMins = 0;
+        let totalExtra = 0;
+
+        for (const day of days.sort((a, b) => a.date.localeCompare(b.date))) {
+          const mins = this._dayMinutes(day);
+          const earn = (mins / 60) * rate;
+          const extras = (day.extras || []).reduce((s, e) => s + (Number(e.value) || 0), 0);
+          totalMins += mins;
+          totalExtra += extras;
+          const dateStr = new Date(day.date + 'T12:00').toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' });
+          lines.push('');
+          lines.push(`📅 ${dateStr}`);
+          lines.push(`   Entrada: ${day.entrada || '—'}   Almoço: ${day.almoco || '—'}`);
+          lines.push(`   Retorno: ${day.retorno || '—'}   Saída:  ${day.saida || '—'}`);
+          lines.push(`   ⏱ Horas: ${this._fmtH(mins)}   💵 R$ ${earn.toFixed(2).replace('.', ',')}`);
+          if (day.extras?.length) {
+            for (const e of day.extras) lines.push(`   🔧 Extra: ${e.desc || '—'} = R$ ${Number(e.value).toFixed(2).replace('.', ',')}`);
+          }
+          if (day.obs) lines.push(`   📝 ${day.obs}`);
+        }
+
+        lines.push('');
+        lines.push('═'.repeat(42));
+        lines.push(`⏱ Total horas: ${this._fmtH(totalMins)}`);
+        lines.push(`💵 Ganho horas: R$ ${((totalMins / 60) * rate).toFixed(2).replace('.', ',')}`);
+        if (totalExtra) lines.push(`🔧 Extras:      R$ ${totalExtra.toFixed(2).replace('.', ',')}`);
+
+        const saldo = Number(data.saldoAnterior) || 0;
+        const adiant = Number(data.adiantamento) || 0;
+        if (saldo) lines.push(`↩ Saldo ant.:  R$ ${saldo.toFixed(2).replace('.', ',')}`);
+        if (adiant) lines.push(`💸 Adiant.:   – R$ ${adiant.toFixed(2).replace('.', ',')}`);
+
+        const total = (totalMins / 60) * rate + totalExtra + saldo - adiant;
+        lines.push('─'.repeat(42));
+        lines.push(`💰 TOTAL A RECEBER: R$ ${total.toFixed(2).replace('.', ',')}`);
+        lines.push('─'.repeat(42));
+        return lines.join('\n');
+      },
+
+      _export() {
+        const text = this._buildReport(this._rec.data.days, 'RELATÓRIO COMPLETO DE HORAS');
+        this._downloadTxt(text, `horas_completo_${this._dateKey(new Date())}.txt`);
+        toast('📤 Arquivo .txt baixado!');
+      },
+
+      _exportWeek() {
+        const { start, end } = this._weekRange(this._weekOffset);
+        const days = this._rec.data.days.filter(d => d.date >= start && d.date <= end);
+        const startFmt = new Date(start + 'T12:00').toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' });
+        const endFmt = new Date(end + 'T12:00').toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' });
+        const text = this._buildReport(days, `RELATÓRIO SEMANAL: ${startFmt} – ${endFmt}`);
+        this._downloadTxt(text, `horas_semana_${start}.txt`);
+        toast('📤 Arquivo .txt baixado!');
+      },
+
+      async _copyReport(scope) {
+        let text, label;
+        if (scope === 'week') {
+          const { start, end } = this._weekRange(this._weekOffset);
+          const days = this._rec.data.days.filter(d => d.date >= start && d.date <= end);
+          const startFmt = new Date(start + 'T12:00').toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' });
+          const endFmt = new Date(end + 'T12:00').toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' });
+          text = this._buildReport(days, `RELATÓRIO SEMANAL: ${startFmt} – ${endFmt}`);
+          label = 'semana';
+        } else {
+          text = this._buildReport(this._rec.data.days, 'RELATÓRIO COMPLETO DE HORAS');
+          label = 'relatório completo';
+        }
+        try {
+          await navigator.clipboard.writeText(text);
+          toast(`📋 ${label === 'semana' ? 'Semana copiada' : 'Relatório copiado'}! Cole no WhatsApp ou e-mail.`);
+        } catch {
+          /* fallback para dispositivos sem clipboard API */
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+          document.body.appendChild(ta);
+          ta.focus(); ta.select();
+          document.execCommand('copy');
+          ta.remove();
+          toast(`📋 Texto copiado! Cole onde quiser.`);
+        }
+      },
+
+      _downloadTxt(text, filename) {
+        const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = filename; a.click();
+        URL.revokeObjectURL(url);
+      },
+
+      /* ════════════════════════════════════════════
+         HELPERS
+      ════════════════════════════════════════════ */
+      _setView(v) { this._view = v; this._render(); },
+      _shiftWeek(delta) {
+        if (delta === 0) this._weekOffset = 0;
+        else this._weekOffset += delta;
+        this._renderWeek();
+      },
+
+      _weekRange(offset = 0) {
+        const now = new Date();
+        const dow = now.getDay(); // 0=dom
+        const mon = new Date(now);
+        mon.setDate(now.getDate() - dow + (dow === 0 ? -6 : 1) + offset * 7);
+        const sun = new Date(mon);
+        sun.setDate(mon.getDate() + 6);
+        return { start: this._dateKey(mon), end: this._dateKey(sun) };
+      },
+
+      _dayMinutes(day) {
+        if (!day.entrada || !day.saida) return 0;
+        const toMin = t => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
+        const entrada = toMin(day.entrada);
+        const saida = toMin(day.saida);
+        let worked = saida - entrada;
+        if (day.almoco && day.retorno) {
+          const al = toMin(day.almoco);
+          const ret = toMin(day.retorno);
+          if (ret > al) worked -= (ret - al);
+        }
+        return Math.max(0, worked);
+      },
+
+      _fmtH(mins) {
+        const h = Math.floor(mins / 60), m = mins % 60;
+        return m ? `${h}h${String(m).padStart(2, '0')}` : `${h}h`;
+      },
+
+      _dateKey(d) {
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      },
+    });
+  </script>
 
   <!-- BOOT -->
   <script>
